@@ -12,14 +12,26 @@ abstract class Base_Controller{
     }
 
     public function load_model( $model = '' ){
-        require_once PATH . '/application/models/' . $model . '_model.php';
-        $model_class = ucfirst( $model ) . '_Model';
+        $model_path = PATH . '/application/models/' . $model . '_model.php';
+        if( file_exists( $model_path ) ){
+            require_once $model_path;
+            $model_class = ucfirst( $model ) . '_Model';
+            $this->model = new $model_class();
+        }
 
-        $this->model = new $model_class();
     }
 
-    public function load_view( $data, $view = '' ){
+    public function load_view( $data = [] ){
         extract( $data );
+        require PATH . '/application/views/templates/head.php';
+
+        if( 'login' != $this->current_controller ){
+            require_once PATH . '/application/views/templates/navbar.php';
+            require_once PATH . '/application/views/templates/sidebar.php';
+        }
+
         require PATH . '/application/views/' . $this->current_controller . '_view.php';
+
+        require PATH . '/application/views/templates/foot.php';
     }
 }

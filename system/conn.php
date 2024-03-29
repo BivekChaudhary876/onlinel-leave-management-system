@@ -40,6 +40,10 @@ class Conn{
         return $data;
     }
 
+    public function escape( $string ){
+        return $string;
+    }
+
     public function get_num( $result_set ){
         return mysqli_num_rows( $result_set );
     }
