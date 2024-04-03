@@ -6,6 +6,7 @@ require_once PATH . '/config.php';
 
 // load all the system files
 $system_files = [
+    'functions',
     'conn',
     'base_controller',
     'base_model'
@@ -16,8 +17,9 @@ foreach( $system_files as $system_file ){
 }
 
 // Handle current controller
-$controller = isset( $_GET[ 'c' ] ) ? $_GET[ 'c' ] : 'login';
-$method = isset( $_GET[ 'm' ] ) ? $_GET[ 'm' ] : 'index';
+$controller = get_current_controller();
+$method = get_current_method();
+
 $controller_path = PATH . '/application/controllers/' . $controller . '_controller.php';
 
 if( file_exists( $controller_path ) ){

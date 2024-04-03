@@ -44,6 +44,20 @@ class Conn{
         return $string;
     }
 
+    public function executeBuilder($sql, $params = array()) {
+        $statement = $this->connection->prepare($sql);
+
+        if ($params) {
+    
+            $types = str_repeat( 's', count( $params ) ); 
+            $statement->bind_param( $types, ...$params );
+        }
+        $statement->execute();
+        return $statement->get_result();
+    }
+
+
+
     public function get_num( $result_set ){
         return mysqli_num_rows( $result_set );
     }

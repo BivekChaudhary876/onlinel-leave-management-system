@@ -1,5 +1,5 @@
 <?php 
-class Login_Model extends Base_Model{
+class User_Model extends Base_Model{
 
     protected $table = 'users';
 

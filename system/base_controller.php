@@ -3,35 +3,78 @@ abstract class Base_Controller{
 
     protected $model;
 
-    protected $current_controller;
-    
+    protected $c; // store current controller
+
+    protected $m; // store current method
+
     public function __construct(){
-        $child_class = static::class;
-        $this->current_controller = explode( '_', strtolower( $child_class ) )[0];
-        $this->load_model( $this->current_controller );
-    }
 
-    public function load_model( $model = '' ){
-        $model_path = PATH . '/application/models/' . $model . '_model.php';
-        if( file_exists( $model_path ) ){
-            require_once $model_path;
-            $model_class = ucfirst( $model ) . '_Model';
-            $this->model = new $model_class();
+        $this->c = get_current_controller();
+        $this->m = get_current_method();
+
+        // check if allowd post methods are access throught other request methods
+        if( isset( $this->post_methods ) && $_SERVER[ 'REQUEST_METHOD' ] != 'POST' && in_array( $this->m, $this->post_methods ) ){
+            redirect( 'user' );
         }
 
+        if( $this->is_logged_in() ){
+            if( 'user' == $this->c && 'index' == $this->m ){
+                redirect( 'dashboard' );
+            }
+        }else{
+            // not logged int
+            if( !( 'user' == $this->c && ( 'index' == $this->m || 'login' == $this->m ) ) ){
+                redirect( 'user' );
+            } 
+        }
+        
+        $this->model = load_model( $this->c );
     }
 
-    public function load_view( $data = [] ){
+    public function is_logged_in(){
+        return isset( $_SESSION[ 'current_user' ] );
+    }
+
+    public function load_view( $data = [], $view = '' ){
+
         extract( $data );
-        require PATH . '/application/views/templates/head.php';
-
-        if( 'login' != $this->current_controller ){
+        require_once PATH . '/application/views/templates/head.php';
+        echo '<div class="container-fluid">';
+        echo '<div class="row">';
+        if( !( 'user' == $this->c && 'index' == $this->m ) ){
             require_once PATH . '/application/views/templates/navbar.php';
+            echo '</div>';
+            echo '</div>';
+            echo '<div class="container">';
+            echo '<div class="row">';
+            echo '<div class="col-4">';
             require_once PATH . '/application/views/templates/sidebar.php';
+            echo '</div>';
         }
-
-        require PATH . '/application/views/' . $this->current_controller . '_view.php';
-
-        require PATH . '/application/views/templates/foot.php';
+        ?>
+            <div class="col-12">
+                <?php
+                    $view = empty( $view ) ? $this->c : $view;
+                    $view_path = PATH . '/application/views/' . $view . '_view.php';
+                    if( file_exists( $view_path ) ){
+                        require $view_path;
+                    }else{
+                        dd( $view . '_view.php does not exists' );
+                    }
+                ?>
+            </div>
+        <?php
+        echo '</div>';
+        
+        require_once PATH . '/application/views/templates/footer.php';
+        echo '</div>';
     }
+
+    public function logout(){
+        session_unset();    
+        //destroy the session
+        session_destroy();
+        redirect( 'user' );
+    }
+
 }
