@@ -1,0 +1,7 @@
+.bg-login{
+    background-image: url('public/img/loginPage.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #fff;
+}

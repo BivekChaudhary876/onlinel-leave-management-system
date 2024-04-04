@@ -36,12 +36,12 @@ abstract class Base_Model{
 
 
     public function get_single($conditions = [], $columns = []) {
-        $sql = "SELECT DISTINCT";
+        $sql = "SELECT";
 
         if (!empty($columns)) {
-            $sql .= implode(',', $columns);
+            $sql .= ' ' . implode(',', $columns);
         } else {
-            $sql .= '*';
+            $sql .= ' *';
         }
 
         $sql .= " FROM {$this->table}";
@@ -49,9 +49,8 @@ abstract class Base_Model{
         if (!empty($conditions)) {
             $sql .= ' WHERE ';
             foreach ($conditions as $key => $value) {
-                $sql .= "$key= '" . $this->db->escape($value) . "' AND ";
+                $sql .= "$key = '" . $this->db->escape($value) . "' AND ";
             }
-
             $sql = rtrim($sql, 'AND ');
         }
 
@@ -60,7 +59,6 @@ abstract class Base_Model{
         $result = $this->db->query($sql);
         return $this->db->fetch($result);
     }
-
 
 
 
@@ -75,52 +73,36 @@ abstract class Base_Model{
     }
 
 
-    
-    public function update( $columns = [], $conditions = [] ) {
-        if(empty($columns) || empty($conditions)) {
+
+    public function update( $userId, $data ) {
+        // Construct SQL query for updating user data
+        $columnsToUpdate = [];
+        $values = [];
+        foreach ( $data as $column => $value ) {
+            $columnsToUpdate[] = "$column = ?";
+            $values[] = $value;
+        }
+        $values[] = $userId;
+        $sql = "UPDATE {$this->table} SET " . implode(", ", $columnsToUpdate) . " WHERE id = ?";
+        // Execute the SQL query with positional placeholders
+        return $this->db->executeBuilder(   $sql, $values );
+    }
+
+    public function delete( $userId ) {
+        try {
+            // Construct SQL query for deleting user
+            $sql = "DELETE FROM {$this->table} WHERE id = ?";
+        
+            // Execute the SQL query with user ID as parameter
+            $deleted = $this->db->executeBuilder( $sql, [$userId] );
+            
+            return $deleted;
+        } catch ( Exception $e ) {
+            // Log or handle the exception
+            echo "Error deleting user: " . $e->getMessage();
             return false;
         }
-
-        $sql = "UPDATE {$this->table} SET ";
-
-        foreach($columns as $key => $value) {
-            $sql .= "$key = '" . $this->db->escape($value) . "', ";
-        }
-
-        $sql = rtrim($sql, ', ');
-
-        $sql .= ' WHERE ';
-        foreach($conditions as $key => $value) {
-            $sql .= "$key = '" . $this->db->escape($value) . "' AND ";
-        }
-
-        $sql = rtrim($sql, 'AND '); 
-
-        $result = $this->db->query($sql);
-        
-        return $result ? true : false;
     }
 
 
-    public function delete( $conditions = [] ) {
-        if( empty( $conditions ) ) {
-            return false;
-        }
-
-        $sql = "DELETE FROM {$this->table} WHERE ";
-
-        foreach( $conditions as $key => $value ) {
-            $sql .= "$key = '" . $this->db->escape( $value ) . "' AND ";
-        }
-
-        $sql = rtrim( $sql, 'AND ' );
-
-        $result = $this->db->query( $sql );
-        
-        return $result ? true : false;
-    }
-
-    public function save(){
-
-    }
 }

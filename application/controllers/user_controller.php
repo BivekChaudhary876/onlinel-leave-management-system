@@ -2,7 +2,7 @@
 
 class User_Controller extends Base_Controller{
 
-    protected $post_methods = [ 'login', 'save' ];
+    protected $post_methods = [ 'login', 'save', 'getUser', 'updateUser', 'deleteUser' ];
 
     public function __construct(){
         parent::__construct();
@@ -43,6 +43,14 @@ class User_Controller extends Base_Controller{
          'users' => $users ], 'user_lists' );
     }
 
+    public function getUser(){
+    $id = $_POST['id'];
+    $columns = ['id'];
+    $user = $this->model->get_single( ['id' => $id], $columns );
+    echo json_encode($user); // Return the user data as JSON
+}
+
+    
     public function save(){
         $username = $_POST['username'];
         $email = $_POST['email'];
@@ -55,4 +63,50 @@ class User_Controller extends Base_Controller{
         }
        
     }
+    // Method to handle updating a user
+    public function updateUser() {
+        // Retrieve data sent via POST request
+        $userId = $_POST['userId'];
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        // Perform validation on input data if necessary
+
+        // Update user data in the database
+        $updated = $this->model->update( $userId, ['username' => $username, 'email' => $email, 'password' => $password] );
+
+        // Send response back to the client
+        if ( $updated ) {
+            echo json_encode( ['success' => true] );
+        } else {
+            echo json_encode( ['success' => false, 'message' => 'Failed to update user data'] );
+        }
+    }
+
+
+    // Method to handle deleting a user
+    public function deleteUser() {
+        try {
+            // Retrieve user ID sent via POST request
+            $userId = $_POST['userId'];
+
+            // Delete user data from the database
+            $deleted = $this->model->delete($userId);
+
+            // Send response back to the client
+            if ($deleted) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to delete user']);
+            }
+        } catch (Exception $e) {
+            // Log or handle the exception
+            echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+        }
+    }
+
+
+
+
 }
