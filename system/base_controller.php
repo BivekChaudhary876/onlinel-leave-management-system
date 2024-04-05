@@ -52,14 +52,14 @@ abstract class Base_Controller{
             echo '</div>';
         }
         ?>
-            <div class="col-12">
+            <div class="<?php echo(($view == 'login') ? 'col-12' : 'col-8'); ?>">
                 <?php
                     $view = empty( $view ) ? $this->c : $view;
                     $view_path = PATH . '/application/views/' . $view . '_view.php';
                     if( file_exists( $view_path ) ){
                         require $view_path;
                     }else{
-                        dd( $view . '_view.php does not exists' );
+                        dd( $view . '_view.php does not exists' ); //dunmp and die function
                     }
                 ?>
             </div>

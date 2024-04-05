@@ -39,72 +39,117 @@ class User_Controller extends Base_Controller{
 
     public function list(){
         $users = $this->model->get();
-        $this->load_view( [ 'page_title' => 'User List',
-         'users' => $users ], 'user_lists' );
+        $this->load_view( [ 
+            'page_title' => 'User List',
+            'users' => $users 
+        ], 'user_lists' );
     }
-
-    public function getUser(){
-    $id = $_POST['id'];
-    $columns = ['id'];
-    $user = $this->model->get_single( ['id' => $id], $columns );
-    echo json_encode($user); // Return the user data as JSON
-}
-
     
     public function save(){
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        
-        $columns =['username', 'email', 'password'];
-        $inserted = $this->model->insert( [ 'username' => $username, 'email' => $email, 'password' => $password ], $columns );
-        if( $inserted ){
-            redirect( 'user' );
+
+        $data = [
+            'username' => $_POST[ 'username' ], 
+            'email'    => $_POST[ 'email' ], 
+            'password' => $_POST[ 'password' ]
+        ];
+
+        if( isset( $_POST[ 'id' ] ) && $_POST[ 'id' ] > 0 ){ //update
+            $data[ 'id' ] = $_POST[ 'id' ];
         }
+
+        $this->model->save( $data );
+
+        redirect( 'user' , 'list');
        
     }
-    // Method to handle updating a user
-    public function updateUser() {
-        // Retrieve data sent via POST request
-        $userId = $_POST['userId'];
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-
-        // Perform validation on input data if necessary
-
-        // Update user data in the database
-        $updated = $this->model->update( $userId, ['username' => $username, 'email' => $email, 'password' => $password] );
-
-        // Send response back to the client
-        if ( $updated ) {
-            echo json_encode( ['success' => true] );
-        } else {
-            echo json_encode( ['success' => false, 'message' => 'Failed to update user data'] );
-        }
-    }
-
 
     // Method to handle deleting a user
     public function deleteUser() {
         try {
-            // Retrieve user ID sent via POST request
             $userId = $_POST['userId'];
-
-            // Delete user data from the database
             $deleted = $this->model->delete($userId);
-
-            // Send response back to the client
             if ($deleted) {
                 echo json_encode(['success' => true]);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Failed to delete user']);
             }
         } catch (Exception $e) {
-            // Log or handle the exception
             echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
         }
     }
+
+    public function holidays() {
+        if ( $_SERVER[ "REQUEST_METHOD" ] == "POST" ) {
+            if( isset( $_POST[ 'year' ] ) && isset( $_POST[ 'month' ] ) ) {
+                $year = intval( $_POST[ 'year' ] );
+                $month = intval( $_POST[ 'month' ]);
+            } else {
+                // If year parameter is not provided, use the current year
+                $year = date( 'Y' );
+                $month = date( 'n' );
+            }
+            // Calendarific API endpoint
+            $api_endpoint = 'https://calendarific.com/api/v2/holidays';
+            // Your API key
+            $api_key = 'RKYemXu8aIWeXr9fQFPBzczXIzKLpMh7';
+
+            // Parameters for the API request
+            $params = array(
+                'api_key' => $api_key,
+                'country' => 'NP', // Country code for the United States
+                'year' => $year,
+                'month'=> $month, // Year for which you want to fetch holidays
+                'type' => 'national' // Type of holidays (national, local, religious, etc.)
+            );
+
+            // Build query string
+            $query_string = http_build_query( $params );
+
+            // Final URL
+            $url = $api_endpoint . '?' . $query_string;
+
+            // Initialize cURL session
+            $ch = curl_init();
+
+            // Set cURL options
+            curl_setopt_array( $ch, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true
+            ));
+
+            // Execute the request and get the response
+            $response = curl_exec( $ch );
+
+            // Check for errors
+            if ( $response === false ) {
+                echo 'Error fetching data: ' . curl_error( $ch );
+                exit;
+            }
+
+            // Close cURL session
+            curl_close( $ch );
+
+            // Decode JSON response
+            $data = json_decode( $response, true );
+
+            // Check if data retrieval was successful
+            if ( isset( $data[ 'response' ][ 'holidays' ] ) ) {
+                // Display holidays
+                echo '<h2>Holidays for ' . $year .'</h2>';
+                echo '<ul>';
+                foreach ( $data[ 'response' ][ 'holidays' ] as $holiday ) {
+                    echo '<li>' . $holiday[ 'name' ] . ': ' . $holiday[ 'date' ][ 'iso' ] . '</li>';
+                }
+                echo '</ul>';
+            } else {
+                echo 'No holidays found for ' . $year . '.';
+            }
+        } else {
+            echo "Invalid request method!";
+        }
+    }
+
+
 
 
 

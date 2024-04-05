@@ -30,62 +30,40 @@ abstract class Base_Model{
             $sql = rtrim( $sql, 'AND ');
         }
 
+        $sql .= ' ORDER BY id DESC';
+
        $result = $this->db->query( $sql );
        return $this->db->fetch($result);
     }
 
 
-    public function get_single($conditions = [], $columns = []) {
-        $sql = "SELECT";
+    public function save( $data = [] ) {
 
-        if (!empty($columns)) {
-            $sql .= ' ' . implode(',', $columns);
-        } else {
-            $sql .= ' *';
+        $id = false;
+        $values = array_values( $data );
+        if( isset( $data[ 'id' ] ) ){
+            $id = $data[ 'id' ];
+            $sql = 'UPDATE';
+        }else{
+            $sql = 'INSERT INTO';
         }
 
-        $sql .= " FROM {$this->table}";
+        $sql .= ' ' . $this->table . ' SET ';
 
-        if (!empty($conditions)) {
-            $sql .= ' WHERE ';
-            foreach ($conditions as $key => $value) {
-                $sql .= "$key = '" . $this->db->escape($value) . "' AND ";
+        foreach( $data as $column => $value ){
+            if( 'id' != $column ){
+                $sql .= $column . '=?,';
             }
-            $sql = rtrim($sql, 'AND ');
         }
 
-        $sql .= " LIMIT 1"; // Limit the result to one row
+        $sql = rtrim( $sql, ',' );
 
-        $result = $this->db->query($sql);
-        return $this->db->fetch($result);
-    }
-
-
-
-    public function insert( $conditions = [], $columns ) {
-
-        $sql = "INSERT INTO {$this->table} (" . implode( ", ", $columns ) . ") VALUES (" . rtrim(str_repeat( "?, ", count( $columns ) ), ", ") . ")";
-
-        $values = array_values( $conditions );
+        if( $id ){
+            $sql .= ' WHERE id=?';
+        }
 
         // Executing the SQL query with positional placeholders
         return $this->db->executeBuilder( $sql, $values );
-    }
-
-
-
-    public function update( $userId, $data ) {
-        // Construct SQL query for updating user data
-        $columnsToUpdate = [];
-        $values = [];
-        foreach ( $data as $column => $value ) {
-            $columnsToUpdate[] = "$column = ?";
-            $values[] = $value;
-        }
-        $values[] = $userId;
-        $sql = "UPDATE {$this->table} SET " . implode(", ", $columnsToUpdate) . " WHERE id = ?";
-        // Execute the SQL query with positional placeholders
-        return $this->db->executeBuilder(   $sql, $values );
     }
 
     public function delete( $userId ) {

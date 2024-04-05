@@ -3,7 +3,7 @@
       <div class="container">
         <div class="row">
           <div class="col-2 d-flex align-items-center my-2 my-lg-0 me-lg-auto">
-            <a href="/"><img src="public/img/logo.png" alt="logo" height="50"></a>
+            <a href="index.php"><img src="public/img/logo.png" alt="logo" height="50"></a>
           </div>
           <div class="col-10">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -12,11 +12,6 @@
               </a>
 
               <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                <li>
-                  <a href="#" class="nav-link text-white">
-                    Account
-                  </a>
-                </li>
                 <li>
                    <div class="nav-link dropdown">
                       <a href="#" class="text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">

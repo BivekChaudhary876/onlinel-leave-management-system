@@ -10,10 +10,10 @@
                 exit;
             }
 
-            $this->load_view([
+            $this->load_view( [
                 'page_title' => 'Dashboard', 
                 'users' => []
-            ]);
+            ] );
         }
         public function logout(){
             parent::logout();

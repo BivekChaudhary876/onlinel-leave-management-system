@@ -5,3 +5,18 @@
     background-attachment: fixed;
     color: #fff;
 }
+
+.nav-hover {
+    position: relative;
+    transition: border-color 0.3s ease;
+  }
+
+.nav-hover:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #007bff; /* Change this to the color you desire */
+ }

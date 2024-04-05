@@ -44,14 +44,14 @@ class Conn{
         return $string;
     }
 
-    public function executeBuilder($sql, $params = array()) {
-        $statement = $this->connection->prepare($sql);
-
+    public function executeBuilder( $sql, $params = [] ) {
+        $statement = $this->connection->prepare( $sql );
+        
         if ($params) {
-    
             $types = str_repeat( 's', count( $params ) ); 
             $statement->bind_param( $types, ...$params );
         }
+
         $statement->execute();
         return $statement->get_result();
     }
