@@ -30,7 +30,7 @@ abstract class Base_Model{
             $sql = rtrim( $sql, 'AND ');
         }
 
-        $sql .= ' ORDER BY id DESC';
+        $sql .= ' ORDER BY id ASC';
 
        $result = $this->db->query( $sql );
        return $this->db->fetch($result);

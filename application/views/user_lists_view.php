@@ -53,7 +53,7 @@
             <input type="password" class="form-control" id="password" name="password" placeholder="Password">
           </div>
           <div class="modal-footer justify-content-center">
-            <button type="submit" class="btn btn-success" >Create</button>
+            <button type="submit" class="btn btn-success createUser" >Create</button>
           </div>
         </form>
       </div>
