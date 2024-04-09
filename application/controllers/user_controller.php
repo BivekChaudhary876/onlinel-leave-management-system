@@ -31,7 +31,7 @@ class User_Controller extends Base_Controller{
                 //user exists
                 $_SESSION[ 'current_user' ] = $user[ 0 ];
                 // Redirect based on user's role
-                if ( $user[0]['role'] == 'admin' ) {
+                if ( $user[0] ) {
                     redirect( 'dashboard' ); // Redirect admin to dashboard
                 } else {
                     redirect( 'user' ); // Redirect regular user to user list

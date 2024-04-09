@@ -17,8 +17,8 @@
         <?php foreach( $users as $i => $user ): ?>
         <tr class="text-center">
             <td><?php  echo ++$i ?></td>
-            <td><?php echo $user['username']; ?></td>
-            <td><?php  echo $user['email']; ?></td>
+            <td><?php echo $user[ 'username' ]; ?></td>
+            <td><?php  echo $user[ 'email'] ; ?></td>
             <td class="text-center">
               <button type="button" class="btn btn-outline-info editUser" data-id="<?= $user[ 'id' ]?>">Edit</button>
               <button type="button" class="btn btn-outline-danger deleteUser" data-id="<?= $user[ 'id' ] ?>">Delete</button>
@@ -28,6 +28,8 @@
     </tbody>
 </table>
 </div>
+
+
 
 <!-- Modal for Create User Form -->
 <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -60,3 +62,9 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
