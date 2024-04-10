@@ -66,7 +66,6 @@ $(document).ready(function () {
 		var startDate = $(this).closest('tr').find('td:eq( 5 )').text()
 		var endDate = $(this).closest('tr').find('td:eq( 6 )').text()
 		var description = $(this).closest('tr').find('td:eq( 7 )').text()
-		var status = $(this).closest('tr').find('td:eq( 8 )').text()
 
 		// Populate the modal with user data
 		$('#leaveid').val(leaveId)
@@ -74,7 +73,6 @@ $(document).ready(function () {
 		$('#startDate').val(startDate)
 		$('#endDate').val(endDate)
 		$('#description').val(description)
-		$('#status').val(status)
 
 		// Show the modal
 		$('#createLeaveModal').modal('show')

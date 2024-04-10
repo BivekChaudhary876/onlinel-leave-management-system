@@ -25,10 +25,10 @@
                 <label for="description">Descriptions</label>
                 <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter Descriptions"></textarea>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="status">Status</label>
-                <input type="text" class="form-control" id="status" name="status">
-            </div>
+                <input type="text" class="form-control" id="status" name="status" placeholder="Status">
+            </div> -->
 
             <div class="modal-footer justify-content-center">
                 <button type="submit" class="btn btn-success editLeave">Apply</button>
@@ -39,18 +39,18 @@
   </div>
 </div>
 
-<?php if(isset($_SESSION['current_user']['role']) && $_SESSION['current_user']['role'] == 'user') { ?>
+<?php if( $_SESSION['current_user']['role'] == 'user') { ?>
 <div class="my-3 text-center">
     <button id="createLeaveBtn" class="btn btn-outline-success">Add Leave</button>
 </div>
 <?php } ?>
 
-<div>
+<div class="my-3">
     <table class="table table-striped table-light">
     <thead>
         <tr class="table-success text-center">
             <th scope="col">Leave ID</th>
-            <?php if(isset($_SESSION['current_user']['role']) && $_SESSION['current_user']['role'] == 'admin'){?>
+            <?php if( $_SESSION['current_user']['role'] == 'admin'){?>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <?php }?>
@@ -59,7 +59,7 @@
             <th scope="col">End Date</th>
             <th scope="col">Descriptions</th>
             <th scope="col">Status</th>
-            <?php if(isset($_SESSION['current_user']['role']) && $_SESSION['current_user']['role']=='user' ){?>
+            <?php if( $_SESSION['current_user']['role']=='user' ){?>
             <th scope="col">Actions</th>
             <?php }?>
         </tr>
@@ -68,20 +68,63 @@
         <?php foreach( $leave_requests as $k => $leave_request ): ?>
         <tr class="text-center">
             <td><?php  echo ++$k ?></td>
-            <?php if(isset($_SESSION['current_user']['role']) && $_SESSION['current_user']['role']=='admin' ){?>
+            <?php if($_SESSION['current_user']['role']=='admin' ){?>
             <td><?= $_SESSION['current_user']['username'];?></td>
             <td><?= $_SESSION['current_user']['email'];?></td>
             <td><?php  echo $leave_request[ 'type' ]; ?></td>
             <td><?php  echo $leave_request[ 'startDate' ]; ?></td>
             <td><?php  echo $leave_request[ 'endDate' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td><?php  echo $leave_request[ 'status' ]; ?></td>
+            <td id="<?php echo $leave_request['id']; ?>_status"> <!-- Add an ID for the status cell -->
+          <?php 
+            // Check if 'status' key exists in $leave_request
+            if(isset($leave_request[ 'status' ] )) {
+              // 'status' key exists, so echo its value
+              if( $leave_request['status'] == 1 ) {
+                echo "Pending";
+              } elseif ( $leave_request[ 'status' ] == 2 ) {
+                echo "Approved";
+              } elseif ( $leave_request[ 'status' ] == 3 ) {
+                echo "Rejected";
+              }
+            } else {
+              // 'status' key doesn't exist in $leave_request
+              echo "Status not available";
+            }
+          ?>
+          <?php if($_SESSION['current_user']['role'] == 'admin'): ?>
+            <!-- Status update dropdown for admins -->
+            <select class="form-control" name="status" onchange="leave_update_status('<?php echo $leave_request['id']; ?>', this.value)">
+              <option value="">Update Status</option>
+              <option value="1">Pending</option>
+              <option value="2">Approved</option>
+              <option value="3">Rejected</option>
+            </select>
+          <?php endif; ?>
+        </td>
             <?php }else{ ?>
             <td><?php  echo $leave_request[ 'type' ]; ?></td>
             <td><?php  echo $leave_request[ 'startDate' ]; ?></td>
             <td><?php  echo $leave_request[ 'endDate' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td><?php  echo $leave_request[ 'status' ]; ?></td>
+            <td id="<?php echo $leave_request['id']; ?>_status"> <!-- Add an ID for the status cell -->
+          <?php 
+            // Check if 'status' key exists in $leave_request
+            if(isset($leave_request[ 'status' ] )) {
+              // 'status' key exists, so echo its value
+              if( $leave_request['status'] == 1 ) {
+                echo "Pending";
+              } elseif ( $leave_request[ 'status' ] == 2 ) {
+                echo "Approved";
+              } elseif ( $leave_request[ 'status' ] == 3 ) {
+                echo "Rejected";
+              }
+            } else {
+              // 'status' key doesn't exist in $leave_request
+              echo "Status not available";
+            }
+          ?></td>
+            
             <td class="text-center">
               <button type="button" class="btn btn-outline-danger deleteLeave" data-id="<?= $leave_request[ 'id' ] ?>">Delete</button>
             </td>
@@ -91,3 +134,9 @@
     </tbody>
 </table>
 </div>
+
+<script>
+  function leave_update_status(id,select_value){
+    alert(select_value);
+  }
+</script>

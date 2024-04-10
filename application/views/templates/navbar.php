@@ -13,23 +13,24 @@
 
               <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                 <li>
-                   <div class="nav-link dropdown">
-                      <a href="#" class="text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
-                        <strong>Welcome, 
+                   <div class=" my-2 nav-link d-flex">
+                        <h6 class="my-2 text-white">Welcome, 
                             <?php 
                             echo $_SESSION['current_user']['username']; ?>
-                        </strong>
+                        </h6>
                         <img src="public/img/user.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                      </a>
                       <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="#">New project...</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="index.php?c=dashboard&m=logout">Sign out</a></li>
                       </ul>
                     </div>
                 </li>
+                <li>
+                      <div class="nav-link">
+                       <?php if ( isset( $_SESSION['current_user'])): ?>
+                      <a class="nav-link " href="index.php?c=dashboard&m=logout"><button class="btn btn-outline-danger">Logout</button></a>
+                      <?php endif ;?>
+                    </div>
+                    </li>
               </ul>
             </div>
             
@@ -38,14 +39,3 @@
       </div>
     </div>
   </header>
-
-
-
-
-<!--- 
-<div class="navssss">
-    <div class="navbar">
-        <li><a href="#">LMS</a></li>
-    <li><li><a href="index.php?c=dashboard&m=logout">Logout</a></li></li>
-    </div>
-</div> -->

@@ -5,6 +5,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Holiday</h5>
       </div>
+      
       <div class="modal-body">
         <!-- Form for adding a new holiday -->
         <form method="POST" action="index.php?c=holiday&m=save">
