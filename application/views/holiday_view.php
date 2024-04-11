@@ -1,3 +1,5 @@
+<?php $role = $_SESSION[ 'current_user' ][ 'role' ]; ?>
+
 <!-- Holiday Form  -->
 <div class="modal fade" id="createHolidayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -49,10 +51,12 @@
   </div>
 </div>
 
+<?php if ( $role == 'admin'): ?>
 <!-- Display the table of holiday list -->
 <div class="my-3 text-center">
     <button id="createHolidayBtn" class="btn btn-outline-success">Add new Holiday</button>
 </div>
+<?php endif; ?>
 
 <div class="my-3">
     <table class="table table-striped table-light">
@@ -63,7 +67,9 @@
             <th scope="col">Month</th>
             <th scope="col">Day</th>
             <th scope="col">Event</th>
+            <?php if ( $role == 'admin' ): ?>
             <th scope="col">Actions</th>
+            <?php endif; ?>
         </tr>
     </thead>
     <tbody>
@@ -74,10 +80,12 @@
             <td><?= $holiday[ 'month' ] ?></td>
             <td><?= $holiday[ 'day' ] ?></td>
             <td><?= $holiday[ 'event' ] ?></td>
+            <?php if ( $role == 'admin' ) : ?>
             <td class="text-center">
               <button type="button" class="btn btn-outline-info editHoliday" data-id="<?= $holiday[ 'id' ] ?>">Edit</button>
               <button type="button" class="btn btn-outline-danger deleteHoliday" data-id="<?= $holiday[ 'id' ] ?>">Delete</button>
             </td>
+            <?php endif; ?>
         </tr>
         <?php endforeach; ?>
     </tbody>

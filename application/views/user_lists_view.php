@@ -1,4 +1,7 @@
-<?php if( isset( $_SESSION[ 'current_user' ][ 'role' ]) && $_SESSION[ 'current_user' ][ 'role' ] == "admin" ) { ?>
+<?php $role = $_SESSION[ 'current_user' ][ 'role' ]; ?>
+
+
+<?php if( $role == "admin" ) { ?>
 <div class="my-3 text-center">
     <button id="createUserBtn" class="btn btn-outline-success">Create New User</button>
 </div>
@@ -40,7 +43,7 @@
         <!-- Form for creating a new user -->
         <form method="POST" action="index.php?c=user&m=save">
           <input type="hidden" id="userid" name="id">
-          <?php if ( isset( $_SESSION[ 'current_user']['role']) && $_SESSION[ 'current_user' ][ 'role' ] == 'admin' ): ?>
+          <?php if ( $role == 'admin' ): ?>
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
@@ -52,20 +55,20 @@
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <?php if ( isset( $_SESSION[ 'current_user' ][ 'role' ] ) && $_SESSION[ 'current_user' ][ 'role' ] == 'admin' ): ?>
+            <?php if ( $role == 'admin' ): ?>
               <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" >
               <?php else: ?>
                 <input type="email" value="<?= $_SESSION[ 'current_user' ][ 'email' ] ?>"class="form-control" id="email" name="email" placeholder="Enter email" >
                 <?php endif; ?>
           </div>
-          <?php if ( isset( $_SESSION[ 'current_user' ][ 'role' ] ) && $_SESSION[ 'current_user' ][ 'role' ] == 'admin' ): ?>
+          <?php if ( $role == 'admin' ): ?>
           <div class="form-group">
             <label for="password">Password</label>
             
               <input type="password" class="form-control" id="password" name="password" placeholder="Password" >
               <?php endif; ?>
           </div>
-          <?php if( isset( $_SESSION[ 'current_user' ][ 'role' ] ) && $_SESSION[ 'current_user' ][ 'role' ] == 'admin' ){ ?>
+          <?php if( $role == 'admin' ){ ?>
           <div class="modal-footer justify-content-center">
             <button type="submit" class="btn btn-success createUser" >Create</button>
           </div>

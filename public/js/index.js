@@ -78,6 +78,24 @@ $(document).ready(function () {
 		$('#createLeaveModal').modal('show')
 	})
 
+	$('.approveLeave, .rejectLeave').click(function () {
+		// Get the ID of the leave request
+		var leaveId = $(this).data('id')
+		// Get the action (approve or reject)
+		var action = $(this).hasClass('approveLeave') ? 'approve' : 'reject'
+
+		// Send an AJAX request to update the status
+		$.ajax({
+			type: 'POST',
+			url: 'index.php?c=leave&m=save',
+			data: { id: leaveId, action: action },
+			success: function (response) {
+				// Update the status cell in the table
+				$('#' + leaveId).text(response)
+			},
+		})
+	})
+
 	$('.deleteLeave').click(function () {
 		var leaveId = $(this).data('id') // Get the leave ID of the selected row
 

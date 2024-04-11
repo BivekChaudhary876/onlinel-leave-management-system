@@ -8,7 +8,6 @@
           <div class="col-10">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
               <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
               </a>
 
               <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
@@ -20,20 +19,21 @@
                         </h6>
                         <img src="public/img/user.png" alt="" width="32" height="32" class="rounded-circle me-2">
                       <ul class="dropdown-menu text-small shadow">
-                        <li><a class="dropdown-item" href="index.php?c=dashboard&m=logout">Sign out</a></li>
+                        <li>
+                          <a class="dropdown-item" href="index.php?c=dashboard&m=logout">Sign out</a>
+                        </li>
                       </ul>
                     </div>
                 </li>
                 <li>
-                      <div class="nav-link">
-                       <?php if ( isset( $_SESSION['current_user'])): ?>
+                  <div class="nav-link">
+                    <?php if ( isset( $_SESSION['current_user'])): ?>
                       <a class="nav-link " href="index.php?c=dashboard&m=logout"><button class="btn btn-outline-danger">Logout</button></a>
-                      <?php endif ;?>
-                    </div>
-                    </li>
+                    <?php endif ;?>
+                  </div>
+                </li>
               </ul>
             </div>
-            
           </div>
         </div>
       </div>

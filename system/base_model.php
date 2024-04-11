@@ -66,6 +66,24 @@ abstract class Base_Model{
         return $this->db->executeBuilder( $sql, $values );
     }
 
+    public function updateStatus($id, $status) {
+        try {
+            // Construct SQL query for updating status
+            $sql = "UPDATE {$this->table} SET status = ? WHERE id = ?";
+            
+            // Execute the SQL query with status and ID as parameters
+            $updated = $this->db->executeBuilder($sql, [$status, $id]);
+            
+            return $updated;
+        } catch (Exception $e) {
+            // Log or handle the exception
+            echo "Error updating status: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
+
     public function delete( $userId ) {
         try {
             // Construct SQL query for deleting user

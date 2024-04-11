@@ -47,12 +47,12 @@ abstract class Base_Controller{
             echo '</div>';
             echo '<div class="container">';
             echo '<div class="row">';
-            echo '<div class="col-4">';
+            echo '<div class="col-3">';
             require_once PATH . '/application/views/templates/sidebar.php';
             echo '</div>';
         }
         ?>
-            <div class="<?php echo(($view == 'login') ? 'col-12' : 'col-8'); ?>">
+            <div class="<?php echo(($view == 'login') ? 'col-12' : 'col-9'); ?>">
                 <?php
                     $view = empty( $view ) ? $this->c : $view;
                     $view_path = PATH . '/application/views/' . $view . '_view.php';
