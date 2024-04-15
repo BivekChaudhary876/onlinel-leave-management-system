@@ -2,7 +2,7 @@
 
 class Leave_Controller extends Base_Controller{
 
-    protected $post_methods = ['save','delete','update_status'];
+    protected $post_methods = ['save','delete'];
 
     public function __contruct(){
         parent::__contruct();
@@ -28,28 +28,31 @@ class Leave_Controller extends Base_Controller{
 
     public function save(){
     // Check if an action (approve or reject) is specified
-        if(isset($_POST['action']) && ($_POST['action'] == 'approve' || $_POST['action'] == 'reject')) {
+        if( isset( $_POST[ 'action' ] ) && ( $_POST[ 'action' ] == 'approve' || $_POST[ 'action' ] == 'reject' ) ) {
             // Retrieve the leave ID
-            $leaveId = $_POST['id'];
+            $leaveId = $_POST[ 'id' ];
             // Set the status based on the action
-            $status = ($_POST['action'] == 'approve') ? 2 : 3; // 2 for Approved, 3 for Rejected
+            $status = ( $_POST[ 'action' ] == 'approve' ) ? 2 : 3; // 2 for Approved, 3 for Rejected
             // Update the status in the database
-            $this->model->updateStatus($leaveId, $status); // Adjust this according to your model
+            $this->model->updateStatus( $leaveId, $status );
             // Return the updated status
             echo ($status == 2) ? 'Approved' : 'Rejected';
             exit;
         } else {
             // Handle regular leave request saving here
             $data = [
-                'type' => $_POST['type'],
-                'startDate' => $_POST['startDate'],
-                'endDate' => $_POST['endDate'],
-                'description' => $_POST['description'],
+                'username' => $_POST[ 'username' ],
+                'email' => $_POST[ 'email' ],
+                'department' => $_POST[ 'department' ],
+                'type' => $_POST[ 'type' ],
+                'startDate' => $_POST[ 'startDate' ],
+                'endDate' => $_POST[ 'endDate' ],
+                'description' => $_POST[ 'description' ],
                 'status' => 1 // Default status: Pending
             ];
             
-            if(isset($_POST['id']) && $_POST['id'] > 0){ // Update an existing leave request
-                $data['id'] = $_POST['id'];
+            if(isset( $_POST[ 'id' ] ) && $_POST[ 'id' ] > 0){ // Update an existing leave request
+                $data[ 'id' ] = $_POST[ 'id' ];
             }
 
             $this->model->save($data);

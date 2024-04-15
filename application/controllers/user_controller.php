@@ -56,7 +56,9 @@ class User_Controller extends Base_Controller{
         $data = [
             'username' => $_POST[ 'username' ], 
             'email'    => $_POST[ 'email' ], 
+            'department' => $_POST[ 'department' ],
             'password' => $_POST[ 'password' ]
+
         ];
         if( isset( $_POST[ 'id' ] ) && $_POST[ 'id' ] > 0 ){ //update
             $data[ 'id' ] = $_POST[ 'id' ];

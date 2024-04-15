@@ -8,11 +8,13 @@ $(document).ready(function () {
 		var userId = $(this).data('id')
 		var username = $(this).closest('tr').find('td:eq( 1 )').text()
 		var email = $(this).closest('tr').find('td:eq( 2 )').text()
+		var department = $(this).closest('tr').find('td:eq( 3 )').text()
 
 		// Populate the modal with user data
 		$('#userid').val(userId)
 		$('#username').val(username)
 		$('#email').val(email)
+		$('#department').val(department)
 
 		// Show the modal
 		$('#createUserModal').modal('show')
@@ -60,24 +62,49 @@ $(document).ready(function () {
 		$('#createLeaveModal').modal('show')
 	})
 
-	$('.editLeave').click(function () {
-		var leaveId = $(this).data('id')
-		var type = $(this).closest('tr').find('td:eq( 4 )').text()
-		var startDate = $(this).closest('tr').find('td:eq( 5 )').text()
-		var endDate = $(this).closest('tr').find('td:eq( 6 )').text()
-		var description = $(this).closest('tr').find('td:eq( 7 )').text()
+	// $('.editLeave').click(function () {
+	// 	var leaveId = $(this).data('id')
+	// 	var username = $(this).data('username')
+	// 	var email = $(this).data('email')
+	// 	var department = $(this).data('department')
+	// 	var type = $(this).closest('tr').find('td:eq( 1 )').text()
+	// 	var startDate = $(this).closest('tr').find('td:eq( 2 )').text()
+	// 	var endDate = $(this).closest('tr').find('td:eq( 3 )').text()
+	// 	var description = $(this).closest('tr').find('td:eq( 4 )').text()
 
-		// Populate the modal with user data
-		$('#leaveid').val(leaveId)
-		$('#type').val(leaveType)
-		$('#startDate').val(startDate)
-		$('#endDate').val(endDate)
-		$('#description').val(description)
+	// 	// Populate the modal with user data
+	// 	$('#leaveid').val(leaveId)
+	// 	$('#username').val(username)
+	// 	$('#email').val(email)
+	// 	$('#department').val(department)
+	// 	$('#type').val(type)
+	// 	$('#startDate').val(startDate)
+	// 	$('#endDate').val(endDate)
+	// 	$('#description').val(description)
 
+	// 	// Show the modal
+	// 	$('#createLeaveModal').modal('show')
+	// })
+
+	$('#totalLeaveBtn').click(function () {
 		// Show the modal
-		$('#createLeaveModal').modal('show')
+		$('#totalLeaveModal').modal('show')
 	})
 
+	$('#pendingBtn').click(function () {
+		// Show the modal
+		$('#pendingModal').modal('show')
+	})
+
+	$('#approvedBtn').click(function () {
+		// Show the modal
+		$('#approvedModal').modal('show')
+	})
+
+	$('#rejectedBtn').click(function () {
+		// Show the modal
+		$('#rejectedModal').modal('show')
+	})
 	$('.approveLeave, .rejectLeave').click(function () {
 		// Get the ID of the leave request
 		var leaveId = $(this).data('id')
@@ -91,7 +118,18 @@ $(document).ready(function () {
 			data: { id: leaveId, action: action },
 			success: function (response) {
 				// Update the status cell in the table
-				$('#' + leaveId).text(response)
+				$('#' + leaveId).html(
+					'<span class="badge text-bg-' +
+						(action === 'approve' ? 'success' : 'danger') +
+						'">' +
+						response +
+						'</span>'
+				)
+			},
+			error: function (xhr, status, error) {
+				// Handle error response
+				console.error(xhr.responseText)
+				alert('An error occurred while updating the leave status.')
 			},
 		})
 	})
@@ -122,7 +160,6 @@ $(document).ready(function () {
 				error: function (xhr, status, error) {
 					// Handle error response
 					console.error(xhr.responseText) // Log the error response from the server
-					// You can display an error message to the leave
 					alert('An error occurred while deleting the leave.')
 				},
 				complete: function (res) {

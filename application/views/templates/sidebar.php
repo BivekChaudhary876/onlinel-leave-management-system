@@ -1,4 +1,4 @@
-<div class="my-3 d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 200px;">
+<div class="my-3 d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 170px;">
     <ul class="nav nav-pills flex-column mb-auto">
       <?php if( $_SESSION[ 'current_user' ][ 'role' ] == 'admin' ) { ?>
         <li>

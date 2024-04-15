@@ -22,7 +22,7 @@ abstract class Base_Controller{
                 redirect( 'dashboard' );
             }
         }else{
-            // not logged int
+            // not logged in
             if( !( 'user' == $this->c && ( 'index' == $this->m || 'login' == $this->m ) ) ){
                 redirect( 'user' );
             } 
@@ -47,12 +47,12 @@ abstract class Base_Controller{
             echo '</div>';
             echo '<div class="container">';
             echo '<div class="row">';
-            echo '<div class="col-3">';
+            echo '<div class="col-2">';
             require_once PATH . '/application/views/templates/sidebar.php';
             echo '</div>';
         }
         ?>
-            <div class="<?php echo(($view == 'login') ? 'col-12' : 'col-9'); ?>">
+            <div class="<?php echo(($view == 'login') ? 'col-12' : 'col-10'); ?>">
                 <?php
                     $view = empty( $view ) ? $this->c : $view;
                     $view_path = PATH . '/application/views/' . $view . '_view.php';
@@ -71,7 +71,7 @@ abstract class Base_Controller{
     }
 
     public function logout(){
-        session_unset();    
+        session_start();    
         //destroy the session
         session_destroy();
         redirect( 'user' );

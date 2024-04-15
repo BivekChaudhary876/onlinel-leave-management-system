@@ -4,31 +4,44 @@
 <?php if( $role == "admin" ) { ?>
 <div class="my-3 text-center">
     <button id="createUserBtn" class="btn btn-outline-success">Create New User</button>
-</div>
-<div>
-    <table class="table table-striped table-light">
-    <thead>
-        <tr class="table-success text-center">
-            <th scope="col">User ID</th>
-            <th scope="col">User Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach( $users as $i => $user ): ?>
-        <tr class="text-center">
-            <td><?php  echo ++$i ?></td>
-            <td><?php echo $user[ 'username' ]; ?></td>
-            <td><?php  echo $user[ 'email'] ; ?></td>
-            <td class="text-center">
-              <button type="button" class="btn btn-outline-info editUser" data-id="<?= $user[ 'id' ]?>">Edit</button>
-              <button type="button" class="btn btn-outline-danger deleteUser" data-id="<?= $user[ 'id' ] ?>">Delete</button>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+</div
+
+
+
+<div class="modal fade" id="viewEmpModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header bg-info text-white">
+				</div>
+				<div class="modal-body">
+          <table class="table table-striped table-light">
+            <thead>
+                <tr class="table-success text-center">
+                    <th scope="col">User ID</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach( $users as $i => $user ): ?>
+                <tr class="text-center">
+                    <td><?php  echo ++$i ?></td>
+                    <td><?php echo $user[ 'username' ]; ?></td>
+                    <td><?php  echo $user[ 'email'] ; ?></td>
+                    <td><?php echo $user[ 'department' ]; ?></td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-outline-info editUser" data-id="<?= $user[ 'id' ]?>">Edit</button>
+                      <button type="button" class="btn btn-outline-danger deleteUser" data-id="<?= $user[ 'id' ] ?>">Delete</button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 </div>
 
 <!-- Modal for Create User Form -->
@@ -48,7 +61,7 @@
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
             <?php else: ?>
-              <div class="form-group my-3">
+              <div class="form-group mt-3">
               <label for="username">Username</label>
                 <input type="text" value="<?= $_SESSION[ 'current_user' ][ 'username' ] ?>" class="form-control" id="username" name="username" placeholder="Enter Username">
             <?php endif; ?>
@@ -61,6 +74,23 @@
                 <input type="email" value="<?= $_SESSION[ 'current_user' ][ 'email' ] ?>"class="form-control" id="email" name="email" placeholder="Enter email" >
                 <?php endif; ?>
           </div>
+          <?php if ( $role == 'admin' ): ?>
+          <div class="form-group">
+							<label class="form-control-label">Department</label>
+							<select name="department" class="form-control">
+								<option value="HR">HR</option>
+								<option value="Development">Development</option>
+								<option value="UI/UX">UI/UX</option>
+								<option value="Finance">Finance</option>
+								<option value="Customer Support">Customer Support</option>
+							</select>
+						</div>
+            <?php else: ?>
+              <div class="form-group">
+                <label class="form-control-label">Department</label>
+                <input type="text" value="<?= $_SESSION[ 'current_user' ][ 'department' ] ?>" class="form-control" id="department" name="department" placeholder="Enter Department">
+            <?php endif; ?>
+            </div>
           <?php if ( $role == 'admin' ): ?>
           <div class="form-group">
             <label for="password">Password</label>
