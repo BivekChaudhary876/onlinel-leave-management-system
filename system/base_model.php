@@ -100,5 +100,22 @@ abstract class Base_Model{
         }
     }
 
+    public function get_usernames() {
+        $sql = "SELECT DISTINCT username FROM {$this->table}";
+        $result = $this->db->query($sql);
 
+        $usernames = array();
+
+        if ($result) {
+            // Fetch usernames and store them in an array
+            while($row = $result->fetch_assoc()) {
+                $usernames[] = $row['username'];
+            }
+            // Free result set
+            $result->free();
+        }
+
+        return $usernames;
+    }
+    
 }

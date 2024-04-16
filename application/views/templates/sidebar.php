@@ -23,6 +23,11 @@
         </li>
             <?php }else{ ?>
               <li>
+                <a href="index.php?c=dashboard" class="nav-link link-body-emphasis">
+                    Dashboard
+                </a>
+            </li>  
+              <li>
                 <a href="index.php?c=user&m=list&id=<?php echo $_SESSION['current_user']['id']?>" class="nav-link link-body-emphasis">
                     Profile
                 </a>
