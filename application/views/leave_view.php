@@ -1,31 +1,21 @@
 <?php 
   $role = $_SESSION[ 'current_user' ][ 'role' ]; 
   $leave_id = 1;
-  $totalLeaveCount = count( $leave_requests );
-  $pendingLeaveCount = 0;
-  $approvedLeaveCount = 0;
-  $rejectedLeaveCount = 0;
-  foreach( $leave_requests as $p ){
-    if( $p[ 'status'] == 1 ){
-      $pendingLeaveCount++;
-      }elseif( $p[ 'status'] == 2 ){
-      $approvedLeaveCount++;
-    }elseif( $p[ 'status'] == 3 ){
-      $rejectedLeaveCount++;
-    }
-  }
+  $i = 1;
+  $j = 1;
+  $l = 1;
+  $r = 1;
 ?>
-
 <?php if( $role == 'user') : ?>
 <div class="my-3 text-center">
     <button id="createLeaveBtn" class="btn btn-outline-info">Leave Apply</button>
 </div>
 <?php else: ?>
   <div class="my-3 text-center d-flex justify-content-evenly">
-    <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br><?= $totalLeaveCount ?></button>
-    <button id="pendingBtn" class="btn btn-outline-warning">Pending<br><?= $pendingLeaveCount ?></button>
-    <button id="approvedBtn" class="btn btn-outline-success">Approved<br><?= $approvedLeaveCount ?></button>
-    <button id="rejectedBtn" class="btn btn-outline-danger">Rejected<br><?= $rejectedLeaveCount ?></button>
+    <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves </br><?= $totalLeaveCount ?></button>
+    <button id="pendingBtn" class="btn btn-outline-warning">Pending </br> <?= $pendingLeaveCount ?></button>
+    <button id="approvedBtn" class="btn btn-outline-success">Approved </br> <?= $approvedLeaveCount ?></button>
+    <button id="rejectedBtn" class="btn btn-outline-danger">Rejected </br> <?= $rejectedLeaveCount ?></button>
   </div>
   <?php endif; ?>
 
@@ -97,16 +87,14 @@
     </thead>
     <tbody>
 
-        <?php foreach( $leave_requests as $leave_request ): ?>
-        <?php 
+        <?php foreach( $leave_requests as $leave_request ):
           // Trim whitespace and convert to lowercase for comparison
-          $leave_username = strtolower(trim($leave_request['username']));
-          $session_username = strtolower(trim($_SESSION['current_user']['username']));
-          
-          // Trim whitespace and convert to lowercase for comparison
-          $leave_email = strtolower(trim($leave_request['email']));
-          $session_email = strtolower(trim($_SESSION['current_user']['email']));
-          ?>
+            $leave_username = strtolower(trim($leave_request['username']));
+            $session_username = strtolower(trim($_SESSION['current_user']['username']));
+
+            // Trim whitespace and convert to lowercase for comparison
+            $leave_email = strtolower(trim($leave_request['email']));
+            $session_email = strtolower(trim($_SESSION['current_user']['email']));?>
           <?php if ($role == 'admin' || ($role == 'user' && $leave_username == $session_username && $leave_email == $session_email)) : ?>
         <tr class="text-center"> 
             <td><?php  echo $leave_id++ ?></td>
@@ -179,19 +167,10 @@
       </thead>
       <tbody>
 
-          <?php foreach( $leave_requests as $l => $leave_request ): ?>
-          <?php 
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_username = strtolower(trim($leave_request['username']));
-            $session_username = strtolower(trim($_SESSION['current_user']['username']));
-            
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_email = strtolower(trim($leave_request['email']));
-            $session_email = strtolower(trim($_SESSION['current_user']['email']));
-            ?>
+          <?php foreach( $leave_requests as $leave_request ): ?>
             <?php if ($role == 'admin' || ($role == 'user' && $leave_username == $session_username && $leave_email == $session_email)) : ?>
           <tr class="text-center"> 
-              <td><?php  echo ++$l ?></td>
+              <td><?php  echo $l++ ?></td>
               <?php if( $role =='admin' ):?>
               <td><?= $leave_request[ 'username' ];?></td>
               <td><?= $leave_request[ 'email' ];?></td>
@@ -253,17 +232,7 @@
           </tr>
       </thead>
       <tbody>
-          <?php $i = 1; ?>
           <?php foreach( $leave_requests as $leave_request ): ?>
-          <?php 
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_username = strtolower(trim($leave_request['username']));
-            $session_username = strtolower(trim($_SESSION['current_user']['username']));
-            
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_email = strtolower(trim($leave_request['email']));
-            $session_email = strtolower(trim($_SESSION['current_user']['email']));
-            ?>
             <?php if ( ( $role == 'admin' && $leave_request[ 'status' ] == 1 ) || ($role == 'user' && $leave_username == $session_username && $leave_email == $session_email) ) : ?>
           <tr class="text-center"> 
               <td><?php  echo $i++ ?></td>
@@ -327,18 +296,7 @@
           </tr>
       </thead>
       <tbody>
-         <?php $j = 1; ?>
           <?php foreach( $leave_requests as $leave_request ): ?>
-            
-          <?php 
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_username = strtolower(trim($leave_request['username']));
-            $session_username = strtolower(trim($_SESSION['current_user']['username']));
-            
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_email = strtolower(trim($leave_request['email']));
-            $session_email = strtolower(trim($_SESSION['current_user']['email']));
-            ?>
             <?php if ( ( $role == 'admin' && $leave_request[ 'status' ] == 2 ) || ($role == 'user' && $leave_username == $session_username && $leave_email == $session_email) ) : ?>
           <tr class="text-center"> 
               <td><?php  echo $j++ ?></td>
@@ -402,19 +360,7 @@
           </tr>
       </thead>
       <tbody>
-          <?php $r = 1; ?>
           <?php foreach( $leave_requests as $leave_request ): ?>
-            
-          <?php 
-            
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_username = strtolower(trim($leave_request['username']));
-            $session_username = strtolower(trim($_SESSION['current_user']['username']));
-            
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_email = strtolower(trim($leave_request['email']));
-            $session_email = strtolower(trim($_SESSION['current_user']['email']));
-            ?>
             <?php if ( ( $role == 'admin' && $leave_request[ 'status' ] == 3 ) || ($role == 'user' && $leave_username == $session_username && $leave_email == $session_email) ) : ?>
           <tr class="text-center"> 
               <td><?php  echo $r++ ?></td>

@@ -20,6 +20,7 @@
             $pendingLeaveCount = 0;
             $approvedLeaveCount = 0;
             $rejectedLeaveCount = 0;
+            $totalLeaveDays = 0;
 
             // Initialize an array to store leave requests for the selected user
             $selectedUserLeaveRequests = [];
@@ -29,6 +30,13 @@
                 $selected_user = $_POST[ 'selected_user' ];
                 foreach( $leave_requests as $p ) {
                     if( $selected_user == $p[ 'username' ] ) {
+                        // Calculate the duration of the leave request
+                        $startDate = new DateTime($p['startDate']);
+                        $endDate = new DateTime($p['endDate']);
+                        $duration = $endDate->diff($startDate)->days + 1; // Add 1 to include both start and end dates
+
+                        // Add the duration to the total leave days
+                        $totalLeaveDays += $duration;
                         $totalLeaveCount++;
                         if( $p[ 'status' ] == 1 ) {
                             $pendingLeaveCount++;
@@ -51,6 +59,12 @@
                 $leave_email = strtolower(trim( $p[ 'email' ] ) );
                 $session_email = strtolower( trim( $_SESSION[ 'current_user' ][ 'email' ] ) );
                 if ( ( $leave_username == $session_username && $leave_email == $session_email ) ) {
+                    $startDate = new DateTime($p['startDate']);
+                    $endDate = new DateTime($p['endDate']);
+                    $duration = $endDate->diff($startDate)->days + 1; // Add 1 to include both start and end dates
+
+                    // Add the duration to the total leave days
+                    $totalLeaveDays += $duration;
                     $totalLeaveCount++; 
                     if( $p[ 'status' ] == 1){
                         $pendingLeaveCount++;
@@ -72,7 +86,8 @@
                 'approvedLeaveCount' => $approvedLeaveCount,
                 'rejectedLeaveCount' => $rejectedLeaveCount,
                 'selectedUserLeaveRequests' => $selectedUserLeaveRequests,
-                'selected_user' => $selected_user
+                'selected_user' => $selected_user,
+                'totalLeaveDays' => $totalLeaveDays
             ]);
         }
 

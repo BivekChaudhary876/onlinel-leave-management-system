@@ -21,6 +21,7 @@ $role = $_SESSION['current_user']['role'];
         <?php if(isset($selectedUserLeaveRequests) && !empty($selectedUserLeaveRequests)): ?>
             <div class="my-3 text-center">
                     <h2>Leave Requests for <?= $selected_user ?></h2>
+                    <h3>Total Leave Days :<?= $totalLeaveDays ?></h3>
             </div>
             <div class="my-3 text-center d-flex justify-content-evenly">
                 <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br><?= $totalLeaveCount ?></button>
@@ -33,6 +34,7 @@ $role = $_SESSION['current_user']['role'];
     <?php elseif($role == 'user'): ?>
         <div class="text-center my-3">
             <h2>Leave Requests</h2>
+            <h3>Total Leave Days :<?= $totalLeaveDays ?></h3>
         </div>
         <div class="my-3 text-center d-flex justify-content-evenly">
             <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br><?= $totalLeaveCount ?></button>
