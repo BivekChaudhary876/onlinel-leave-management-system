@@ -26,11 +26,11 @@ class Leave_Controller extends Base_Controller{
         $totalLeaveDays = 0;
 
         
-        if(( $_SESSION['current_user']['role'] == 'admin' ) ) {
+        if( ( $_SESSION[ 'current_user' ][ 'role' ] == 'admin' ) ) {
             foreach( $leave_requests as $p ) {
                 // Calculate the duration of the leave request
-                $startDate = new DateTime($p['startDate']);
-                $endDate = new DateTime($p['endDate']);
+                $startDate = new DateTime( $p[ 'startDate' ] );
+                $endDate = new DateTime( $p[ 'endDate' ] );
                 $duration = $endDate->diff($startDate)->days + 1; // Add 1 to include both start and end dates
 
                 // Add the duration to the total leave days
@@ -47,11 +47,11 @@ class Leave_Controller extends Base_Controller{
         }else {
             foreach( $leave_requests as $p ){
             // Trim whitespace and convert to lowercase for comparison
-            $leave_username = strtolower(trim( $p[ 'username' ] ) );
+            $leave_username = strtolower( trim( $p[ 'username' ] ) );
             $session_username = strtolower( trim( $_SESSION[ 'current_user' ][ 'username' ] ) );
             
             // Trim whitespace and convert to lowercase for comparison
-            $leave_email = strtolower(trim( $p[ 'email' ] ) );
+            $leave_email = strtolower( trim( $p[ 'email' ] ) );
             $session_email = strtolower( trim( $_SESSION[ 'current_user' ][ 'email' ] ) );
             if ( ( $leave_username == $session_username && $leave_email == $session_email ) ) {
                 $totalLeaveCount++; 

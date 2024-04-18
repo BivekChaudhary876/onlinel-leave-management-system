@@ -6,7 +6,7 @@
         
         public function index(){
 
-            if(! isset( $_SESSION[ 'current_user' ]['role']) && $_SESSION['current_user']['role']=='admin' ){
+            if(! isset( $_SESSION[ 'current_user' ][ 'role' ]) && $_SESSION[ 'current_user' ][ 'role' ] == 'admin' ){
                 header( "Location: index.php?c=user" );
                 exit;
 
@@ -31,9 +31,9 @@
                 foreach( $leave_requests as $p ) {
                     if( $selected_user == $p[ 'username' ] ) {
                         // Calculate the duration of the leave request
-                        $startDate = new DateTime($p['startDate']);
-                        $endDate = new DateTime($p['endDate']);
-                        $duration = $endDate->diff($startDate)->days + 1; // Add 1 to include both start and end dates
+                        $startDate = new DateTime($p[ 'startDate' ]);
+                        $endDate = new DateTime($p[ 'endDate' ]);
+                        $duration = $endDate->diff( $startDate )->days + 1; // Add 1 to include both start and end dates
 
                         // Add the duration to the total leave days
                         $totalLeaveDays += $duration;
@@ -59,16 +59,16 @@
                 $leave_email = strtolower(trim( $p[ 'email' ] ) );
                 $session_email = strtolower( trim( $_SESSION[ 'current_user' ][ 'email' ] ) );
                 if ( ( $leave_username == $session_username && $leave_email == $session_email ) ) {
-                    $startDate = new DateTime($p['startDate']);
-                    $endDate = new DateTime($p['endDate']);
+                    $startDate = new DateTime( $p[ 'startDate' ] );
+                    $endDate = new DateTime( $p[ 'endDate' ] );
                     $duration = $endDate->diff($startDate)->days + 1; // Add 1 to include both start and end dates
 
                     // Add the duration to the total leave days
                     $totalLeaveDays += $duration;
                     $totalLeaveCount++; 
-                    if( $p[ 'status' ] == 1){
+                    if( $p[ 'status' ] == 1 ){
                         $pendingLeaveCount++;
-                    }elseif($p[ 'status' ] == 2){
+                    }elseif($p[ 'status' ] == 2 ){
                         $approvedLeaveCount++;;
                     }elseif( $p[ 'status' ] == 3 ){
                         $rejectedLeaveCount++;

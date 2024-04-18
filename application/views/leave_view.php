@@ -91,7 +91,6 @@
           // Trim whitespace and convert to lowercase for comparison
             $leave_username = strtolower(trim($leave_request['username']));
             $session_username = strtolower(trim($_SESSION['current_user']['username']));
-
             // Trim whitespace and convert to lowercase for comparison
             $leave_email = strtolower(trim($leave_request['email']));
             $session_email = strtolower(trim($_SESSION['current_user']['email']));?>
@@ -144,7 +143,6 @@
     </tbody>
 </table>
 </div>
-
 
 <!-- Total leave List -->
 <div class="modal fade" id="totalLeaveModal">
@@ -205,7 +203,6 @@
     </table>
   </div>
 </div>
-
 
 <!-- Pending List -->
 <div class="modal fade" id="pendingModal">

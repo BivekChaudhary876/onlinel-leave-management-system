@@ -62,30 +62,6 @@ $(document).ready(function () {
 		$('#createLeaveModal').modal('show')
 	})
 
-	// $('.editLeave').click(function () {
-	// 	var leaveId = $(this).data('id')
-	// 	var username = $(this).data('username')
-	// 	var email = $(this).data('email')
-	// 	var department = $(this).data('department')
-	// 	var type = $(this).closest('tr').find('td:eq( 1 )').text()
-	// 	var startDate = $(this).closest('tr').find('td:eq( 2 )').text()
-	// 	var endDate = $(this).closest('tr').find('td:eq( 3 )').text()
-	// 	var description = $(this).closest('tr').find('td:eq( 4 )').text()
-
-	// 	// Populate the modal with user data
-	// 	$('#leaveid').val(leaveId)
-	// 	$('#username').val(username)
-	// 	$('#email').val(email)
-	// 	$('#department').val(department)
-	// 	$('#type').val(type)
-	// 	$('#startDate').val(startDate)
-	// 	$('#endDate').val(endDate)
-	// 	$('#description').val(description)
-
-	// 	// Show the modal
-	// 	$('#createLeaveModal').modal('show')
-	// })
-
 	$('#totalLeaveBtn').click(function () {
 		// Show the modal
 		$('#totalLeaveModal').modal('show')

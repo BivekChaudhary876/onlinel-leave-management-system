@@ -72,7 +72,6 @@ abstract class Base_Controller{
 
     public function logout(){
         session_start();    
-        //destroy the session
         session_destroy();
         redirect( 'user' );
     }

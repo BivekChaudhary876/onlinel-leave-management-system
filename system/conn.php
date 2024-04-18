@@ -1,5 +1,6 @@
 <?php
 require_once 'config.php';
+
 class Conn{
 
     protected static $instance = null;
