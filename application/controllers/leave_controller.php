@@ -18,6 +18,9 @@ class Leave_Controller extends Base_Controller{
 
     public function list(){
         $leave_requests = $this->model->get();
+        usort($leave_requests, function($a, $b) {
+                return strtotime($b['startDate']) - strtotime($a['startDate']);
+            });
          // Initialize leave counts
         $totalLeaveCount = 0;
         $pendingLeaveCount = 0;

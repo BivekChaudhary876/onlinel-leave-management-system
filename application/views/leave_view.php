@@ -5,6 +5,7 @@
   $j = 1;
   $l = 1;
   $r = 1;
+  
 ?>
 <?php if( $role == 'user') : ?>
 <div class="my-3 text-center">

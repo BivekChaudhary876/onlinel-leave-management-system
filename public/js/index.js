@@ -4,6 +4,8 @@ $(document).ready(function () {
 		$('#createUserModal').modal('show')
 	})
 
+	
+
 	$('.editUser').click(function () {
 		var userId = $(this).data('id')
 		var username = $(this).closest('tr').find('td:eq( 1 )').text()
@@ -229,3 +231,5 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 		})
 })
+
+
