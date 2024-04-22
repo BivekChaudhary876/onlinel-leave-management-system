@@ -12,12 +12,17 @@
             </a>
         </li>
         <li>
-          <a href="index.php?c=leave&m=list" class="nav-link link-body-emphasis">
+          <a href="index.php?c=type" class="nav-link link-body-emphasis">
+                Leave Type
+            </a>
+        </li>
+        <li>
+          <a href="index.php?c=leave" class="nav-link link-body-emphasis">
                 Leave
             </a>
         </li>
         <li>
-          <a href="index.php?c=holiday&m=list" class="nav-link link-body-emphasis">
+          <a href="index.php?c=holiday" class="nav-link link-body-emphasis">
                 Holidays
             </a>
         </li>
@@ -33,12 +38,12 @@
                 </a>
             </li>
             <li>
-            <a href="index.php?c=leave&m=list&id=<?php echo $_SESSION[ 'current_user' ][ 'id' ] ?>"  class="nav-link link-body-emphasis">
+            <a href="index.php?c=leave&id=<?php echo $_SESSION[ 'current_user' ][ 'id' ] ?>"  class="nav-link link-body-emphasis">
                     Leave
                 </a>
             </li>
             <li>
-            <a href="index.php?c=holiday&m=list" class="nav-link link-body-emphasis">
+            <a href="index.php?c=holiday" class="nav-link link-body-emphasis">
                     Holidays
                 </a>
             </li>

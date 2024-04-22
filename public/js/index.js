@@ -4,8 +4,6 @@ $(document).ready(function () {
 		$('#createUserModal').modal('show')
 	})
 
-	
-
 	$('.editUser').click(function () {
 		var userId = $(this).data('id')
 		var username = $(this).closest('tr').find('td:eq( 1 )').text()
@@ -63,10 +61,18 @@ $(document).ready(function () {
 		// Show the modal
 		$('#createLeaveModal').modal('show')
 	})
+	$('#createTypeBtn').click(function () {
+		// Show the modal
+		$('#createTypeModal').modal('show')
+	})
 
 	$('#totalLeaveBtn').click(function () {
 		// Show the modal
 		$('#totalLeaveModal').modal('show')
+	})
+	$('#totalBtn').click(function () {
+		// Show the modal
+		$('#totalModal').modal('show')
 	})
 
 	$('#pendingBtn').click(function () {
@@ -231,5 +237,3 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 		})
 })
-
-

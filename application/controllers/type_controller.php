@@ -1,40 +1,37 @@
-<?php
+<?php 
 
-class Holiday_Controller extends Base_Controller{
+class Type_Controller extends Base_Controller{
 
     protected $post_methods = [ 'save' , 'delete' ];
 
-    public function index(){ 
-        $holidays = $this->model->get();
+    public function index(){
+        $types = $this->model->get();
 
         $this->load_view( [ 
-            'page_title' => 'Holiday',
-            'holidays' => $holidays
-        ], 'holiday' ); 
+            'page_title' => 'Type',
+            'types' => $types
+        ], 'type' );
     }
 
     public function save(){
         $data = [
-            'year' => $_POST[ 'year' ],
-            'month' => $_POST[ 'month' ],
-            'day' => $_POST[ 'day' ],
-            'event' => $_POST[ 'event' ]
+            'type' => $_POST[ 'type' ]
         ];
         if( isset( $_POST[ 'id'] ) && $_POST[ 'id' ] > 0 ){
                 $data[ 'id' ] = $_POST[ 'id' ];
         }
         $this->model->save( $data );
-        redirect( 'holiday' );
+        redirect( 'type' );
 
     }
     public function delete() {
         try {
-            $holidayId = $_POST[ 'id' ];
-            $deleted = $this->model->delete( $holidayId );
+            $typeId = $_POST[ 'id' ];
+            $deleted = $this->model->delete( $typeId );
             if ( $deleted ) {
                 echo json_encode( [ 'success' => true ] );
             } else {
-                echo json_encode( [ 'success' => false, 'message' => 'Failed to delete holiday' ] );
+                echo json_encode( [ 'success' => false, 'message' => 'Failed to delete type' ] );
             }
         } catch (Exception $e) {
             echo json_encode( [ 'success' => false, 'message' => 'Error: ' . $e->getMessage() ] );

@@ -5,6 +5,9 @@
   $j = 1;
   $l = 1;
   $r = 1;
+
+
+  
   
 ?>
 <?php if( $role == 'user') : ?>
@@ -20,8 +23,6 @@
   </div>
   <?php endif; ?>
 
-
-  
   <!-- Leave Apply -->
 <div class="modal fade" id="createLeaveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -33,20 +34,24 @@
         <!-- Form for creating a new user -->
         <form method="POST" action="index.php?c=leave&m=save"">
           <input type="hidden" id="leaveid" name="id">
-          <input type="hidden" id="username" name="username" value=" <?php echo $_SESSION[ 'current_user'  ][ 'username' ] ?> ">
-          <input type="hidden" id="email" name="email" value=" <?php echo $_SESSION[ 'current_user'][ 'email' ] ?>">
-          <input type="hidden" id="department" name="department" value=" <?php echo $_SESSION[ 'current_user'][ 'department' ] ?>">
+          <input type="hidden" id="user_id" name="user_id" value=" <?php echo $_SESSION[ 'current_user'  ][ 'id' ] ?> ">
+          <input type="hidden" id="type_id" name="type_id" value="<?php echo $_SESSION['current_user']['id']; ?>">
           <div class="form-group">
-              <label for="type">Leave Type</label>
-              <input type="text" class="form-control" id="type" name="type" placeholder="Enter Leave Type">
-          </div>
-          <div class="form-group">
-							<label class="form-control-label">Start Date</label>
-							<input type="date" name="startDate" class="form-control" />
+							<label class="form-control-label">Leave Type</label>
+							<select name="leaveType" class="form-control">
+								<option value="">Select Leave Type</option>
+								<?php foreach($leave_requests as $leave_request ): ?>
+                      <option value="<?= $leave_request[ 'leave_type' ] ?>"><?= $leave_request[ 'leave_type' ]?></option>
+                      <?php endforeach; ?>
+							</select>
 						</div>
           <div class="form-group">
-              <label for="endDate">End Date</label>
-              <input type="date" class="form-control" id="endDate" name="endDate" placeholder="Enter Leave End">
+							<label for="from" class="form-control-label">From</label>
+							<input type="date" class="form-control" name="from" placeholder="Enter Leave From"/>
+						</div>
+          <div class="form-group">
+              <label for="to">To</label>
+              <input type="date" class="form-control" id="to" name="to" placeholder="Enter Leave To"/>
           </div>
           <div class="form-group">
               <label for="description">Descriptions</label>
@@ -75,8 +80,8 @@
             <th scope="col">Department</th>
             <?php }?>
             <th scope="col">Type</th>
-            <th scope="col">Start Date</th>
-            <th scope="col">End Date</th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
             <th scope="col">Description</th>
             <th scope="col">Status</th>
             <?php foreach( $leave_requests as $leave_request ):
@@ -89,6 +94,7 @@
     <tbody>
 
         <?php foreach( $leave_requests as $leave_request ):
+          
           // Trim whitespace and convert to lowercase for comparison
             $leave_username = strtolower(trim($leave_request['username']));
             $session_username = strtolower(trim($_SESSION['current_user']['username']));
@@ -103,38 +109,21 @@
             <td><?= $leave_request[ 'email' ];?></td>
             <td><?= $leave_request[ 'department' ];?></td>
         <?php endif; ?>
-            <td><?php  echo $leave_request[ 'type' ]; ?></td>
-            <td><?php  echo $leave_request[ 'startDate' ]; ?></td>
-            <td><?php  echo $leave_request[ 'endDate' ]; ?></td>
+            <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
+            <td><?php  echo $leave_request[ 'from' ]; ?></td>
+            <td><?php  echo $leave_request[ 'to' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td id="<?php echo $leave_request['id']; ?>"> <!-- Add an ID for the status cell -->
-          <?php 
-            // Check if 'status' key exists in $leave_request
-            if(isset($leave_request[ 'status' ] )) {
-              // 'status' key exists, so echo its value
-              if( $leave_request['status'] == 1 ) {
-                echo '<span class="badge text-bg-warning">Pending</span>';
-              } elseif ( $leave_request[ 'status' ] == 2 ) {
-                echo '<span class="badge text-bg-success">Approved</span>';
-              } elseif ( $leave_request[ 'status' ] == 3 ) {
-                echo '<span class="badge text-bg-danger">Rejected</span>';
-              }
-            } else {
-              // 'status' key doesn't exist in $leave_request
-              echo "Status not available";
-            }
-          ?>
-        </td>
+            <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
          <?php if( $role =='admin'): ?>
               <td class="text-center">
-                <button type="button" class="btn btn-outline-success approveLeave" data-id="<?= $leave_request[ 'id' ] ?>">Approve</button>
-                <button type="button" class="btn btn-outline-danger rejectLeave" data-id="<?= $leave_request[ 'id' ] ?>">Reject</button>
+                <button type="button" class="btn btn-outline-success approveLeave" data-id="<?= $leave_request[ 'leave_request_id' ] ?>">Approve</button>
+                <button type="button" class="btn btn-outline-danger rejectLeave" data-id="<?= $leave_request[ 'leave_request_id' ] ?>">Reject</button>
               </td>
               <?php else: ?>
 
                 <?php if( $leave_request['status']== 1 ): ?>
               <td class="text-center">
-                <button type="button" class="btn btn-outline-danger deleteLeave" data-id="<?= $leave_request[ 'id' ] ?>">Delete</button>
+                <button type="button" class="btn btn-outline-danger deleteLeave" data-id="<?= $leave_request[ 'leave_request_id' ] ?>">Delete</button>
               </td>
               <?php endif; ?>
               <?php endif; ?>
@@ -158,8 +147,8 @@
               <th scope="col">Department</th>
               <?php }?>
               <th scope="col">Type</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
               <th scope="col">Description</th>
               <th scope="col">Status</th>
           </tr>
@@ -175,28 +164,11 @@
               <td><?= $leave_request[ 'email' ];?></td>
               <td><?= $leave_request[ 'department' ];?></td>
           <?php endif; ?>
-              <td><?php  echo $leave_request[ 'type' ]; ?></td>
-              <td><?php  echo $leave_request[ 'startDate' ]; ?></td>
-              <td><?php  echo $leave_request[ 'endDate' ]; ?></td>
+              <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
+              <td><?php  echo $leave_request[ 'from' ]; ?></td>
+              <td><?php  echo $leave_request[ 'to' ]; ?></td>
               <td><?php  echo $leave_request[ 'description' ]; ?></td>
-              <td id="<?php echo $leave_request['id']; ?>"> <!-- Add an ID for the status cell -->
-            <?php 
-              // Check if 'status' key exists in $leave_request
-              if(isset($leave_request[ 'status' ] )) {
-                // 'status' key exists, so echo its value
-                if( $leave_request['status'] == 1 ) {
-                  echo '<span class="badge text-bg-warning">Pending</span>';
-                } elseif ( $leave_request[ 'status' ] == 2 ) {
-                  echo '<span class="badge text-bg-success">Approved</span>';
-                } elseif ( $leave_request[ 'status' ] == 3 ) {
-                  echo '<span class="badge text-bg-danger">Rejected</span>';
-                }
-              } else {
-                // 'status' key doesn't exist in $leave_request
-                echo "Status not available";
-              }
-            ?>
-          </td>
+              <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
           </tr>
           <?php endif; ?>
           <?php endforeach; ?>
@@ -218,15 +190,10 @@
               <th scope="col">Department</th>
               <?php }?>
               <th scope="col">Type</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
               <th scope="col">Description</th>
               <th scope="col">Status</th>
-              <?php foreach( $leave_requests as $leave_request ):
-                if ( !( $role == 'admin' ) || ($role =='user' && $leave_request[ 'status' ] == 1 )) : ?>
-              <th scope="col">Actions</th>
-              <?php break; endif; ?>
-                <?php endforeach; ?>
           </tr>
       </thead>
       <tbody>
@@ -239,28 +206,11 @@
               <td><?= $leave_request[ 'email' ];?></td>
               <td><?= $leave_request[ 'department' ];?></td>
           <?php endif; ?>
-              <td><?php  echo $leave_request[ 'type' ]; ?></td>
-              <td><?php  echo $leave_request[ 'startDate' ]; ?></td>
-              <td><?php  echo $leave_request[ 'endDate' ]; ?></td>
+              <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
+              <td><?php  echo $leave_request[ 'from' ]; ?></td>
+              <td><?php  echo $leave_request[ 'to' ]; ?></td>
               <td><?php  echo $leave_request[ 'description' ]; ?></td>
-              <td id="<?php echo $leave_request['id']; ?>"> <!-- Add an ID for the status cell -->
-            <?php 
-              // Check if 'status' key exists in $leave_request
-              if(isset($leave_request[ 'status' ] )) {
-                // 'status' key exists, so echo its value
-                if( $leave_request['status'] == 1 ) {
-                  echo '<span class="badge text-bg-warning">Pending</span>';
-                } elseif ( $leave_request[ 'status' ] == 2 ) {
-                  echo '<span class="badge text-bg-success">Approved</span>';
-                } elseif ( $leave_request[ 'status' ] == 3 ) {
-                  echo '<span class="badge text-bg-danger">Rejected</span>';
-                }
-              } else {
-                // 'status' key doesn't exist in $leave_request
-                echo "Status not available";
-              }
-            ?>
-          </td>
+              <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
           </tr>
           <?php endif; ?>
           <?php endforeach; ?>
@@ -282,15 +232,10 @@
               <th scope="col">Department</th>
               <?php }?>
               <th scope="col">Type</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
               <th scope="col">Description</th>
               <th scope="col">Status</th>
-              <?php foreach( $leave_requests as $leave_request ):
-                if ( !( $role == 'admin' ) || ($role =='user' && $leave_request[ 'status' ] == 1 )) : ?>
-              <th scope="col">Actions</th>
-              <?php break; endif; ?>
-                <?php endforeach; ?>
           </tr>
       </thead>
       <tbody>
@@ -303,28 +248,11 @@
               <td><?= $leave_request[ 'email' ];?></td>
               <td><?= $leave_request[ 'department' ];?></td>
           <?php endif; ?>
-              <td><?php  echo $leave_request[ 'type' ]; ?></td>
-              <td><?php  echo $leave_request[ 'startDate' ]; ?></td>
-              <td><?php  echo $leave_request[ 'endDate' ]; ?></td>
+              <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
+              <td><?php  echo $leave_request[ 'from' ]; ?></td>
+              <td><?php  echo $leave_request[ 'to' ]; ?></td>
               <td><?php  echo $leave_request[ 'description' ]; ?></td>
-              <td id="<?php echo $leave_request['id']; ?>"> <!-- Add an ID for the status cell -->
-            <?php 
-              // Check if 'status' key exists in $leave_request
-              if(isset($leave_request[ 'status' ] ) ) {
-                // 'status' key exists, so echo its value
-                if( $leave_request['status'] == 1 ) {
-                  echo '<span class="badge text-bg-warning">Pending</span>';
-                } elseif ( $leave_request[ 'status' ] == 2 ) {
-                  echo '<span class="badge text-bg-success">Approved</span>';
-                } elseif ( $leave_request[ 'status' ] == 3 ) {
-                  echo '<span class="badge text-bg-danger">Rejected</span>';
-                }
-              } else {
-                // 'status' key doesn't exist in $leave_request
-                echo "Status not available";
-              }
-            ?>
-          </td>
+             <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
           </tr>
           <?php endif;
          endforeach; ?>
@@ -346,15 +274,10 @@
               <th scope="col">Department</th>
               <?php }?>
               <th scope="col">Type</th>
-              <th scope="col">Start Date</th>
-              <th scope="col">End Date</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
               <th scope="col">Description</th>
               <th scope="col">Status</th>
-              <?php foreach( $leave_requests as $leave_request ):
-                if ( !( $role == 'admin' ) || ($role =='user' && $leave_request[ 'status' ] == 1 )) : ?>
-              <th scope="col">Actions</th>
-              <?php break; endif; ?>
-                <?php endforeach; ?>
           </tr>
       </thead>
       <tbody>
@@ -367,28 +290,11 @@
               <td><?= $leave_request[ 'email' ];?></td>
               <td><?= $leave_request[ 'department' ];?></td>
           <?php endif; ?>
-              <td><?php  echo $leave_request[ 'type' ]; ?></td>
-              <td><?php  echo $leave_request[ 'startDate' ]; ?></td>
-              <td><?php  echo $leave_request[ 'endDate' ]; ?></td>
+              <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
+              <td><?php  echo $leave_request[ 'from' ]; ?></td>
+              <td><?php  echo $leave_request[ 'to' ]; ?></td>
               <td><?php  echo $leave_request[ 'description' ]; ?></td>
-              <td id="<?php echo $leave_request['id']; ?>"> <!-- Add an ID for the status cell -->
-            <?php 
-              // Check if 'status' key exists in $leave_request
-              if(isset($leave_request[ 'status' ] )) {
-                // 'status' key exists, so echo its value
-                if( $leave_request['status'] == 1 ) {
-                  echo '<span class="badge text-bg-warning">Pending</span>';
-                } elseif ( $leave_request[ 'status' ] == 2 ) {
-                  echo '<span class="badge text-bg-success">Approved</span>';
-                } elseif ( $leave_request[ 'status' ] == 3 ) {
-                  echo '<span class="badge text-bg-danger">Rejected</span>';
-                }
-              } else {
-                // 'status' key doesn't exist in $leave_request
-                echo "Status not available";
-              }
-            ?>
-          </td>
+              <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
           </tr>
           <?php endif;
          endforeach; ?>
