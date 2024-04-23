@@ -36,97 +36,54 @@ abstract class Base_Model{
        return $this->db->fetch($result);
     }
 
+    public function get_count( $conditions = [] ){
 
-    // public function save( $data = [] ) {
+       $sql = "SELECT COUNT(*) c FROM {$this->table}";
 
-    //     $id = false;
-    //     $values = array_values( $data );
-    //     if( isset( $data[ 'id' ] ) ){
-    //         $id = $data[ 'id' ];
-    //         $sql = 'UPDATE';
-    //     }else{
-    //         $sql = 'INSERT INTO';
-    //     }
-
-    //     $sql .= ' ' . $this->table . ' SET ';
-
-    //     foreach( $data as $column => $value ){
-    //         if( 'id' != $column ){
-    //             $sql .= $column . '=?,';
-    //         }
-    //     }
-
-    //     $sql = rtrim( $sql, ',' );
-
-    //     if( $id ){
-    //         $sql .= ' WHERE id=?';
-    //     }
-
-    //     // Executing the SQL query with positional placeholders
-    //     return $this->db->executeBuilder( $sql, $values );
-    // }
-
-        public function save($data = []) {
-            $id = false;
-            $values = [];
-            $columns = [];
-            $placeholders = [];
-
-            // Check if we're updating or inserting
-            if (isset($data['id'])) {
-                $id = $data['id'];
-                $sql = 'UPDATE `' . $this->table . '` SET ';
-            } else {
-                $sql = 'INSERT INTO `' . $this->table . '` ';
+        if( !empty( $conditions ) ){
+            $sql .= ' WHERE ';
+            foreach( $conditions as $key => $value ){
+                $sql .= "$key= '" . $this->db->escape( $value ) ."' AND ";
             }
 
-            // Build the SQL query dynamically
-            foreach ($data as $column => $value) {
-                if ($id && $column !== 'id') {
-                    $sql .= '`' . $column . '`, ';
-                    $values[] = $value;
-                } else if (!$id) {
-                    $columns[] = '`' . $column . '`';
-                    $placeholders[] = '?';
-                    $values[] = $value;
-                }
-            }
-
-            if ($id) {
-                // Remove trailing comma and space, and add WHERE clause
-                $sql = rtrim($sql, ', ');
-                $sql .= ' WHERE `id` = ?';
-                $values[] = $id;
-            } else {
-                // Construct the INSERT INTO query properly
-                $sql .= '(' . implode(', ', $columns) . ') VALUES (' . implode(', ', $placeholders) . ')';
-            }
-
-            // Execute the SQL query
-            return $this->db->executeBuilder($sql, $values);
+            $sql = rtrim( $sql, 'AND ');
         }
 
+        $sql .= ' ORDER BY id ASC';
+
+       $result = $this->db->query( $sql );
+       return $this->db->fetch_row($result);
+    }
 
 
+    public function save( $data = [] ) {
 
+        $id = false;
+        $values = array_values( $data );
+        if( isset( $data[ 'id' ] ) ){
+            $id = $data[ 'id' ];
+            $sql = 'UPDATE';
+        }else{
+            $sql = 'INSERT INTO';
+        }
 
-    // public function updateStatus($id, $status) {
-    //     try {
-    //         // Construct SQL query for updating status
-    //         $sql = "UPDATE {$this->table} SET status = ? WHERE id = ?";
-            
-    //         // Execute the SQL query with status and ID as parameters
-    //         $updated = $this->db->executeBuilder($sql, [$status, $id]);
-            
-    //         return $updated;
-    //     } catch (Exception $e) {
-    //         // Log or handle the exception
-    //         echo "Error updating status: " . $e->getMessage();
-    //         return false;
-    //     }
-    // }
+        $sql .= ' ' . $this->table . ' SET ';
 
+        foreach( $data as $column => $value ){
+            if( 'id' != $column ){
+                $sql .= '`' . $column . '` =?,';
+            }
+        }
 
+        $sql = rtrim( $sql, ',' );
+
+        if( $id ){
+            $sql .= ' WHERE id=?';
+        }
+
+        // Executing the SQL query with positional placeholders
+        return $this->db->executeBuilder( $sql, $values );
+    }
 
     public function delete( $userId ) {
         try {
@@ -143,24 +100,6 @@ abstract class Base_Model{
             return false;
         }
     }
-
-    // public function get_usernames() {
-    //     $sql = "SELECT DISTINCT username FROM {$this->table}";
-    //     $result = $this->db->query($sql);
-
-    //     $usernames = array();
-
-    //     if ($result) {
-    //         // Fetch usernames and store them in an array
-    //         while($row = $result->fetch_assoc()) {
-    //             $usernames[] = $row['username'];
-    //         }
-    //         // Free result set
-    //         $result->free();
-    //     }
-
-    //     return $usernames;
-    // }
 
     public function get_leave_types() {
         $sql = "SELECT DISTINCT `type` FROM {$this->table}";
@@ -180,55 +119,55 @@ abstract class Base_Model{
         return $usernames;
     }
 
-    public function get_leave_requests_with_user_and_type($conditions = []) {
-        $sql = "
-            SELECT 
-                lr.id AS leave_request_id,
-                lr.user_id,
-                u.username,
-                u.email,
-                u.department,
-                lr.type_id,
-                lt.type AS leave_type,
-                lr.from,
-                lr.to,
-                lr.description,
-                lr.status
-            FROM 
-                leave_requests lr
-            INNER JOIN 
-                users u
-            ON 
-                lr.user_id = u.id
-            INNER JOIN 
-                types lt
-            ON 
-                lr.type_id = lt.id
-        ";
+//     public function get_leave_requests_with_user_and_type($conditions = []) {
+//         $sql = "
+//             SELECT 
+//                 lr.id AS leave_request_id,
+//                 lr.user_id,
+//                 u.username,
+//                 u.email,
+//                 u.department,
+//                 lr.type_id,
+//                 lt.type AS leave_type,
+//                 lr.from,
+//                 lr.to,
+//                 lr.description,
+//                 lr.status
+//             FROM 
+//                 leave_requests lr
+//             INNER JOIN 
+//                 users u
+//             ON 
+//                 lr.user_id = u.id
+//             INNER JOIN 
+//                 types lt
+//             ON 
+//                 lr.type_id = lt.id
+//         ";
 
-        // Append conditions to the query
-        if (!empty($conditions)) {
-            $sql .= " WHERE ";
-            foreach ($conditions as $key => $value) {
-                // Using escape method to prevent SQL injection
-                $sql .= "$key = '" . $this->db->escape($value) . "' AND ";
-            }
-            $sql = rtrim($sql, " AND "); // Remove trailing "AND"
-        }
+//         // Append conditions to the query
+//         if (!empty($conditions)) {
+//             $sql .= " WHERE ";
+//             foreach ($conditions as $key => $value) {
+//                 // Using escape method to prevent SQL injection
+//                 $sql .= "$key = '" . $this->db->escape($value) . "' AND ";
+//             }
+//             $sql = rtrim($sql, " AND "); // Remove trailing "AND"
+//         }
 
-        // Add ordering by 'from' date in descending order
-        $sql .= " ORDER BY lr.from DESC";
+//         // Add ordering by 'from' date in descending order
+//         $sql .= " ORDER BY lr.from DESC";
 
-        try {
-            // Execute the query and fetch results as an associative array
-            $result = $this->db->query($sql);
-            return $this->db->fetch($result);
-        } catch (mysqli_sql_exception $e) {
-        // Handle exception and return false in case of an error
-        error_log("Error retrieving leave requests: " . $e->getMessage());
-        return false;
-    }
-}
+//         try {
+//             // Execute the query and fetch results as an associative array
+//             $result = $this->db->query($sql);
+//             return $this->db->fetch($result);
+//         } catch (mysqli_sql_exception $e) {
+//         // Handle exception and return false in case of an error
+//         error_log("Error retrieving leave requests: " . $e->getMessage());
+//         return false;
+//     }
+// }
 
 
     public function updateStatus($id, $status) {
@@ -257,11 +196,11 @@ abstract class Base_Model{
 // Functions to determine status badge
   function getStatusBadge($status) {
     switch ($status) {
-      case 1:
+      case 'pending':
         return '<span class="badge text-bg-warning">Pending</span>';
-      case 2:
+      case 'approved':
         return '<span class="badge text-bg-success">Approved</span>';
-      case 3:
+      case 'rejected':
         return '<span class="badge text-bg-danger">Rejected</span>';
       default:
         return 'Status not available';

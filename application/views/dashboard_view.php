@@ -1,5 +1,6 @@
 <?php 
-$role = $_SESSION['current_user']['role']; 
+  $is_admin = $_SESSION[ 'current_user' ][ 'role' ] == 'admin'; 
+  $is_user = $_SESSION[ 'current_user' ][ 'role' ] == 'user'; 
 $leave_id=1;
 $i = 1;
 $j = 1;
@@ -9,223 +10,46 @@ $r = 1;
 ?>
   
 <div class="my-3">
-    <?php if($role == 'admin'): ?>
-        <div class="my-3 text-center">
-            <h1>Check Leave Requests</h1>
-        </div>
-        <div class="row">
-            <div class="col-9">
-                <div class="my-3 text-center d-flex justify-content-evenly">
-                    <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves </br><?= $totalLeaveCount ?></button>
-                    <button id="pendingBtn" class="btn btn-outline-warning">Pending </br> <?= $pendingLeaveCount ?></button>
-                    <button id="approvedBtn" class="btn btn-outline-success">Approved </br> <?= $approvedLeaveCount ?></button>
-                    <button id="rejectedBtn" class="btn btn-outline-danger">Rejected </br> <?= $rejectedLeaveCount ?></button>
-                    
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="my-3 text-end">
-                    <!-- Form to select username -->
-                    <form method="post">
-                        <select name="selected_user" id="usernameDropdown" class="p-1 btn border-success rounded-start rounded-end">
-                            <option value="0"><?php echo 'Select User' ?></option>
-                            <?php foreach($leave_requests as $leave_request): ?>
-                                <option value="<?= $leave_request[ 'username' ] ?>"><?= $leave_request[ 'username' ] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        <input type="submit" value="Filter" class="p-1 btn btn-outline-success">
-                    </form>
-                </div>
-                
-                <!-- Add a dropdown menu to select the month -->
-                <div class="my-3 text-end">
-                    <form method="post" id="selectedMonth" >
-                        <select name="selected_month" id="monthDropdown" class="p-1 btn border-primary rounded-start rounded-end">
-                            <option value="0">Select Month</option>
-                            <?php 
-                        // Generate options for the last 12 months
-                        for ($x = 0; $x >= -11; $x--) {
-                            $month = date('F Y', strtotime("$x months"));
-                            echo "<option value='$month'>$month</option>";
-                        }
-                        ?>
-                        </select>
-                        <input type="submit" value="Filter" id="submitBtn" class="p-1 btn btn-outline-primary"  onclick="showTable()">
-                    </form>
-                </div>
-        </div>
-        </div>
-
-        <!-- Display leave requests for the selected user -->
-        <?php if(isset($selectedUserLeaveRequests) && !empty($selectedUserLeaveRequests)): ?>
+    <?php if ($is_admin) { ?>
             <div class="my-3 text-center">
-                    <h2>Leave Requests for <?= $selected_user ?></h2>
-                    <h3>Total Leave Days : <?= $totalLeaveDays ?></h3>
+                <h1>Check Leave Requests</h1>
             </div>
-            <div class="my-3 text-center d-flex justify-content-evenly">
-                <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br><?= $totalLeaveCount ?></button>
-                <button id="pendingBtn" class="btn btn-outline-warning">Pending<br><?= $pendingLeaveCount ?></button>
-                <button id="approvedBtn" class="btn btn-outline-success">Approved<br><?= $approvedLeaveCount ?></button>
-                <button id="rejectedBtn" class="btn btn-outline-danger">Rejected<br><?= $rejectedLeaveCount ?></button>
+            <!-- Total and status counts -->
+            <div class="row">
+                <div class="my-3 text-center d-flex justify-content-evenly">
+                    <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br> <?= $total_leave_status ?></button>
+                    <button id="pendingBtn" class="btn btn-outline-warning">Pending<br> <?= $pending_status ?></button>
+                    <button id="approvedBtn" class="btn btn-outline-success">Approved<br> <?= $approved_status ?></button>
+                    <button id="rejectedBtn" class="btn btn-outline-danger">Rejected<br> <?= $rejected_status ?></button>
+                </div>
             </div>
-        <?php endif; ?>
 
-    <?php elseif($role == 'user'): ?>
-        <div class="text-center my-3">
-            <h2>Leave Requests</h2>
-            <h3>Total Leave Days : <?= $totalLeaveDays ?></h3>
-        </div>
-    <?php endif; ?>
+    <?php } elseif ($is_user) { ?>
+            <div class="text-center my-3">
+                <h2>Leave Requests</h2>
+                
+            </div>
+
+             <!-- Total and status counts -->
+            <div class="row">
+                <div class="my-3 text-center d-flex justify-content-evenly">
+                    <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br> <?= $total_leave_status ?></button>
+                    <button id="pendingBtn" class="btn btn-outline-warning">Pending<br> <?= $pending_status ?></button>
+                    <button id="approvedBtn" class="btn btn-outline-success">Approved<br> <?= $approved_status ?></button>
+                    <button id="rejectedBtn" class="btn btn-outline-danger">Rejected<br> <?= $rejected_status ?></button>
+                </div>
+            </div>
+    <?php } ?>
 </div>
-
-<!-- Leave table -->
-<?php if( $display_normal_table ): ?>
-<div id="normalTableContainer" class="my-3">
-    <table id="normalTable" class="table table-striped table-light">
-    <thead>
-        <tr class="table-success text-center">
-            <th scope="col">Leave ID</th>
-            <?php if( $role == 'admin'){?>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Department</th>
-            <?php }?>
-            <th scope="col">Type</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
-            <th scope="col">Description</th>
-            <th scope="col">Status</th>
-            <?php foreach( $leave_requests as $leave_request ):
-                if ( $role == 'admin' || ($role =='user' && $leave_request[ 'status' ] == 1 )) : ?>
-              <th scope="col">Actions</th>
-              <?php break; endif; ?>
-                <?php endforeach; ?>
-        </tr>
-    </thead>
-    <tbody>
-
-        <?php foreach( $leave_requests as $leave_request ):
-          // Trim whitespace and convert to lowercase for comparison
-            $leave_username = strtolower(trim($leave_request['username']));
-            $session_username = strtolower(trim($_SESSION['current_user']['username']));
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_email = strtolower(trim($leave_request['email']));
-            $session_email = strtolower(trim($_SESSION['current_user']['email']));?>
-          <?php if ($role == 'admin' || ($role == 'user' && $leave_username == $session_username && $leave_email == $session_email)) : ?>
-        <tr class="text-center"> 
-            <td><?php  echo $leave_id++ ?></td>
-            <?php if( $role =='admin' ):?>
-            <td><?= $leave_request[ 'username' ];?></td>
-            <td><?= $leave_request[ 'email' ];?></td>
-            <td><?= $leave_request[ 'department' ];?></td>
-        <?php endif; ?>
-            <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-            <td><?php  echo $leave_request[ 'from' ]; ?></td>
-            <td><?php  echo $leave_request[ 'to' ]; ?></td>
-            <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
-         <?php if( $role =='admin'): ?>
-              <td class="text-center">
-                <button type="button" class="btn btn-outline-success approveLeave" data-id="<?= $leave_request[ 'leave_request_id' ] ?>">Approve</button>
-                <button type="button" class="btn btn-outline-danger rejectLeave" data-id="<?= $leave_request[ 'leave_request_id' ] ?>">Reject</button>
-              </td>
-              <?php else: ?>
-
-                <?php if( $leave_request['status']== 1 ): ?>
-              <td class="text-center">
-                <button type="button" class="btn btn-outline-danger deleteLeave" data-id="<?= $leave_request[ 'id' ] ?>">Delete</button>
-              </td>
-              <?php endif; ?>
-              <?php endif; ?>
-        </tr>
-        <?php endif; ?>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-</div>
-
-<!-- Selected Month Leave table -->
-<?php else:?>
-<div id="selectedTableContainer" class="my-3 hidden">
-    <table id="selectedTable" class="table table-striped table-light hidden" >
-      <thead>
-        <tr class="table-success text-center">
-            <th scope="col">Leave ID</th>
-            <?php if( $role == 'admin'){?>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Department</th>
-            <?php }?>
-            <th scope="col">Type</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
-            <th scope="col">Description</th>
-            <th scope="col">Status</th>
-            <?php 
-                // Sort leave requests by end date in descending order
-                usort($filtered_leave_requests, function($a, $b) {
-                    return strtotime($b['to']) - strtotime($a['from']);
-                });
-                foreach ($filtered_leave_requests as $leave_request) :
-                    if ($role == 'admin' || ($role == 'user' && $leave_request['status'] == 1)) : ?>
-                        <th scope="col">Actions</th>
-                        <?php break;
-                    endif;
-                endforeach; ?>
-          </tr>
-      </thead>
-    <tbody>
-
-        <?php foreach ($filtered_leave_requests as $leave_request) :
-              // Trim whitespace and convert to lowercase for comparison
-              $leave_username = strtolower(trim($leave_request['username']));
-              $session_username = strtolower(trim($_SESSION['current_user']['username']));
-              // Trim whitespace and convert to lowercase for comparison
-              $leave_email = strtolower(trim($leave_request['email']));
-              $session_email = strtolower(trim($_SESSION['current_user']['email']));
-          ?>
-          <?php if ($role == 'admin' || ($role == 'user' && $leave_username == $session_username && $leave_email == $session_email)) : ?>
-        <tr class="text-center"> 
-            <td><?php  echo $leave_id++ ?></td>
-            <?php if( $role =='admin' ):?>
-            <td><?= $leave_request[ 'username' ];?></td>
-            <td><?= $leave_request[ 'email' ];?></td>
-            <td><?= $leave_request[ 'department' ];?></td>
-        <?php endif; ?>
-            <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-            <td><?php  echo $leave_request[ 'from' ]; ?></td>
-            <td><?php  echo $leave_request[ 'to' ]; ?></td>
-            <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
-         <?php if( $role =='admin'): ?>
-              <td class="text-center">
-                <button type="button" class="btn btn-outline-success approveLeave" data-id="<?= $leave_request[ 'leave_request_id' ] ?>">Approve</button>
-                <button type="button" class="btn btn-outline-danger rejectLeave" data-id="<?= $leave_request[ 'leave_request_id' ] ?>">Reject</button>
-              </td>
-              <?php else: ?>
-
-                <?php if( $leave_request['status']== 1 ): ?>
-              <td class="text-center">
-                <button type="button" class="btn btn-outline-danger deleteLeave" data-id="<?= $leave_request[ 'id' ] ?>">Delete</button>
-              </td>
-              <?php endif; ?>
-              <?php endif; ?>
-        </tr>
-        <?php endif; ?>
-        <?php endforeach; ?>
-    </tbody>
-    </table>
-</div>  
-
 
 <!-- Total leave List -->
 <div class="modal fade" id="totalLeaveModal">
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <table class="table table-striped table-light">
+    <table class="table table-striped table-light table-hover">
       <thead>
         <tr class="table-success text-center">
-            <th scope="col">Leave ID</th>
-            <?php if( $role == 'admin'){?>
+            <th scope="col">S.No</th>
+            <?php if( $is_admin){?>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col">Department</th>
@@ -238,10 +62,13 @@ $r = 1;
         </tr>
     </thead>
     <tbody>
+
+        <?php foreach( $leave_requests as $leave_request ):?>
+
+          <?php if ($is_admin || ($is_user && $leave_request['username'] == $_SESSION['current_user']['username'])) : ?>
         <tr class="text-center"> 
-          <?php foreach( $leave_requests as $leave_request ):?>
             <td><?php  echo $l++ ?></td>
-            <?php if( $role =='admin' || ($role == 'user' && $leave_username == $session_username && $leave_email == $session_email)):?>
+            <?php if( $is_admin):?>
             <td><?= $leave_request[ 'username' ];?></td>
             <td><?= $leave_request[ 'email' ];?></td>
             <td><?= $leave_request[ 'department' ];?></td>
@@ -252,6 +79,7 @@ $r = 1;
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
             <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
         </tr>
+        <?php endif; ?>
         <?php endforeach; ?>
     </tbody>
     </table>
@@ -264,8 +92,8 @@ $r = 1;
     <table class="table table-striped table-light table-hover">
       <thead>
         <tr class="table-success text-center">
-            <th scope="col">Leave ID</th>
-            <?php if( $role == 'admin'){?>
+            <th scope="col">S.No</th>
+            <?php if( $is_admin){?>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col">Department</th>
@@ -279,17 +107,12 @@ $r = 1;
     </thead>
     <tbody>
 
-        <?php foreach( $leave_requests as $leave_request ):
-          // Trim whitespace and convert to lowercase for comparison
-            $leave_username = strtolower(trim($leave_request['username']));
-            $session_username = strtolower(trim($_SESSION['current_user']['username']));
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_email = strtolower(trim($leave_request['email']));
-            $session_email = strtolower(trim($_SESSION['current_user']['email']));?>
-          <?php if (( $role == 'admin' && $leave_request[ 'status' ] == 1 ) || ($role == 'user' && $leave_username == $session_username && $leave_email == $session_email)) : ?>
+        <?php foreach( $leave_requests as $leave_request ):?>
+
+          <?php if ($is_admin && $pending_status || ($is_user && $leave_request['username'] == $_SESSION['current_user']['username'] && $pending_status)) : ?>
         <tr class="text-center"> 
             <td><?php  echo $i++ ?></td>
-            <?php if( $role =='admin' ):?>
+            <?php if( $is_admin):?>
             <td><?= $leave_request[ 'username' ];?></td>
             <td><?= $leave_request[ 'email' ];?></td>
             <td><?= $leave_request[ 'department' ];?></td>
@@ -313,8 +136,8 @@ $r = 1;
     <table class="table table-striped table-light table-hover">
       <thead>
         <tr class="table-success text-center">
-            <th scope="col">Leave ID</th>
-            <?php if( $role == 'admin'){?>
+            <th scope="col">S.No</th>
+            <?php if( $is_admin ){?>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col">Department</th>
@@ -324,26 +147,15 @@ $r = 1;
             <th scope="col">To</th>
             <th scope="col">Description</th>
             <th scope="col">Status</th>
-            <?php foreach( $leave_requests as $leave_request ):
-                if ( $role == 'admin' || ($role =='user' && $leave_request[ 'status' ] == 1 )) : ?>
-              <th scope="col">Actions</th>
-              <?php break; endif; ?>
-                <?php endforeach; ?>
         </tr>
     </thead>
     <tbody>
 
-        <?php foreach( $leave_requests as $leave_request ):
-          // Trim whitespace and convert to lowercase for comparison
-            $leave_username = strtolower(trim($leave_request['username']));
-            $session_username = strtolower(trim($_SESSION['current_user']['username']));
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_email = strtolower(trim($leave_request['email']));
-            $session_email = strtolower(trim($_SESSION['current_user']['email']));?>
-          <?php if (( $role == 'admin' && $leave_request[ 'status' ] == 2 ) || ($role == 'user' && $leave_username == $session_username && $leave_email == $session_email)) : ?>
+        <?php foreach( $leave_requests as $leave_request ):?>
+          <?php if (( $is_admin && $approved_status) || ($is_user && $leave_request['username'] == $_SESSION['current_user']['username'] && $approved_status)) : ?>
         <tr class="text-center"> 
             <td><?php  echo $j++ ?></td>
-            <?php if( $role =='admin' ):?>
+            <?php if( $is_admin ):?>
             <td><?= $leave_request[ 'username' ];?></td>
             <td><?= $leave_request[ 'email' ];?></td>
             <td><?= $leave_request[ 'department' ];?></td>
@@ -353,19 +165,7 @@ $r = 1;
             <td><?php  echo $leave_request[ 'to' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
             <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
-         <?php if( $role =='admin'): ?>
-              <td class="text-center">
-                <button type="button" class="btn btn-outline-success approveLeave" data-id="<?= $leave_request[ 'leave_request_id' ] ?>">Approve</button>
-                <button type="button" class="btn btn-outline-danger rejectLeave" data-id="<?= $leave_request[ 'leave_request_id' ] ?>">Reject</button>
-              </td>
-              <?php else: ?>
-
-                <?php if( $leave_request['status']== 1 ): ?>
-              <td class="text-center">
-                <button type="button" class="btn btn-outline-danger deleteLeave" data-id="<?= $leave_request[ 'id' ] ?>">Delete</button>
-              </td>
-              <?php endif; ?>
-              <?php endif; ?>
+        
         </tr>
         <?php endif; ?>
         <?php endforeach; ?>
@@ -380,8 +180,8 @@ $r = 1;
     <table class="table table-striped table-light table-hover">
       <thead>
         <tr class="table-success text-center">
-            <th scope="col">Leave ID</th>
-            <?php if( $role == 'admin'){?>
+            <th scope="col">S.No</th>
+            <?php if( $is_admin){?>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col">Department</th>
@@ -391,26 +191,15 @@ $r = 1;
             <th scope="col">To</th>
             <th scope="col">Description</th>
             <th scope="col">Status</th>
-            <?php foreach( $leave_requests as $leave_request ):
-                if ( $role == 'admin' || ($role =='user' && $leave_request[ 'status' ] == 1 )) : ?>
-              <th scope="col">Actions</th>
-              <?php break; endif; ?>
-                <?php endforeach; ?>
         </tr>
     </thead>
     <tbody>
 
-        <?php foreach( $leave_requests as $leave_request ):
-          // Trim whitespace and convert to lowercase for comparison
-            $leave_username = strtolower(trim($leave_request['username']));
-            $session_username = strtolower(trim($_SESSION['current_user']['username']));
-            // Trim whitespace and convert to lowercase for comparison
-            $leave_email = strtolower(trim($leave_request['email']));
-            $session_email = strtolower(trim($_SESSION['current_user']['email']));?>
-          <?php if (( $role == 'admin' && $leave_request[ 'status' ] == 3 ) || ($role == 'user' && $leave_username == $session_username && $leave_email == $session_email)) : ?>
+        <?php foreach( $leave_requests as $leave_request ):?>
+          <?php if (( $is_admin && $rejected_status ) || ( $is_user && $leave_request['username'] == $_SESSION['current_user']['username'] && $rejected_status ) ) : ?>
         <tr class="text-center"> 
             <td><?php  echo $r++ ?></td>
-            <?php if( $role =='admin' ):?>
+            <?php if( $is_admin ):?>
             <td><?= $leave_request[ 'username' ];?></td>
             <td><?= $leave_request[ 'email' ];?></td>
             <td><?= $leave_request[ 'department' ];?></td>
@@ -420,88 +209,80 @@ $r = 1;
             <td><?php  echo $leave_request[ 'to' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
             <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
-         <?php if( $role =='admin'): ?>
-              <td class="text-center">
-                <button type="button" class="btn btn-outline-success approveLeave" data-id="<?= $leave_request[ 'leave_request_id' ] ?>">Approve</button>
-                <button type="button" class="btn btn-outline-danger rejectLeave" data-id="<?= $leave_request[ 'leave_request_id' ] ?>">Reject</button>
-              </td>
-              <?php else: ?>
-
-                <?php if( $leave_request['status']== 1 ): ?>
-              <td class="text-center">
-                <button type="button" class="btn btn-outline-danger deleteLeave" data-id="<?= $leave_request[ 'id' ] ?>">Delete</button>
-              </td>
-              <?php endif; ?>
-              <?php endif; ?>
         </tr>
         <?php endif; ?>
         <?php endforeach; ?>
     </tbody>
     </table>
   </div>
+
+
 </div>
 
-<?php if( $role == 'admin' ){?>
-<div class="row">
-    <div class="col-6">
 
-        <?php
-        // Step 1: Initialize an array to store leave request counts for each month
-        $leaveCountsByMonth = [];
+<?php if( $is_admin ){?>
+  <div class="row">
+      <div class="col-6">
 
-        // Step 2: Loop through leave requests and count leave requests for each month
-        foreach ($leave_requests as $leave_request) {
-            $startDate = new DateTime($leave_request['startDate']);
-            $monthYear = $startDate->format('F Y');
+          <?php
+          // Step 1: Initialize an array to store leave request counts for each month
+          $leaveCountsByMonth = [];
 
-            // Increment the count for the month or initialize it if not present
-            if (isset($leaveCountsByMonth[$monthYear])) {
-                $leaveCountsByMonth[$monthYear]++;
-            } else {
-                $leaveCountsByMonth[$monthYear] = 1;
-            }
-        }
-        // Step 3: Prepare data for the line chart
-        $months = [];
-        $leaveCounts = [];
-        
-        foreach ($leaveCountsByMonth as $month => $count) {
-            $months[] = $month;
-            $leaveCounts[] = $count;
-        }
-        ?>
+          // Step 2: Loop through leave requests and count leave requests for each month
+          foreach ( $leave_requests as $leave_request ) {
+              $from = new DateTime( $leave_request['from'] );
+              $monthYear = $from->format('F Y');
 
-        <!-- Step 4: Render the line chart using a charting library like Chart.js -->
-        <div class="my-3">
-            <canvas id="leaveChart"></canvas>
-        </div>
+              // Increment the count for the month or initialize it if not present
+              if (isset($leaveCountsByMonth[$monthYear])) {
+                  $leaveCountsByMonth[$monthYear]++;
+              } else {
+                  $leaveCountsByMonth[$monthYear] = 1;
+              }
+          }
+          // Step 3: Prepare data for the line chart
+          $months = [];
+          $leaveCounts = [];
+          
+          foreach ($leaveCountsByMonth as $month => $count) {
+              $months[] = $month;
+              $leaveCounts[] = $count;
+          }
+          ?>
 
-    </div>
-    <div class="col-6">
-        <?php // Initialize arrays to store leave type and count
-        $leaveTypes = [];
-        $leaveCounters = [];
+          <!-- Step 4: Render the line chart using a charting library like Chart.js -->
+          <div class="my-3">
+              <canvas id="leaveChart"></canvas>
+          </div>
 
-        // Iterate through leave requests to count leave types
-        foreach ($leave_requests as $leave_request) {
-            $type = $leave_request['type'];
-            if (!isset($leaveTypes[$type])) {
-                $leaveTypes[$type] = 1;
-            } else {
-                $leaveTypes[$type]++;
-            }
-        }
+      </div>
+      <div class="col-6">
+          <?php // Initialize arrays to store leave type and count
+          $leaveTypes = [];
+          $leaveCounters = [];
 
-        // Extract leave types and counts for the pie chart
-        $leaveTypeLabels = array_keys($leaveTypes);
-        $leaveTypeCounts = array_values($leaveTypes);
-        ?>
-    <div class="my-3">
-        <canvas id="leavePieChart" width="400" height="400"></canvas>
-    </div>
-    </div>
-</div>
-<?php }?>
+          // Iterate through leave requests to count leave types
+          foreach ($leave_requests as $leave_request) {
+              $type = $leave_request['leave_type'];
+              if (!isset($leaveTypes[$type])) {
+                  $leaveTypes[$type] = 1;
+              } else {
+                  $leaveTypes[$type]++;
+              }
+          }
+
+          // Extract leave types and counts for the pie chart
+          $leaveTypeLabels = array_keys($leaveTypes);
+          $leaveTypeCounts = array_values($leaveTypes);
+          ?>
+      <div class="my-3">
+          <canvas id="leavePieChart" width="400" height="400"></canvas>
+      </div>
+      </div>
+  </div>
+  <?php }?>
+
+
 
 
 <script>

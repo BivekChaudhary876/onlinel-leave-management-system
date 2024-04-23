@@ -41,6 +41,13 @@ class Conn{
         return $data;
     }
 
+    public function fetch_row( $result_set ){
+        $data = mysqli_fetch_row( $result_set );
+        mysqli_free_result( $result_set );
+
+        return $data[0];
+    }
+
     public function escape( $string ){
         return $string;
     }

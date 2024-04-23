@@ -17,7 +17,7 @@
           <table class="table table-striped table-light">
             <thead>
                 <tr class="table-success text-center">
-                    <th scope="col">User ID</th>
+                    <th scope="col">S.No</th>
                     <th scope="col">User Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Department</th>

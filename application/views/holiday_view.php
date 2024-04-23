@@ -62,7 +62,7 @@
     <table class="table table-striped table-light">
     <thead>
         <tr class="table-success text-center">
-            <th scope="col">Holiday ID</th>
+            <th scope="col">S.No</th>
             <th scope="col">Year</th>
             <th scope="col">Month</th>
             <th scope="col">Day</th>

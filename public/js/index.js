@@ -61,9 +61,53 @@ $(document).ready(function () {
 		// Show the modal
 		$('#createLeaveModal').modal('show')
 	})
-	$('#createTypeBtn').click(function () {
+
+	$('.editType').click(function () {
+		var typeId = $(this).data('id')
+		var type = $(this).closest('tr').find('td:eq( 1 )').text()
+
+		// Populate the modal with user data
+		$('#id').val(typeId)
+		$('#type').val(type)
+
 		// Show the modal
-		$('#createTypeModal').modal('show')
+		$('#createLeaveTypeModal').modal('show')
+	})
+
+	$('.deleteType').click(function () {
+		var typeId = $(this).data('id') // Get the holiday ID of the selected row
+
+		// Confirm delete
+		if (confirm('Are you sure you want to delete this type?')) {
+			// AJAX request to delete the type
+			$.ajax({
+				type: 'POST',
+				url: '?c=type&m=delete',
+				data: {
+					id: typeId,
+				},
+				success: function (response) {
+					// Handle success response
+					console.log(response) // Log the response from the server
+					// Assuming response is a JSON object with success status
+					if (response.success) {
+						// Fade out and remove the deleted type row from the table
+						$('tr[data-id="' + typeId + '"]').fadeOut(500, function () {
+							$(this).remove()
+						})
+					}
+				},
+				error: function (xhr, status, error) {
+					// Handle error response
+					console.error(xhr.responseText) // Log the error response from the server
+					// You can display an error message to the holiday
+					alert('An error occurred while deleting the holiday.')
+				},
+				complete: function (res) {
+					location.reload()
+				},
+			})
+		}
 	})
 
 	$('#totalLeaveBtn').click(function () {
@@ -204,6 +248,58 @@ $(document).ready(function () {
 					console.error(xhr.responseText) // Log the error response from the server
 					// You can display an error message to the holiday
 					alert('An error occurred while deleting the holiday.')
+				},
+				complete: function (res) {
+					location.reload()
+				},
+			})
+		}
+	})
+
+	$('#creatLeaveTypeBtn').click(function () {
+		// Show the modal
+		$('#createLeaveTypeModal').modal('show')
+	})
+
+	$('.editType').click(function () {
+		var typeId = $(this).data('id')
+		var type = $(this).closest('tr').find('td:eq( 1 )').text()
+		// Populate the modal with user data
+		$('#id').val(typeId)
+		$('#type').val(type)
+
+		// Show the modal
+		$('#createLeaveTypeModal').modal('show')
+	})
+
+	$('.deleteType').click(function () {
+		var typeId = $(this).data('id') // Get the holiday ID of the selected row
+
+		// Confirm delete
+		if (confirm('Are you sure you want to delete this Leave Type?')) {
+			// AJAX request to delete the holiday
+			$.ajax({
+				type: 'POST',
+				url: '?c=type&m=delete',
+				data: {
+					id: leaveId,
+				},
+				success: function (response) {
+					// Handle success response
+					console.log(response) // Log the response from the server
+					// Assuming response is a JSON object with success status
+					if (response.success) {
+						// Fade out and remove the deleted holiday row from the table
+						$('tr[data-id="' + leaveId + '"]').fadeOut(500, function () {
+							$(this).remove()
+						})
+					}
+				},
+				error: function (xhr, status, error) {
+					// Handle error response
+					console.error(xhr.responseText) // Log the error response from the server
+					// You can display an error message to the leave type
+					alert('An error occurred while deleting the leave type.')
 				},
 				complete: function (res) {
 					location.reload()

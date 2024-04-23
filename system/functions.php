@@ -35,7 +35,7 @@ function dd( $v ){
     ?>
     <div class="var-dump">
         <pre>
-            <?= print_r( $v ); ?>
+            <?= print_r( $v, true ); ?>
         </pre>
     </div>
     <?php

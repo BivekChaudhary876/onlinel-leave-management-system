@@ -40,6 +40,7 @@ $i = 1;
         <tr class="table-success text-center">
             <th scope="col">S.No</th>
             <th scope="col">Type</th>
+            <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -47,67 +48,12 @@ $i = 1;
         <tr class="text-center">
             <td><?= $i++ ?></td>
             <td><?= $type[ 'type' ] ?></td>
+            <td class="text-center">
+              <button type="button" class="btn btn-outline-info editType" data-id="<?= $type[ 'id' ]?>">Edit</button>
+              <button type="button" class="btn btn-outline-danger deleteType" data-id="<?= $type[ 'id' ] ?>">Delete</button>
+            </td>
         </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
 </div>
-
-
-
-<script>
-  $(document).ready(function () {
-    $('#creatLeaveTypeBtn').click(function () {
-		// Show the modal
-		$('#createLeaveTypeModal').modal('show')
-	})
-
-	$('.editType').click(function () {
-		var typeId = $(this).data('id')
-		var type = $(this).closest('tr').find('td:eq( 1 )').text()
-		// Populate the modal with user data
-		$('#id').val(typeId)
-		$('#type').val(type)
-
-		// Show the modal
-		$('#createLeaveTypeModal').modal('show')
-	})
-
-	$('.deleteType').click(function () {
-		var typeId = $(this).data('id') // Get the holiday ID of the selected row
-
-		// Confirm delete
-		if (confirm('Are you sure you want to delete this Leave Type?')) {
-			// AJAX request to delete the holiday
-			$.ajax({
-				type: 'POST',
-				url: '?c=type&m=delete',
-				data: {
-					id: leaveId,
-				},
-				success: function (response) {
-					// Handle success response
-					console.log(response) // Log the response from the server
-					// Assuming response is a JSON object with success status
-					if (response.success) {
-						// Fade out and remove the deleted holiday row from the table
-						$('tr[data-id="' + leaveId + '"]').fadeOut(500, function () {
-							$(this).remove()
-						})
-					}
-				},
-				error: function (xhr, status, error) {
-					// Handle error response
-					console.error(xhr.responseText) // Log the error response from the server
-					// You can display an error message to the leave type
-					alert('An error occurred while deleting the leave type.')
-				},
-				complete: function (res) {
-					location.reload()
-				},
-			})
-		}
-	})
-})
-
-</script>
