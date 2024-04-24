@@ -38,7 +38,7 @@
                 </a>
             </li>
             <li>
-            <a href="index.php?c=leave&id=<?php echo $_SESSION[ 'current_user' ][ 'id' ] ?>"  class="nav-link link-body-emphasis">
+            <a href="index.php?c=leave"  class="nav-link link-body-emphasis">
                     Leave
                 </a>
             </li>

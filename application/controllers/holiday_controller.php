@@ -6,10 +6,12 @@ class Holiday_Controller extends Base_Controller{
 
     public function index(){ 
         $holidays = $this->model->get();
+        $total_data = $this->model->get_count();
 
         $this->load_view( [ 
             'page_title' => 'Holiday',
-            'holidays' => $holidays
+            'holidays' => $holidays,
+            'total_data' => $total_data
         ], 'holiday' ); 
     }
 

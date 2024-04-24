@@ -3,6 +3,8 @@ require_once 'config.php';
 
 class Conn{
 
+    protected $last_query = "";
+
     protected static $instance = null;
     protected $connection;
 
@@ -24,6 +26,47 @@ class Conn{
             die( "Database selection failed: " . mysqli_error( $this->connection ) );
         }
 
+    }
+
+    public function select( $cols, $table ){
+        
+        $this->last_query = "SELECT ";
+        
+        if( !empty( $cols )){
+            $this->last_query .= implode( ',', $cols );
+        }else{
+            $this->last_query .= '*';
+        }
+
+        $this->last_query .= " FROM {$table}";
+    }
+
+    public function where( $conditions = [] ){
+        if( !empty( $conditions ) ){
+            $this->last_query .= ' WHERE ';
+            foreach( $conditions as $key => $value ){
+                $this->last_query .= "$key= '" .  $value ."' AND ";
+            }
+
+            $this->last_query = rtrim( $this->last_query, 'AND ');
+
+        }
+    }
+
+    public function join( $table, $condition, $type = 'INNER JOIN' ){
+        $this->last_query .= " {$type} {$table} ON {$condition}";
+    }
+
+    public function paginate(){
+        $this->last_query = get_paginated_sql( $this->last_query );
+    }
+
+    public function get_last_query(){
+        return $this->last_query;
+    }
+
+    public function order_by( $col = 'id', $order = 'DESC' ){
+        $this->last_query .= " ORDER BY {$col} {$order}";
     }
 
     public function fetch( $result_set ){
@@ -48,8 +91,11 @@ class Conn{
         return $string;
     }
 
-    public function exec($sql, $params = []) {
-        $result = mysqli_query( $this->connection, $sql );
+    public function exec( $sql = false ) {
+        if( $sql ){
+            $this->last_query = $sql;
+        }
+        $result = mysqli_query( $this->connection, $this->last_query );
         return $result;
     }
 

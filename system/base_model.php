@@ -5,54 +5,36 @@ abstract class Base_Model{
 
     protected $db;
 
+    protected $columns = [];
+    
     public function __construct(){
-        $this->db = Conn::get_instance();
+        $this->db = db();
     }
 
-    public function get( $conditions = [], $columns = [] ){
+    public function get( $conditions = [], $pagination = true ){
+        
+        $this->db->select( $this->columns, $this->table );
 
-       $sql = "SELECT";
+        $this->db->where( $conditions );
 
-       if( !empty( $columns )){
-        $sql .= implode( ',', $columns );
-       }else{
-        $sql .= '*';
-       }
+        $this->db->order_by();
 
-       $sql .= "FROM {$this->table}";
-
-        if( !empty( $conditions ) ){
-            $sql .= ' WHERE ';
-            foreach( $conditions as $key => $value ){
-                $sql .= "$key= '" . $this->db->escape( $value ) ."' AND ";
-            }
-
-            $sql = rtrim( $sql, 'AND ');
+        if( $pagination ){
+            $this->db->paginate();
         }
 
-        $sql .= ' ORDER BY id DESC';
-
-       $result = $this->db->exec( $sql );
+       $result = $this->db->exec();
        return $this->db->fetch($result);
     }
 
     public function get_count( $conditions = [] ){
 
-       $sql = "SELECT COUNT(*) c FROM {$this->table}";
-
-        if( !empty( $conditions ) ){
-            $sql .= ' WHERE ';
-            foreach( $conditions as $key => $value ){
-                $sql .= "$key= '" . $this->db->escape( $value ) ."' AND ";
-            }
-
-            $sql = rtrim( $sql, 'AND ');
-        }
-
-       $result = $this->db->exec( $sql );
+        $this->db->select( [ "COUNT(*) c" ], $this->table );
+        $this->db->where( $conditions );
+        
+        $result = $this->db->exec();
        return $this->db->fetch_row($result);
     }
-
 
     public function save( $data = [] ) {
 
@@ -69,7 +51,7 @@ abstract class Base_Model{
         $sql .= ' ' . $this->table . ' SET ';
 
         foreach( $data as $column => $value ){
-            $sql .= $column . ' = "' . $value .'",';
+            $sql .= $column . ' = "' . $this->db->escape( $value ) .'",';
         }
 
         $sql = rtrim( $sql, ',' );
@@ -95,23 +77,5 @@ abstract class Base_Model{
             echo "Error deleting user: " . $e->getMessage();
             return false;
         }
-    }
-
-    public function get_leave_types() {
-        $sql = "SELECT DISTINCT `type` FROM {$this->table}";
-        $result = $this->db->exec($sql);
-
-        $usernames = array();
-
-        if ($result) {
-            // Fetch usernames and store them in an array
-            while($row = $result->fetch_assoc()) {
-                $usernames[] = $row['type'];
-            }
-            // Free result set
-            $result->free();
-        }
-
-        return $usernames;
-    }    
+    } 
 }

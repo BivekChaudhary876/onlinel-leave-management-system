@@ -1,7 +1,4 @@
-<?php $role = $_SESSION[ 'current_user' ][ 'role' ]; ?>
-
-
-<?php if( $role == "admin" ) { ?>
+<?php if( is_admin() ) { ?>
 <div class="my-3 text-center">
     <button id="createUserBtn" class="btn btn-outline-success">Create New User</button>
 </div
@@ -56,7 +53,7 @@
         <!-- Form for creating a new user -->
         <form method="POST" action="index.php?c=user&m=save">
           <input type="hidden" id="userid" name="id">
-          <?php if ( $role == 'admin' ): ?>
+          <?php if ( is_admin() ): ?>
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
@@ -68,13 +65,13 @@
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <?php if ( $role == 'admin' ): ?>
+            <?php if ( is_admin() ): ?>
               <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" >
               <?php else: ?>
                 <input type="email" value="<?= $_SESSION[ 'current_user' ][ 'email' ] ?>"class="form-control" id="email" name="email" placeholder="Enter email" >
                 <?php endif; ?>
           </div>
-          <?php if ( $role == 'admin' ): ?>
+          <?php if ( is_admin() ): ?>
           <div class="form-group">
 							<label class="form-control-label">Department</label>
 							<select name="department" class="form-control">
@@ -91,14 +88,14 @@
                 <input type="text" value="<?= $_SESSION[ 'current_user' ][ 'department' ] ?>" class="form-control" id="department" name="department" placeholder="Enter Department">
             <?php endif; ?>
             </div>
-          <?php if ( $role == 'admin' ): ?>
+          <?php if ( is_admin() ): ?>
           <div class="form-group">
             <label for="password">Password</label>
             
               <input type="password" class="form-control" id="password" name="password" placeholder="Password" >
               <?php endif; ?>
           </div>
-          <?php if( $role == 'admin' ){ ?>
+          <?php if( is_admin() ){ ?>
           <div class="modal-footer justify-content-center">
             <button type="submit" class="btn btn-success createUser" >Create</button>
           </div>
@@ -108,3 +105,36 @@
     </div>
   </div>
 </div>
+
+
+<?php 
+      $total_page = ceil( $total_data/2 );
+      $page = isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 1;
+      ?>
+
+<div aria-label="Page navigation example" class="text-center">
+  <ul class="pagination">
+    <li class="page-item">
+      <?php if( $page > 1 ): ?>
+      <a class="page-link"href="index.php?c=user&m=list&page=<?= $page-1; ?>" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+      <?php endif; ?>
+              
+      <?php
+      
+
+      for( $i = 1; $i <= $total_page; $i++ ) { ?>
+        <li class="page-item"><a class="page-link" href="index.php?c=user&m=list&page=<?= $i?> "><?= $i ?></a></li>
+        <?php } ?>
+        <?php if( $page < $total_page ) :?>
+      <a class="page-link" href="index.php?c=user&m=list&page=<?= $page+1; ?>" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+      <?php endif;?>
+    </li>
+  </ul>
+</div>
+
+
+

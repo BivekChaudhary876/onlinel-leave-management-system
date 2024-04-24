@@ -6,16 +6,18 @@ class Type_Controller extends Base_Controller{
 
     public function index(){
         $types = $this->model->get();
+        $total_data  = $this->model->get_count();
 
         $this->load_view( [ 
             'page_title' => 'Type',
-            'types' => $types
+            'types' => $types,
+            'total_data' => $total_data
         ], 'type' );
     }
 
     public function save(){
         $data = [
-            'type' => $_POST[ 'type' ]
+            'name' => $_POST[ 'name' ]
         ];
         if( isset( $_POST[ 'id'] ) && $_POST[ 'id' ] > 0 ){
                 $data[ 'id' ] = $_POST[ 'id' ];
@@ -27,8 +29,8 @@ class Type_Controller extends Base_Controller{
     }
     public function delete() {
         try {
-            $typeId = $_POST[ 'id' ];
-            $deleted = $this->model->delete( $typeId );
+            $id = $_POST[ 'id' ];
+            $deleted = $this->model->delete( $id );
             if ( $deleted ) {
                 echo json_encode( [ 'success' => true ] );
             } else {

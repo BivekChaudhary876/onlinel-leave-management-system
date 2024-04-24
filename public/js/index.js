@@ -64,11 +64,11 @@ $(document).ready(function () {
 
 	$('.editType').click(function () {
 		var typeId = $(this).data('id')
-		var type = $(this).closest('tr').find('td:eq( 1 )').text()
+		var name = $(this).closest('tr').find('td:eq( 1 )').text()
 
 		// Populate the modal with user data
 		$('#id').val(typeId)
-		$('#type').val(type)
+		$('#name').val(name)
 
 		// Show the modal
 		$('#createLeaveTypeModal').modal('show')

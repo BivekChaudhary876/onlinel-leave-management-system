@@ -41,3 +41,51 @@ function dd( $v ){
     <?php
     die;
 }
+
+function get_paginated_sql( $sql ){
+    $per_page = 2;
+    $page = isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 1;
+    $offset = ( $page - 1 ) * $per_page;
+
+    return $sql . ' LIMIT ' .  $offset . ','.$per_page;
+}
+
+function get_status_badge( $status ){
+
+    $all_status = [
+        'pending' => [
+            'class' => '-warning',
+            'label' => 'Pending',
+        ],
+        'approved' => [
+            'class' => '-success',
+            'label' => 'Approved',
+        ],
+        'rejected' => [
+            'class' => '-danger',
+            'label' => 'Rejected',
+        ]
+    ];
+
+    $label = $all_status[ $status ][ 'label' ];
+    $c = $all_status[ $status ][ 'class' ];
+
+    return "<span class='badge text-bg{$c}'>{$label}</span>";
+
+  }
+
+  function is_admin(){
+    return $_SESSION[ 'current_user' ][ 'role' ] == 'admin';
+  }
+  
+  function is_user(){
+    return $_SESSION[ 'current_user' ][ 'role' ] == 'user';
+  }
+
+  function db(){
+    return Conn::get_instance();
+  }
+
+  function get_current_user_id(){
+    return $_SESSION[ 'current_user' ][ 'id' ];
+  }

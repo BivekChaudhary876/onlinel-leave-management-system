@@ -77,7 +77,7 @@ $r = 1;
             <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
             <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
+            <td><?= get_status_badge($leave_request['status']) ?></td>
         </tr>
         <?php endif; ?>
         <?php endforeach; ?>

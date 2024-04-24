@@ -57,8 +57,8 @@
 							<label class="form-control-label">Leave Type</label>
 							<select name="leaveType" class="form-control">
 								<option value="">Select Leave Type</option>
-								<?php foreach($leave_requests as $leave_request ): ?>
-                      <option value="<?= $leave_request[ 'id' ] ?>"><?= $leave_request[ 'type' ]?></option>
+								<?php foreach($leave_types as $type ): ?>
+                      <option value="<?= $type[ 'id' ] ?>"><?= $type[ 'name' ]?></option>
                 <?php endforeach; ?>
 							</select>
 						</div>
@@ -116,35 +116,65 @@
     </thead>
     <tbody>
         <?php foreach( $leaves as $leave ) : ?>
-                    <?php if ( $is_admin || ($is_user && $leave['username'] == $_SESSION['current_user']['username']) ) : ?>
-                            <tr class="text-center"> 
-                                <td><?php  echo $leave_id++ ?></td>
-                                <?php if( $is_admin ):?>
-                                      <td><?= $leave[ 'username' ];?></td>
-                                      <td><?= $leave[ 'email' ];?></td>
-                                      <td><?= $leave[ 'department' ];?></td>
-                                <?php endif; ?>
-                                <td><?php  echo $leave[ 'leave_type' ]; ?></td>
-                                <td><?php  echo $leave[ 'from_date' ]; ?></td>
-                                <td><?php  echo $leave[ 'to_date' ]; ?></td>
-                                <td><?php  echo $leave[ 'description' ]; ?></td>
-                                <td><?php  echo $leave[ 'created_date' ]; ?></td>
-                                <td><?= $this->model->getStatusBadge($leave['status']) ?></td>
+              <tr class="text-center"> 
+                  <td><?php  echo $leave_id++ ?></td>
+                  <?php if( $is_admin ):?>
+                        <td><?= $leave[ 'username' ];?></td>
+                        <td><?= $leave[ 'email' ];?></td>
+                        <td><?= $leave[ 'department' ];?></td>
+                  <?php endif; ?>
+                  <td><?php  echo $leave[ 'leave_type' ]; ?></td>
+                  <td><?php  echo $leave[ 'from_date' ]; ?></td>
+                  <td><?php  echo $leave[ 'to_date' ]; ?></td>
+                  <td><?php  echo $leave[ 'description' ]; ?></td>
+                  <td><?php  echo $leave[ 'created_date' ]; ?></td>
+                  <td><?= get_status_badge($leave['status']) ?></td>
 
-                                <?php if( $is_admin): ?>
-                                      <td class="text-center">
-                                        <button type="button" class="btn btn-outline-success approveLeave" data-id="<?= $leave[ 'leave_request_id' ] ?>">Approve</button>
-                                        <button type="button" class="btn btn-outline-danger rejectLeave" data-id="<?= $leave[ 'leave_request_id' ] ?>">Reject</button>
-                                      </td>
-                                  <?php elseif(  $is_user && $leave['status'] == 'pending' ): ?>
-                                        <td class="text-center">
-                                          <button type="button" class="btn btn-outline-danger deleteLeave" data-id="<?= $leave[ 'leave_request_id' ] ?>">Delete</button>
-                                        </td>
+                  <?php if( $is_admin): ?>
+                        <td class="text-center">
+                          <button type="button" class="btn btn-outline-success approveLeave" data-id="<?= $leave[ 'id' ] ?>">Approve</button>
+                          <button type="button" class="btn btn-outline-danger rejectLeave" data-id="<?= $leave[ 'id' ] ?>">Reject</button>
+                        </td>
+                    <?php elseif(  $is_user && $leave['status'] == 'pending' ): ?>
+                          <td class="text-center">
+                            <button type="button" class="btn btn-outline-danger deleteLeave" data-id="<?= $leave[ 'id' ] ?>">Delete</button>
+                          </td>
 
-                              <?php endif; ?>
-                            </tr>
-                    <?php endif; ?>
+                <?php endif; ?>
+              </tr>
           <?php endforeach; ?>
     </tbody>
 </table>
 </div>
+
+<?php 
+      $total_page = ceil( $total/2 );
+      $page = isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 1;
+      ?>
+
+<div aria-label="Page navigation example" class="text-center">
+  <ul class="pagination">
+    <li class="page-item">
+      <?php if( $page > 1 ): ?>
+      <a class="page-link"href="index.php?c=leave&page=<?= $page-1; ?>" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+      <?php endif; ?>
+              
+      <?php
+      
+
+      for( $i = 1; $i <= $total_page; $i++ ) { ?>
+        <li class="page-item"><a class="page-link" href="index.php?c=leave&page=<?= $i?> "><?= $i?></a></li>
+        <?php } ?>
+        <?php if( $page < $total_page) :?>
+      <a class="page-link" href="index.php?c=leave&page=<?= $page+1; ?>" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+      <?php endif;?>
+    </li>
+  </ul>
+</div>
+
+
+

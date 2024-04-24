@@ -92,3 +92,33 @@
 </table>
 </div>
 
+<?php 
+      $total_page = ceil($total_data/2);
+      $page = isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 1;
+      ?>
+
+<div aria-label="Page navigation example" class="text-center">
+  <ul class="pagination">
+    <li class="page-item">
+      <?php if( $page > 1 ): ?>
+      <a class="page-link"href="index.php?c=holiday&page=<?= $page-1; ?>" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+      <?php endif; ?>
+              
+      <?php
+      
+
+      for( $i = 1; $i <= $total_page; $i++ ) { ?>
+        <li class="page-item"><a class="page-link" href="index.php?c=holiday&page=<?= $i?> "><?= $i?></a></li>
+        <?php } ?>
+        <?php if( $page < $total_page) :?>
+      <a class="page-link" href="index.php?c=holiday&page=<?= $page+1; ?>" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+      <?php endif;?>
+    </li>
+  </ul>
+</div>
+
+

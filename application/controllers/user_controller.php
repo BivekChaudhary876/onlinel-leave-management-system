@@ -44,10 +44,12 @@ class User_Controller extends Base_Controller{
 
     public function list(){
         $users = $this->model->get();
+        $total_data = $this->model->get_count();
         
         $this->load_view( [ 
             'page_title' => 'User List',
-            'users' => $users
+            'users' => $users,
+            'total_data' => $total_data
         ], 'user_lists' );
     }
     
