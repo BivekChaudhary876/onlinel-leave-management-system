@@ -30,10 +30,10 @@
                 </select>
 
 
-                <input type="date" name="from" class="p-1 btn border-success rounded-start rounded-end" placeholder="From" 
-                    value="<?= isset($_POST['from']) ? $_POST['from'] : '' ?>" />
+                <input type="date" name="from_date" class="p-1 btn border-success rounded-start rounded-end" placeholder="From" 
+                    value="<?= isset($_POST['from_date']) ? $_POST['from_date'] : '' ?>" />
                 <input type="date" name="to" class="p-1 btn border-success rounded-start rounded-end" placeholder="To"
-                    value="<?= isset($_POST['to']) ? $_POST['to'] : '' ?>" />
+                    value="<?= isset($_POST['to_date']) ? $_POST['to_date'] : '' ?>" />
                 <input type="submit" value="Filter" class="p-1 btn btn-outline-success">
             </form>
         </div>
@@ -63,12 +63,12 @@
 							</select>
 						</div>
           <div class="form-group">
-							<label for="from" class="form-control-label">From</label>
-							<input type="date" class="form-control" name="from" placeholder="Enter Leave From"/>
+							<label for="from_date" class="form-control-label">From</label>
+							<input type="date" class="form-control" name="from_date" placeholder="Enter Leave From"/>
 						</div>
           <div class="form-group">
-              <label for="to">To</label>
-              <input type="date" class="form-control" id="to" name="to" placeholder="Enter Leave To"/>
+              <label for="to_date">To</label>
+              <input type="date" class="form-control" id="to_date" name="to_date" placeholder="Enter Leave To"/>
           </div>
           <div class="form-group">
               <label for="description">Descriptions</label>
@@ -99,11 +99,12 @@
             <th scope="col">From</th>
             <th scope="col">To</th>
             <th scope="col">Description</th>
+            <th scope="col">Created Date</th>
             <th scope="col">Status</th>
 
-            <?php foreach( $leaves as $leave_request ):
+            <?php foreach( $leaves as $leave ):
 
-                    if ( $is_admin || ($is_user && $pending_status )) : ?>
+                    if ( $is_admin || ($is_user && $leave['status'] == 'pending' )) : ?>
                       <th scope="col">Actions</th>
 
                       <?php break; 
@@ -124,9 +125,10 @@
                                       <td><?= $leave[ 'department' ];?></td>
                                 <?php endif; ?>
                                 <td><?php  echo $leave[ 'leave_type' ]; ?></td>
-                                <td><?php  echo $leave[ 'from' ]; ?></td>
-                                <td><?php  echo $leave[ 'to' ]; ?></td>
+                                <td><?php  echo $leave[ 'from_date' ]; ?></td>
+                                <td><?php  echo $leave[ 'to_date' ]; ?></td>
                                 <td><?php  echo $leave[ 'description' ]; ?></td>
+                                <td><?php  echo $leave[ 'created_date' ]; ?></td>
                                 <td><?= $this->model->getStatusBadge($leave['status']) ?></td>
 
                                 <?php if( $is_admin): ?>
@@ -134,13 +136,10 @@
                                         <button type="button" class="btn btn-outline-success approveLeave" data-id="<?= $leave[ 'leave_request_id' ] ?>">Approve</button>
                                         <button type="button" class="btn btn-outline-danger rejectLeave" data-id="<?= $leave[ 'leave_request_id' ] ?>">Reject</button>
                                       </td>
-                                  <?php else: ?>
-
-                                  <?php if( $pending_status ): ?>
+                                  <?php elseif(  $is_user && $leave['status'] == 'pending' ): ?>
                                         <td class="text-center">
                                           <button type="button" class="btn btn-outline-danger deleteLeave" data-id="<?= $leave[ 'leave_request_id' ] ?>">Delete</button>
                                         </td>
-                                <?php endif; ?>
 
                               <?php endif; ?>
                             </tr>
@@ -149,4 +148,3 @@
     </tbody>
 </table>
 </div>
-

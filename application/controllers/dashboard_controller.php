@@ -11,12 +11,12 @@ class Dashboard_Controller extends Base_Controller {
            $where = [ 'lr.user_id' => $_POST[ 'selected_user' ] ];
         }
 
-        if( isset( $_POST[ 'from' ] ) && $_POST[ 'from' ] ){
-            $where[ 'DATE(lr.created_date) >'] = $_POST[ 'from' ];
+        if( isset( $_POST[ 'from_date' ] ) && $_POST[ 'from_date' ] ){
+            $where[ 'DATE(lr.created_date) >'] = $_POST[ 'from_date' ];
         }
 
-        if( isset( $_POST[ 'to' ] ) && $_POST[ 'to' ] ){
-            $where[ 'DATE(lr.created_date) <'] = $_POST[ 'to' ];
+        if( isset( $_POST[ 'to_date' ] ) && $_POST[ 'to_date' ] ){
+            $where[ 'DATE(lr.created_date) <'] = $_POST[ 'to_date' ];
         }
 
         $leave_requests = $leave_m->get( $where );

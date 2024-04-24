@@ -26,10 +26,6 @@ class Conn{
 
     }
 
-    public function query( $query ){
-        return mysqli_query( $this->connection, $query );
-    }
-
     public function fetch( $result_set ){
         $data = [];
         while( $row = mysqli_fetch_array( $result_set, MYSQLI_ASSOC ) ){
@@ -52,36 +48,17 @@ class Conn{
         return $string;
     }
 
-    // public function executeBuilder( $sql, $params = [] ) {
-    //     $statement = $this->connection->prepare( $sql );
-        
-    //     if ($params) {
-    //         $types = str_repeat( 's', count( $params ) ); 
-    //         $statement->bind_param( $types, ...$params );
-    //     }
-
-    //     $statement->execute();
-    //     return $statement->get_result();
-    // }
-
-    public function executeBuilder($sql, $params = []) {
-        $statement = $this->connection->prepare($sql);
-        if ($params) {
-            $param_types = str_repeat('s', count($params));
-            $statement->bind_param($param_types, ...$params);
-        }
-        $statement->execute();
-        return $statement->get_result();
+    public function exec($sql, $params = []) {
+        $result = mysqli_query( $this->connection, $sql );
+        return $result;
     }
-
-
 
     public function get_num( $result_set ){
         return mysqli_num_rows( $result_set );
     }
 
     public function get_rows( $query ){
-        $result = mysqli_query( $this->connection, $query );
+        $result =$this->exec( $query );
         
         if ( !$result ) {
             die("Query failed: " . mysqli_error(  $this->connection));

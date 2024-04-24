@@ -28,16 +28,15 @@ class Leave_Controller extends Base_Controller {
            $where = [ 'lr.status' => $_POST[ 'selected_status' ] ];
         }
 
-        if( isset( $_POST[ 'from' ] ) && $_POST[ 'from' ] ){
-            $where[ 'DATE(lr.created_date) >'] = $_POST[ 'from' ];
+        if( isset( $_POST[ 'from_date' ] ) && $_POST[ 'from_date' ] ){
+            $where[ 'DATE(lr.created_date) >'] = $_POST[ 'from_date' ];
         }
 
-        if( isset( $_POST[ 'to' ] ) && $_POST[ 'to' ] ){
-            $where[ 'DATE(lr.created_date) <'] = $_POST[ 'to' ];
+        if( isset( $_POST[ 'to_date' ] ) && $_POST[ 'to_date' ] ){
+            $where[ 'DATE(lr.created_date) <'] = $_POST[ 'to_date' ];
         }
 
         $leaves = $this->model->get($where);
-        $leaves_lists = $this->model->get();
 
 
         if ( $is_admin ) {
@@ -88,11 +87,15 @@ class Leave_Controller extends Base_Controller {
          
         if( isset( $_POST[ 'action' ] ) && ( $_POST[ 'action' ] == 'approve' || $_POST[ 'action' ] == 'reject' ) ) {
             // Retrieve the leave ID
-            $leaveId = $_POST[ 'id' ];
+            $id = $_POST[ 'id' ];
             // Set the status based on the action
             $status = ( $_POST[ 'action' ] == 'approve' ) ? 'approved' : 'rejected'; // 2 for Approved, 3 for Rejected
-            // Update the status in the database
-            $this->model->updateStatus( $leaveId, $status );
+            
+            $this->model->save([
+                'id' => $id,
+                'status' => $status,
+            ]);// Update the status in the database
+           
             // Return the updated status
             echo ($status == 'approve') ? 'Approved' : 'Rejected';
             exit;
@@ -100,9 +103,9 @@ class Leave_Controller extends Base_Controller {
             // Add logic for user_id and type_id
            $data = [
                 'user_id' => $_SESSION['current_user']['id'],
-                'type_id' => $_POST['type_id'],
-                'from' => $_POST['from'],
-                'to' => $_POST['to'],
+                'type_id' => $_POST['leaveType'],
+                'from_date' => $_POST['from_date'],
+                'to_date' => $_POST['to_date'],
                 'description' => $_POST['description'],
                 'status' => 'pending', // Default status: Pending
             ];

@@ -74,8 +74,8 @@ $r = 1;
             <td><?= $leave_request[ 'department' ];?></td>
         <?php endif; ?>
             <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-            <td><?php  echo $leave_request[ 'from' ]; ?></td>
-            <td><?php  echo $leave_request[ 'to' ]; ?></td>
+            <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
+            <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
             <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
         </tr>
@@ -109,7 +109,7 @@ $r = 1;
 
         <?php foreach( $leave_requests as $leave_request ):?>
 
-          <?php if ($is_admin && $pending_status || ($is_user && $leave_request['username'] == $_SESSION['current_user']['username'] && $pending_status)) : ?>
+          <?php if ($is_admin && $leave_request['status'] == 'pending' || ($is_user && $leave_request['username'] == $_SESSION['current_user']['username'] )) : ?>
         <tr class="text-center"> 
             <td><?php  echo $i++ ?></td>
             <?php if( $is_admin):?>
@@ -118,8 +118,8 @@ $r = 1;
             <td><?= $leave_request[ 'department' ];?></td>
         <?php endif; ?>
             <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-            <td><?php  echo $leave_request[ 'from' ]; ?></td>
-            <td><?php  echo $leave_request[ 'to' ]; ?></td>
+            <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
+            <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
             <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
         </tr>
@@ -152,7 +152,7 @@ $r = 1;
     <tbody>
 
         <?php foreach( $leave_requests as $leave_request ):?>
-          <?php if (( $is_admin && $approved_status) || ($is_user && $leave_request['username'] == $_SESSION['current_user']['username'] && $approved_status)) : ?>
+          <?php if ( $is_admin && $leave_request[ 'status' ] == 'approved' || ($is_user && $leave_request['username'] == $_SESSION['current_user'][ 'username' ] ) ) : ?>
         <tr class="text-center"> 
             <td><?php  echo $j++ ?></td>
             <?php if( $is_admin ):?>
@@ -161,8 +161,8 @@ $r = 1;
             <td><?= $leave_request[ 'department' ];?></td>
         <?php endif; ?>
             <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-            <td><?php  echo $leave_request[ 'from' ]; ?></td>
-            <td><?php  echo $leave_request[ 'to' ]; ?></td>
+            <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
+            <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
             <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
         
@@ -196,7 +196,7 @@ $r = 1;
     <tbody>
 
         <?php foreach( $leave_requests as $leave_request ):?>
-          <?php if (( $is_admin && $rejected_status ) || ( $is_user && $leave_request['username'] == $_SESSION['current_user']['username'] && $rejected_status ) ) : ?>
+          <?php if (( $is_admin && $leave_request[ 'status' ] == 'rejected' ) || ( $is_user && $leave_request['username'] == $_SESSION['current_user']['username'] ) ) : ?>
         <tr class="text-center"> 
             <td><?php  echo $r++ ?></td>
             <?php if( $is_admin ):?>
@@ -205,8 +205,8 @@ $r = 1;
             <td><?= $leave_request[ 'department' ];?></td>
         <?php endif; ?>
             <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-            <td><?php  echo $leave_request[ 'from' ]; ?></td>
-            <td><?php  echo $leave_request[ 'to' ]; ?></td>
+            <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
+            <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
             <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
         </tr>
@@ -230,7 +230,7 @@ $r = 1;
 
           // Step 2: Loop through leave requests and count leave requests for each month
           foreach ( $leave_requests as $leave_request ) {
-              $from = new DateTime( $leave_request['from'] );
+              $from = new DateTime( $leave_request['from_date'] );
               $monthYear = $from->format('F Y');
 
               // Increment the count for the month or initialize it if not present
@@ -286,6 +286,22 @@ $r = 1;
 
 
 <script>
+  $(document).ready(function(){
+    $('#pendingBtn').click(function () {
+		// Show the modal
+		$('#pendingModal').modal('show')
+	})
+
+	$('#approvedBtn').click(function () {
+		// Show the modal
+		$('#approvedModal').modal('show')
+	})
+
+	$('#rejectedBtn').click(function () {
+		// Show the modal
+		$('#rejectedModal').modal('show')
+	})
+  })
     var ctx = document.getElementById('leaveChart').getContext('2d');
     var leaveChart = new Chart(ctx, {
         type: 'line',

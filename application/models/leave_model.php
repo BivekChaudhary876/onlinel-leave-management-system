@@ -14,8 +14,9 @@ class Leave_Model extends Base_Model{
                 u.department,
                 lr.type_id,
                 lt.type AS leave_type,
-                lr.from,
-                lr.to,
+                lr.from_date,
+                lr.to_date,
+                lr.created_date,
                 lr.description,
                 lr.status
             FROM 
@@ -41,11 +42,11 @@ class Leave_Model extends Base_Model{
         }
 
         // dd( $sql   );
-        $sql .= ' ORDER BY lr.id ASC';
+        $sql .= ' ORDER BY lr.created_date DESC';
 
         try {
             // Execute the query and fetch results as an associative array
-            $result = $this->db->query($sql);
+            $result = $this->db->exec($sql);
             return $this->db->fetch($result);
         } catch (mysqli_sql_exception $e) {
             // Handle exception and return false in case of an error

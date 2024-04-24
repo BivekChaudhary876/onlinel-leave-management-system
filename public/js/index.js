@@ -114,25 +114,7 @@ $(document).ready(function () {
 		// Show the modal
 		$('#totalLeaveModal').modal('show')
 	})
-	$('#totalBtn').click(function () {
-		// Show the modal
-		$('#totalModal').modal('show')
-	})
 
-	$('#pendingBtn').click(function () {
-		// Show the modal
-		$('#pendingModal').modal('show')
-	})
-
-	$('#approvedBtn').click(function () {
-		// Show the modal
-		$('#approvedModal').modal('show')
-	})
-
-	$('#rejectedBtn').click(function () {
-		// Show the modal
-		$('#rejectedModal').modal('show')
-	})
 	$('.approveLeave, .rejectLeave').click(function () {
 		// Get the ID of the leave request
 		var leaveId = $(this).data('id')
@@ -308,9 +290,7 @@ $(document).ready(function () {
 		}
 	})
 })
-
-document.addEventListener('DOMContentLoaded', function () {
-	// Function to validate days input
+;(function () {
 	function validateDaysInput() {
 		var daysInput = document.getElementById('day')
 		var daysValue = daysInput.value
@@ -323,13 +303,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		return true // Return true if input is valid
 	}
 
-	// Add event listener to form submit event
-	document
-		.getElementById('holidayForm')
-		.addEventListener('submit', function (event) {
-			// Validate days input
-			if (!validateDaysInput()) {
-				event.preventDefault() // Prevent form submission if validation fails
-			}
-		})
-})
+	$('#holidayForm').on('submit', function (event) {
+		// Validate days input
+		if (!validateDaysInput()) {
+			event.preventDefault() // Prevent form submission if validation fails
+		}
+	})
+})()
