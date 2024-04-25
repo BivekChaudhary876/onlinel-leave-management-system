@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="row">
-            <form action="?c=user&m=login" method="POST">
+            <form action="user/login" method="POST">
               <div class="mt-4 mb-3 row">
                 <label class="col-sm-3 col-form-label text-dark">User Name</label>
                 <div class="col-sm-9">

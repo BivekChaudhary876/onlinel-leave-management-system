@@ -6,12 +6,12 @@ class Type_Controller extends Base_Controller{
 
     public function index(){
         $types = $this->model->get();
-        $total_data  = $this->model->get_count();
+        $total  = $this->model->get_count();
 
         $this->load_view( [ 
             'page_title' => 'Type',
-            'types' => $types,
-            'total_data' => $total_data
+            'types'      => $types,
+            'total'      => $total
         ], 'type' );
     }
 
@@ -20,7 +20,7 @@ class Type_Controller extends Base_Controller{
             'name' => $_POST[ 'name' ]
         ];
         if( isset( $_POST[ 'id'] ) && $_POST[ 'id' ] > 0 ){
-                $data[ 'id' ] = $_POST[ 'id' ];
+            $data[ 'id' ] = $_POST[ 'id' ];
         }
 
         $this->model->save( $data );

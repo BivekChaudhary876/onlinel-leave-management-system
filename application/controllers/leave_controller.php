@@ -2,11 +2,7 @@
 
 class Leave_Controller extends Base_Controller {
 
-    protected $post_methods = ['save', 'delete'];
-
-    public function __construct() {
-        parent::__construct();
-    }
+    protected $post_methods = [ 'save', 'delete' ];
 
     public function index() {
 
@@ -14,31 +10,29 @@ class Leave_Controller extends Base_Controller {
         $users = false;
 
         $where = $where_count = [];
-        if( isset( $_POST[ 'selected_user' ] ) && !empty( $_POST[ 'selected_user' ] ) ){
-           $where = [ 'lr.user_id' => $_POST[ 'selected_user' ] ];
-           $where_count = [ 'user_id' => $_POST[ 'selected_user' ] ];
+        if( isset( $_GET[ 'selected_user' ] ) && !empty( $_GET[ 'selected_user' ] ) ){
+           $where = [ 'lr.user_id' => $_GET[ 'selected_user' ] ];
+           $where_count = [ 'user_id' => $_GET[ 'selected_user' ] ];
         }
 
-        if( isset( $_POST[ 'selected_status' ] ) && !empty( $_POST[ 'selected_status' ] ) ){
-           $where = [ 'lr.status' => $_POST[ 'selected_status' ] ];
+        if( isset( $_GET[ 'selected_status' ] ) && !empty( $_GET[ 'selected_status' ] ) ){
+           $where = [ 'lr.status' => $_GET[ 'selected_status' ] ];
         }
 
-        if( isset( $_POST[ 'from_date' ] ) && $_POST[ 'from_date' ] ){
-            $where[ 'DATE(lr.created_date) >'] = $_POST[ 'from_date' ];
-            $where_count[ 'DATE(created_date) >'] = $_POST[ 'from_date' ];
+        if( isset( $_GET[ 'from_date' ] ) && $_GET[ 'from_date' ] ){
+            $where[ 'DATE(lr.created_date) >'] = $_GET[ 'from_date' ];
+            $where_count[ 'DATE(created_date) >'] = $_GET[ 'from_date' ];
         }
 
-        if( isset( $_POST[ 'to_date' ] ) && $_POST[ 'to_date' ] ){
-            $where[ 'DATE(lr.created_date) <'] = $_POST[ 'to_date' ];
-            $where_count[ 'DATE(created_date) <'] = $_POST[ 'to_date' ];
+        if( isset( $_GET[ 'to_date' ] ) && $_GET[ 'to_date' ] ){
+            $where[ 'DATE(lr.created_date) <'] = $_GET[ 'to_date' ];
+            $where_count[ 'DATE(created_date) <'] = $_GET[ 'to_date' ];
         }
 
         if ( is_admin() ) {
             $user_m = load_model( 'user' );
             $users  = $user_m->get( [], false );
             $total  = $this->model->get_count( $where_count );
-            
-
         } else {
             $where[ 'lr.user_id' ] = get_current_user_id();
             $total = $this->model->get_count([ 
@@ -47,53 +41,29 @@ class Leave_Controller extends Base_Controller {
         }
 
         $leaves = $this->model->get( $where );
+        $leave_types  = $type_m->get( [], false );
         
         $this->load_view([
             'users'       => $users,
             'page_title'  => 'Leave List',
-            'leave_types' => $type_m->get(),
+            'leave_types' => $leave_types,
             'leaves'      => $leaves,
             'total'       => $total,
-           
         ],'leave');
     }
 
     public function save() {
 
-        if( isset( $_POST[ 'action' ] ) && ( $_POST[ 'action' ] == 'approve' || $_POST[ 'action' ] == 'reject' ) ) {
-            // Retrieve the leave ID
-            $id = $_POST[ 'id' ];
-            // Set the status based on the action
-            $status = ( $_POST[ 'action' ] == 'approve' ) ? 'approved' : 'rejected'; // 2 for Approved, 3 for Rejected
-            
-            $this->model->save([
-                'id'     => $id,
-                'status' => $status,
-            ]);// Update the status in the database
-           
-            // Return the updated status
-            echo ($status == 'approve') ? 'Approved' : 'Rejected';
-            exit;
-        } else {
-            // Add logic for user_id and type_id
-           $data = [
-                'user_id'     => $_SESSION['current_user']['id'],
-                'type_id'     => $_POST['leaveType'],
-                'from_date'   => $_POST['from_date'],
-                'to_date'     => $_POST['to_date'],
-                'description' => $_POST['description'],
-                'status'      => 'pending', // Default status: Pending
-            ];
-
-            if (isset($_POST['id']) && $_POST['id'] > 0) {
-                $data['id'] = $_POST['id'];
+        $valid_data = [ 'id', 'user_id', 'type_id', 'from_date', 'to_date', 'description', 'status' ];
+        $data = [];
+        foreach( $valid_data as $d ){
+            if( isset( $_POST[ $d ] ) ){
+                $data[ $d ] = $_POST[ $d ];
             }
-
-            $this->model->save($data);
-
-            header('Location: index.php?c=leave');
-            exit;
         }
+   
+        $this->model->save( $data );
+        redirect( 'leave' );
     }
 
     public function delete() {

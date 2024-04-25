@@ -1,30 +1,27 @@
 <?php 
-  $is_admin = $_SESSION[ 'current_user' ][ 'role' ] == 'admin'; 
-  $is_user = $_SESSION[ 'current_user' ][ 'role' ] == 'user'; 
 $leave_id=1;
 $i = 1;
 $j = 1;
 $l = 1;
 $r = 1;
-
 ?>
   
 <div class="my-3">
-    <?php if ($is_admin) { ?>
+    <?php if ( is_admin() ) :?>
             <div class="my-3 text-center">
                 <h1>Check Leave Requests</h1>
             </div>
             <!-- Total and status counts -->
             <div class="row">
                 <div class="my-3 text-center d-flex justify-content-evenly">
-                    <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br> <?= $total_leave_status ?></button>
-                    <button id="pendingBtn" class="btn btn-outline-warning">Pending<br> <?= $pending_status ?></button>
-                    <button id="approvedBtn" class="btn btn-outline-success">Approved<br> <?= $approved_status ?></button>
-                    <button id="rejectedBtn" class="btn btn-outline-danger">Rejected<br> <?= $rejected_status ?></button>
+                    <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br> <?= $total_leaves ?></button>
+                    <button id="pendingBtn" class="btn btn-outline-warning">Pending<br> <?= $total_pending ?></button>
+                    <button id="approvedBtn" class="btn btn-outline-success">Approved<br> <?= $total_approved ?></button>
+                    <button id="rejectedBtn" class="btn btn-outline-danger">Rejected<br> <?= $total_rejected ?></button>
                 </div>
             </div>
 
-    <?php } elseif ($is_user) { ?>
+    <?php else: ?>
             <div class="text-center my-3">
                 <h2>Leave Requests</h2>
                 
@@ -33,56 +30,55 @@ $r = 1;
              <!-- Total and status counts -->
             <div class="row">
                 <div class="my-3 text-center d-flex justify-content-evenly">
-                    <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br> <?= $total_leave_status ?></button>
-                    <button id="pendingBtn" class="btn btn-outline-warning">Pending<br> <?= $pending_status ?></button>
-                    <button id="approvedBtn" class="btn btn-outline-success">Approved<br> <?= $approved_status ?></button>
-                    <button id="rejectedBtn" class="btn btn-outline-danger">Rejected<br> <?= $rejected_status ?></button>
+                    <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br> <?= $total_leaves ?></button>
+                    <button id="pendingBtn" class="btn btn-outline-warning">Pending<br> <?= $total_pending ?></button>
+                    <button id="approvedBtn" class="btn btn-outline-success">Approved<br> <?= $total_approved ?></button>
+                    <button id="rejectedBtn" class="btn btn-outline-danger">Rejected<br> <?= $total_rejected ?></button>
                 </div>
             </div>
-    <?php } ?>
+    <?php endif; ?>
 </div>
 
 <!-- Total leave List -->
 <div class="modal fade" id="totalLeaveModal">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <table class="table table-striped table-light table-hover">
-      <thead>
-        <tr class="table-success text-center">
-            <th scope="col">S.No</th>
-            <?php if( $is_admin){?>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Department</th>
-            <?php }?>
-            <th scope="col">Type</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
-            <th scope="col">Description</th>
-            <th scope="col">Status</th>
-        </tr>
-    </thead>
-    <tbody>
+        <thead>
+            <tr class="table-success text-center">
+                <th scope="col">S.No</th>
+            <?php if( is_admin() ): ?>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Department</th>
+            <?php endif; ?>
+                <th scope="col">Type</th>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
 
-        <?php foreach( $leave_requests as $leave_request ):?>
-
-          <?php if ($is_admin || ($is_user && $leave_request['username'] == $_SESSION['current_user']['username'])) : ?>
-        <tr class="text-center"> 
-            <td><?php  echo $l++ ?></td>
-            <?php if( $is_admin):?>
-            <td><?= $leave_request[ 'username' ];?></td>
-            <td><?= $leave_request[ 'email' ];?></td>
-            <td><?= $leave_request[ 'department' ];?></td>
-        <?php endif; ?>
-            <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-            <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
-            <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
-            <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td><?= get_status_badge($leave_request['status']) ?></td>
-        </tr>
+        <?php foreach( $total_leave_requests as $leave_request ): ?>
+        <?php if ( is_admin() || ( is_user() && $leave_request['username'] == $_SESSION['current_user']['username'])) : ?>
+            <tr class="text-center"> 
+                <td><?php  echo $l++ ?></td>
+            <?php if( is_admin() ) : ?>
+                <td><?= $leave_request[ 'username' ];?></td>
+                <td><?= $leave_request[ 'email' ];?></td>
+                <td><?= $leave_request[ 'department' ];?></td>
+            <?php endif; ?>
+                <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
+                <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
+                <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
+                <td><?php  echo $leave_request[ 'description' ]; ?></td>
+                <td><?= get_status_badge( $leave_request[ 'status' ] ) ?></td>
+            </tr>
         <?php endif; ?>
         <?php endforeach; ?>
-    </tbody>
-    </table>
+        </tbody>
+   </table>
   </div>
 </div>
 
@@ -90,42 +86,42 @@ $r = 1;
 <div class="modal fade" id="pendingModal">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <table class="table table-striped table-light table-hover">
-      <thead>
-        <tr class="table-success text-center">
-            <th scope="col">S.No</th>
-            <?php if( $is_admin){?>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Department</th>
-            <?php }?>
-            <th scope="col">Type</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
-            <th scope="col">Description</th>
-            <th scope="col">Status</th>
-        </tr>
-    </thead>
-    <tbody>
+        <thead>
+            <tr class="table-success text-center">
+                <th scope="col">S.No</th>
+            <?php if( is_admin() ) : ?>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Department</th>
+            <?php endif; ?>
+                <th scope="col">Type</th>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
 
-        <?php foreach( $leave_requests as $leave_request ):?>
+        <?php foreach( $total_leave_requests as $leave_request ):?>
 
-          <?php if ($is_admin && $leave_request['status'] == 'pending' || ($is_user && $leave_request['username'] == $_SESSION['current_user']['username'] )) : ?>
-        <tr class="text-center"> 
-            <td><?php  echo $i++ ?></td>
-            <?php if( $is_admin):?>
-            <td><?= $leave_request[ 'username' ];?></td>
-            <td><?= $leave_request[ 'email' ];?></td>
-            <td><?= $leave_request[ 'department' ];?></td>
-        <?php endif; ?>
-            <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-            <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
-            <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
-            <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
-        </tr>
+        <?php if ( (is_admin() && $leave_request['status'] == 'pending') || ( is_user() && $leave_request['username'] == $_SESSION['current_user']['username'] && $leave_request['status'] == 'pending') ) : ?>
+            <tr class="text-center"> 
+                <td><?php  echo $i++ ?></td>
+            <?php if( is_admin() ):?>
+                <td><?= $leave_request[ 'username' ];?></td>
+                <td><?= $leave_request[ 'email' ];?></td>
+                <td><?= $leave_request[ 'department' ];?></td>
+            <?php endif; ?>
+                <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
+                <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
+                <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
+                <td><?php  echo $leave_request[ 'description' ]; ?></td>
+                <td><?= get_status_badge($leave_request['status']) ?></td>
+            </tr>
         <?php endif; ?>
         <?php endforeach; ?>
-    </tbody>
+        </tbody>
     </table>
   </div>
 </div>
@@ -137,11 +133,11 @@ $r = 1;
       <thead>
         <tr class="table-success text-center">
             <th scope="col">S.No</th>
-            <?php if( $is_admin ){?>
+        <?php if( is_admin() ) : ?>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col">Department</th>
-            <?php }?>
+        <?php endif; ?>
             <th scope="col">Type</th>
             <th scope="col">From</th>
             <th scope="col">To</th>
@@ -151,11 +147,11 @@ $r = 1;
     </thead>
     <tbody>
 
-        <?php foreach( $leave_requests as $leave_request ):?>
-          <?php if ( $is_admin && $leave_request[ 'status' ] == 'approved' || ($is_user && $leave_request['username'] == $_SESSION['current_user'][ 'username' ] ) ) : ?>
+        <?php foreach( $total_leave_requests as $leave_request ) : ?>
+          <?php if ( (is_admin() && $leave_request['status'] == 'approved') || ( is_user() && $leave_request['username'] == $_SESSION['current_user']['username'] && $leave_request['status'] == 'approved') ) : ?>
         <tr class="text-center"> 
             <td><?php  echo $j++ ?></td>
-            <?php if( $is_admin ):?>
+            <?php if( is_admin() ):?>
             <td><?= $leave_request[ 'username' ];?></td>
             <td><?= $leave_request[ 'email' ];?></td>
             <td><?= $leave_request[ 'department' ];?></td>
@@ -164,7 +160,7 @@ $r = 1;
             <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
             <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
+            <td><?= get_status_badge($leave_request['status']) ?></td>
         
         </tr>
         <?php endif; ?>
@@ -174,18 +170,18 @@ $r = 1;
   </div>
 </div>
 
-<!-- Rejected List -->
+<!-- Approved List -->
 <div class="modal fade" id="rejectedModal">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <table class="table table-striped table-light table-hover">
       <thead>
         <tr class="table-success text-center">
             <th scope="col">S.No</th>
-            <?php if( $is_admin){?>
+        <?php if( is_admin() ) : ?>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col">Department</th>
-            <?php }?>
+        <?php endif; ?>
             <th scope="col">Type</th>
             <th scope="col">From</th>
             <th scope="col">To</th>
@@ -195,11 +191,11 @@ $r = 1;
     </thead>
     <tbody>
 
-        <?php foreach( $leave_requests as $leave_request ):?>
-          <?php if (( $is_admin && $leave_request[ 'status' ] == 'rejected' ) || ( $is_user && $leave_request['username'] == $_SESSION['current_user']['username'] ) ) : ?>
+        <?php foreach( $total_leave_requests as $leave_request ) : ?>
+          <?php if ( (is_admin() && $leave_request['status'] == 'rejected') || ( is_user() && $leave_request['username'] == $_SESSION['current_user']['username'] && $leave_request['status'] == 'rejected') ) : ?>
         <tr class="text-center"> 
-            <td><?php  echo $r++ ?></td>
-            <?php if( $is_admin ):?>
+            <td><?php  echo $j++ ?></td>
+            <?php if( is_admin() ):?>
             <td><?= $leave_request[ 'username' ];?></td>
             <td><?= $leave_request[ 'email' ];?></td>
             <td><?= $leave_request[ 'department' ];?></td>
@@ -208,28 +204,28 @@ $r = 1;
             <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
             <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
             <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td><?= $this->model->getStatusBadge($leave_request['status']) ?></td>
+            <td><?= get_status_badge($leave_request['status']) ?></td>
+        
         </tr>
         <?php endif; ?>
         <?php endforeach; ?>
     </tbody>
     </table>
   </div>
-
-
 </div>
 
 
-<?php if( $is_admin ){?>
+
+<?php if( is_admin() ){?>
   <div class="row">
       <div class="col-6">
 
           <?php
-          // Step 1: Initialize an array to store leave request counts for each month
+          // Initialize an array to store leave request counts for each month
           $leaveCountsByMonth = [];
 
-          // Step 2: Loop through leave requests and count leave requests for each month
-          foreach ( $leave_requests as $leave_request ) {
+          // Loop through leave requests and count leave requests for each month
+          foreach ( $total_leave_requests as $leave_request ) {
               $from = new DateTime( $leave_request['from_date'] );
               $monthYear = $from->format('F Y');
 
@@ -262,7 +258,7 @@ $r = 1;
           $leaveCounters = [];
 
           // Iterate through leave requests to count leave types
-          foreach ($leave_requests as $leave_request) {
+          foreach ($total_leave_requests as $leave_request) {
               $type = $leave_request['leave_type'];
               if (!isset($leaveTypes[$type])) {
                   $leaveTypes[$type] = 1;
@@ -281,6 +277,7 @@ $r = 1;
       </div>
   </div>
   <?php }?>
+
 
 
 
@@ -366,4 +363,5 @@ $r = 1;
         }
     });
 </script>
+
 

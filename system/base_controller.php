@@ -14,7 +14,7 @@ abstract class Base_Controller{
 
         // check if allowd post methods are access throught other request methods
         if( isset( $this->post_methods ) && $_SERVER[ 'REQUEST_METHOD' ] != 'POST' && in_array( $this->m, $this->post_methods ) ){
-            redirect( 'user' );
+           redirect( 'user' );
         }
 
         if( $this->is_logged_in() ){

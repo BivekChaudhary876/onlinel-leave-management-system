@@ -43,23 +43,24 @@ class User_Controller extends Base_Controller{
     }
 
     public function list(){
+
         $users = $this->model->get();
-        $total_data = $this->model->get_count();
+        $total = $this->model->get_count();
         
         $this->load_view( [ 
             'page_title' => 'User List',
-            'users' => $users,
-            'total_data' => $total_data
+            'users'      => $users,
+            'total'      => $total
         ], 'user_lists' );
     }
     
     public function save(){
         
         $data = [
-            'username' => $_POST[ 'username' ], 
-            'email'    => $_POST[ 'email' ], 
+            'username'   => $_POST[ 'username' ], 
+            'email'      => $_POST[ 'email' ], 
             'department' => $_POST[ 'department' ],
-            'password' => $_POST[ 'password' ]
+            'password'   => $_POST[ 'password' ]
 
         ];
         if( isset( $_POST[ 'id' ] ) && $_POST[ 'id' ] > 0 ){ //update

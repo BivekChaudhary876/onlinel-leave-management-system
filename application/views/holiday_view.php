@@ -10,7 +10,7 @@
       
       <div class="modal-body">
         <!-- Form for adding a new holiday -->
-        <form method="POST" action="index.php?c=holiday&m=save">
+        <form method="POST" action="holiday/save">
             <input type="hidden" id="id" name="id">
           <div class="form-group">
             <label for="year">Year</label>
@@ -43,7 +43,7 @@
             <textarea class="form-control" id="event" name="event" rows="3" placeholder="Enter holiday events" required></textarea>
           </div>
           <div class="modal-footer justify-content-center">
-            <button type="submit" class="btn btn-success">Create</button>
+            <input type="submit" class="btn btn-success">Create</input>
           </div>
         </form>
       </div>
@@ -92,33 +92,40 @@
 </table>
 </div>
 
-<?php 
-      $total_page = ceil($total_data/2);
-      $page = isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 1;
-      ?>
-
-<div aria-label="Page navigation example" class="text-center">
+<?php
+// Get current page from URL
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+// Calculate total pages
+$total_page = ceil($total / 2);
+// Build the query string with existing parameters
+$current_query = $_GET;
+// Remove the 'page' key if it exists
+unset($current_query['page']); 
+// Build query string from current parameters to generate URL-encoded query string from the associative (or indexed) array
+$query_string = http_build_query($current_query);
+?>
+<!-- Create pagination -->
+<div class="text-center">
   <ul class="pagination">
-    <li class="page-item">
-      <?php if( $page > 1 ): ?>
-      <a class="page-link"href="index.php?c=holiday&page=<?= $page-1; ?>" aria-label="Previous">
+    <!-- Previous button -->
+    <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+      <a class="page-link" href="leave?page=<?= $page - 1 ?>&<?= $query_string ?>" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
-      <?php endif; ?>
-              
-      <?php
-      
+    </li>
 
-      for( $i = 1; $i <= $total_page; $i++ ) { ?>
-        <li class="page-item"><a class="page-link" href="index.php?c=holiday&page=<?= $i?> "><?= $i?></a></li>
-        <?php } ?>
-        <?php if( $page < $total_page) :?>
-      <a class="page-link" href="index.php?c=holiday&page=<?= $page+1; ?>" aria-label="Next">
+    <!-- Page numbers -->
+    <?php for ($i = 1; $i <= $total_page; $i++): ?>
+      <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+        <a class="page-link" href="leave?page=<?= $i ?>&<?= $query_string ?>"><?= $i ?></a>
+      </li>
+    <?php endfor; ?>
+
+    <!-- Next button -->
+    <li class="page-item <?= ($page >= $total_page) ? 'disabled' : '' ?>">
+      <a class="page-link" href="leave?page=<?= $page + 1 ?>&<?= $query_string ?>" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
-      <?php endif;?>
     </li>
   </ul>
 </div>
-
-

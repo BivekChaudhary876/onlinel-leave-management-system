@@ -28,7 +28,7 @@
                 <li>
                   <div class="nav-link">
                     <?php if ( isset( $_SESSION['current_user'])): ?>
-                      <a class="nav-link " href="index.php?c=dashboard&m=logout"><button class="btn btn-outline-danger">Logout</button></a>
+                      <a class="nav-link " href="dashboard/logout"><button class="btn btn-outline-danger">Logout</button></a>
                     <?php endif ;?>
                   </div>
                 </li>

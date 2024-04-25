@@ -6,24 +6,24 @@ class Holiday_Controller extends Base_Controller{
 
     public function index(){ 
         $holidays = $this->model->get();
-        $total_data = $this->model->get_count();
+        $total = $this->model->get_count();
 
         $this->load_view( [ 
             'page_title' => 'Holiday',
-            'holidays' => $holidays,
-            'total_data' => $total_data
+            'holidays'   => $holidays,
+            'total'      => $total
         ], 'holiday' ); 
     }
 
     public function save(){
         $data = [
-            'year' => $_POST[ 'year' ],
+            'year'  => $_POST[ 'year' ],
             'month' => $_POST[ 'month' ],
-            'day' => $_POST[ 'day' ],
+            'day'   => $_POST[ 'day' ],
             'event' => $_POST[ 'event' ]
         ];
         if( isset( $_POST[ 'id'] ) && $_POST[ 'id' ] > 0 ){
-                $data[ 'id' ] = $_POST[ 'id' ];
+            $data[ 'id' ] = $_POST[ 'id' ];
         }
         $this->model->save( $data );
         redirect( 'holiday' );

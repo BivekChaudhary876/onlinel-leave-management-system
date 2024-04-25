@@ -1,22 +1,29 @@
 <?php 
 function get_current_controller(){
-    // "user" is our default controller
-    return isset( $_GET[ 'c' ] ) ? $_GET[ 'c' ] : 'user';
+
+    $action = !empty( $_GET[ 'action' ] ) ? $_GET[ 'action' ] : 'user';
+    $action = explode( '/', $action );
+    return $action[ 0 ];
 }
 
 function get_current_method(){
-    // "index" is our default model
-    return isset( $_GET[ 'm' ] ) ? $_GET[ 'm' ] : 'index';
+    // "index" is our default method
+    if( empty( $_GET[ 'action' ] ) ){
+        return 'index';
+    }
+    $action = explode( '/', $_GET[ 'action' ] );
+    // dd( $action );
+
+    return !empty( $action[ 1 ] ) ? $action[ 1 ] : 'index';
 }
 
 function redirect( $controller, $method = '' ){
 
-    $method_param = '';
+    $path = $controller;
     if( !empty( $method ) ){
-        $method_param = "&m={$method}";
+        $path .= '/' . $method;
     }
-
-    header("Location: index.php?c={$controller}{$method_param}");
+    header("Location: /leave-management-system/{$path}");
     exit;
 }
 
@@ -88,4 +95,42 @@ function get_status_badge( $status ){
 
   function get_current_user_id(){
     return $_SESSION[ 'current_user' ][ 'id' ];
+  }
+
+  function pagination( $args ){
+
+    if( $args[ 'total' ] == 0 ){
+        return;
+    }
+    $page = isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 1;
+    $total_page = ceil( $args[ 'total' ] / 2 );
+    $current_query = $_GET;
+    unset( $current_query[ 'page' ] ); 
+    unset( $current_query[ 'action' ] ); 
+    $query_string = http_build_query( $current_query );
+
+    if( !empty( $query_string ) ) {
+        $query_string = '&' . $query_string;
+    }
+    ?>
+    <div class="text-center">
+        <ul class="pagination">
+            <li class="page-item <?= ( $page <= 1 ) ? 'disabled' : '' ?>">
+            <a class="page-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $page - 1 ?><?= $query_string ?>" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+            </li>
+        <?php for ($i = 1; $i <= $total_page; $i++): ?>
+            <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+            <a class="page-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $i ?><?= $query_string ?>"><?= $i ?></a>
+            </li>
+        <?php endfor; ?>
+            <li class="page-item <?= ( $page >= $total_page ) ? 'disabled' : '' ?>">
+            <a class="page-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $page + 1 ?><?= $query_string ?>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+            </li>
+        </ul>
+    </div>
+    <?php
   }

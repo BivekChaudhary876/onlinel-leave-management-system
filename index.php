@@ -26,7 +26,12 @@ if( file_exists( $controller_path ) ){
     require_once $controller_path;
     $class = ucfirst( $controller . '_Controller' );
     $obj = new $class();
-    call_user_func_array( array( $obj, $method ), array( 'dynamic invoke' ) );
+
+    // send remaining parts as parameter to the method         
+    $query = $_GET[ 'action' ];
+    $parts = explode( '/', $query );
+
+    call_user_func_array( array( $obj, $method ), array_slice( $parts, 2 ) );
     
 }else{
     die( 'controller not found' );

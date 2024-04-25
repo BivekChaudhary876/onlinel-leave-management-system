@@ -1,3 +1,35 @@
+var $http = {
+	defaults: function ($e) {
+		var that = this
+		return {
+			beforeSend: function () {
+				$e.addClass('ajax-loading')
+			},
+			complete: function () {
+				$e.removeClass('ajax-loading')
+				if (typeof that.complete === 'function') {
+					that.args.complete()
+				}
+			},
+		}
+	},
+	post: function (args, $e) {
+		this.args = args
+		$.ajax({
+			...args,
+			type: 'POST',
+			...this.defaults($e),
+		})
+	},
+	get: function (args, $e) {
+		$.ajax({
+			...args,
+			type: 'GET',
+			...this.defaults($e),
+		})
+	},
+}
+
 $(document).ready(function () {
 	$('#createUserBtn').click(function () {
 		// Show the modal
@@ -29,7 +61,7 @@ $(document).ready(function () {
 			// AJAX request to delete the user
 			$.ajax({
 				type: 'POST',
-				url: '?c=user&m=deleteUser',
+				url: 'user/deleteUser',
 				data: {
 					userId: userId,
 				},
@@ -62,97 +94,53 @@ $(document).ready(function () {
 		$('#createLeaveModal').modal('show')
 	})
 
-	$('.editType').click(function () {
-		var typeId = $(this).data('id')
-		var name = $(this).closest('tr').find('td:eq( 1 )').text()
-
-		// Populate the modal with user data
-		$('#id').val(typeId)
-		$('#name').val(name)
-
-		// Show the modal
-		$('#createLeaveTypeModal').modal('show')
-	})
-
-	$('.deleteType').click(function () {
-		var typeId = $(this).data('id') // Get the holiday ID of the selected row
-
-		// Confirm delete
-		if (confirm('Are you sure you want to delete this type?')) {
-			// AJAX request to delete the type
-			$.ajax({
-				type: 'POST',
-				url: '?c=type&m=delete',
-				data: {
-					id: typeId,
-				},
-				success: function (response) {
-					// Handle success response
-					console.log(response) // Log the response from the server
-					// Assuming response is a JSON object with success status
-					if (response.success) {
-						// Fade out and remove the deleted type row from the table
-						$('tr[data-id="' + typeId + '"]').fadeOut(500, function () {
-							$(this).remove()
-						})
-					}
-				},
-				error: function (xhr, status, error) {
-					// Handle error response
-					console.error(xhr.responseText) // Log the error response from the server
-					// You can display an error message to the holiday
-					alert('An error occurred while deleting the holiday.')
-				},
-				complete: function (res) {
-					location.reload()
-				},
-			})
-		}
-	})
-
 	$('#totalLeaveBtn').click(function () {
 		// Show the modal
 		$('#totalLeaveModal').modal('show')
 	})
 
-	$('.approveLeave, .rejectLeave').click(function () {
-		// Get the ID of the leave request
-		var leaveId = $(this).data('id')
-		// Get the action (approve or reject)
-		var action = $(this).hasClass('approveLeave') ? 'approve' : 'reject'
+	$('.change-leave-status').click(function (e) {
+		e.preventDefault()
 
-		// Send an AJAX request to update the status
-		$.ajax({
-			type: 'POST',
-			url: 'index.php?c=leave&m=save',
-			data: { id: leaveId, action: action },
-			success: function (response) {
-				// Update the status cell in the table
-				$('#' + leaveId).html(
-					'<span class="badge text-bg-' +
-						(action === 'approve' ? 'success' : 'danger') +
-						'">' +
-						response +
-						'</span>'
-				)
+		var id = $(this).data('id'),
+			status = $(this).data('status'),
+			$status = $(this).closest('tr').find('.status')
+
+		$http.post(
+			{
+				url: 'leave/save',
+				data: {
+					id: id,
+					status: status,
+				},
+				success: function () {
+					// Update the status cell in the table
+					$status.html(
+						'<span class="badge text-bg-' +
+							(status === 'approved' ? 'success' : 'danger') +
+							'">' +
+							status +
+							'</span>'
+					)
+				},
+				error: function (xhr) {
+					// Handle error response
+					console.error(xhr.responseText)
+					alert('An error occurred while updating the leave status.')
+				},
 			},
-			error: function (xhr, status, error) {
-				// Handle error response
-				console.error(xhr.responseText)
-				alert('An error occurred while updating the leave status.')
-			},
-		})
+			$(this)
+		)
 	})
 
-	$('.deleteLeave').click(function () {
+	$('.delete-leave').click(function () {
 		var leaveId = $(this).data('id') // Get the leave ID of the selected row
 
 		// Confirm delete
 		if (confirm('Are you sure you want to delete this leave?')) {
 			// AJAX request to delete the leave
-			$.ajax({
-				type: 'POST',
-				url: '?c=leave&m=delete',
+			$http.post({
+				url: 'leave/delete',
 				data: {
 					id: leaveId,
 				},
@@ -208,9 +196,8 @@ $(document).ready(function () {
 		// Confirm delete
 		if (confirm('Are you sure you want to delete this holiday?')) {
 			// AJAX request to delete the holiday
-			$.ajax({
-				type: 'POST',
-				url: '?c=holiday&m=delete',
+			$http.post({
+				url: 'holiday/delete',
 				data: {
 					id: holidayId,
 				},
@@ -258,21 +245,20 @@ $(document).ready(function () {
 		var typeId = $(this).data('id') // Get the holiday ID of the selected row
 
 		// Confirm delete
-		if (confirm('Are you sure you want to delete this Leave Type?')) {
-			// AJAX request to delete the holiday
-			$.ajax({
-				type: 'POST',
-				url: '?c=type&m=delete',
+		if (confirm('Are you sure you want to delete this type?')) {
+			// AJAX request to delete the type
+			$http.post({
+				url: 'type/delete',
 				data: {
-					id: leaveId,
+					id: typeId,
 				},
 				success: function (response) {
 					// Handle success response
 					console.log(response) // Log the response from the server
 					// Assuming response is a JSON object with success status
 					if (response.success) {
-						// Fade out and remove the deleted holiday row from the table
-						$('tr[data-id="' + leaveId + '"]').fadeOut(500, function () {
+						// Fade out and remove the deleted type row from the table
+						$('tr[data-id="' + typeId + '"]').fadeOut(500, function () {
 							$(this).remove()
 						})
 					}
@@ -280,8 +266,8 @@ $(document).ready(function () {
 				error: function (xhr, status, error) {
 					// Handle error response
 					console.error(xhr.responseText) // Log the error response from the server
-					// You can display an error message to the leave type
-					alert('An error occurred while deleting the leave type.')
+					// You can display an error message to the holiday
+					alert('An error occurred while deleting the holiday.')
 				},
 				complete: function (res) {
 					location.reload()

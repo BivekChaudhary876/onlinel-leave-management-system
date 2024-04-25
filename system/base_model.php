@@ -37,30 +37,33 @@ abstract class Base_Model{
     }
 
     public function save( $data = [] ) {
+        try{
+            $id = false;
+            $values = array_values( $data );
+            if( isset( $data[ 'id' ] ) ){
+                $id = $data[ 'id' ];
+                unset( $data[ 'id'] );
+                $sql = 'UPDATE';
+            }else{
+                $sql = 'INSERT INTO';
+            }
 
-        $id = false;
-        $values = array_values( $data );
-        if( isset( $data[ 'id' ] ) ){
-            $id = $data[ 'id' ];
-            unset( $data[ 'id'] );
-            $sql = 'UPDATE';
-        }else{
-            $sql = 'INSERT INTO';
+            $sql .= ' ' . $this->table . ' SET ';
+
+            foreach( $data as $column => $value ){
+                $sql .= $column . ' = "' . $this->db->escape( $value ) .'",';
+            }
+
+            $sql = rtrim( $sql, ',' );
+
+            if( $id ){
+                $sql .= ' WHERE id=' . $id;
+            }
+            // Executing the SQL query with positional placeholders
+            return $this->db->exec( $sql );
+        }catch( Exception $e ){
+            echo $e->getMessage(); die;
         }
-
-        $sql .= ' ' . $this->table . ' SET ';
-
-        foreach( $data as $column => $value ){
-            $sql .= $column . ' = "' . $this->db->escape( $value ) .'",';
-        }
-
-        $sql = rtrim( $sql, ',' );
-
-        if( $id ){
-            $sql .= ' WHERE id=' . $id;
-        }
-        // Executing the SQL query with positional placeholders
-        return $this->db->exec( $sql );
     }
 
     public function delete( $id ) {

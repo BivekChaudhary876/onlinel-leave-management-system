@@ -1,3 +1,8 @@
+html{
+  font-size: 14px;
+}
+
+
 .bg-login{
     background-image: url('public/img/loginPage.jpg');
     background-size: cover;
@@ -19,4 +24,12 @@
     width: 100%;
     height: 2px;
     background-color: #007bff; /* Change this to the color you desire */
+ }
+
+ .status .badge{
+  text-transform: capitalize;
+ }
+
+ .ajax-loading{
+  background: black !important;
  }
