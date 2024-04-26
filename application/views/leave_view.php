@@ -115,7 +115,7 @@
 </table>
 </div>
 
-
+<!-- pagination -->
 <?php
 pagination([
   'controller' => 'leave',

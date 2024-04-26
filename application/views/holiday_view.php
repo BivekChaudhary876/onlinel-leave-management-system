@@ -9,7 +9,7 @@
       </div>
       
       <div class="modal-body">
-        <!-- Form for adding a new holiday -->
+        
         <form method="POST" action="holiday/save">
             <input type="hidden" id="id" name="id">
           <div class="form-group">
@@ -52,7 +52,7 @@
 </div>
 
 <?php if ( $role == 'admin'): ?>
-<!-- Display the table of holiday list -->
+
 <div class="my-3 text-start">
     <button id="createHolidayBtn" class="btn btn-outline-success">Add new Holiday</button>
 </div>
