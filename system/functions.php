@@ -50,7 +50,7 @@ function dd( $v ){
 }
 
 function get_paginated_sql( $sql ){
-    $per_page = 2;
+    $per_page = get_per_page();
     $page = isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 1;
     $offset = ( $page - 1 ) * $per_page;
 
@@ -81,29 +81,48 @@ function get_status_badge( $status ){
 
   }
 
-  function is_admin(){
+function indexing(){
+    // Calculate the starting index based on the current page and items per page
+    $start_index = (get_current_page() - 1) * get_per_page();
+    return $start_index;
+}
+
+function is_admin(){
     return $_SESSION[ 'current_user' ][ 'role' ] == 'admin';
-  }
-  
-  function is_user(){
+}
+
+function is_user(){
     return $_SESSION[ 'current_user' ][ 'role' ] == 'user';
-  }
+}
 
-  function db(){
+function current_user(){
+    return $_SESSION['current_user']['username'];
+}
+
+function db(){
     return Conn::get_instance();
-  }
+}
 
-  function get_current_user_id(){
+function get_current_user_id(){
     return $_SESSION[ 'current_user' ][ 'id' ];
-  }
+}
 
-  function pagination( $args ){
+function get_current_page(){
+    return isset($_GET['page']) ? (int)$_GET['page'] : 1;
+}
+
+function get_per_page(){
+    return 2;
+}
+
+function pagination( $args ){
 
     if( $args[ 'total' ] == 0 ){
         return;
     }
-    $page = isset( $_GET[ 'page' ] ) ? $_GET[ 'page' ] : 1;
-    $total_page = ceil( $args[ 'total' ] / 2 );
+
+    $page = get_current_page();
+    $total_page = ceil( $args[ 'total' ] / get_per_page() );
     $current_query = $_GET;
     unset( $current_query[ 'page' ] ); 
     unset( $current_query[ 'action' ] ); 

@@ -94,9 +94,29 @@ $(document).ready(function () {
 		$('#createLeaveModal').modal('show')
 	})
 
+	$('#viewBtn').click(function () {
+		// Show the modal
+		$('#viewModal').modal('show')
+	})
+
 	$('#totalLeaveBtn').click(function () {
 		// Show the modal
 		$('#totalLeaveModal').modal('show')
+	})
+
+	$('#pendingBtn').click(function () {
+		// Show the modal
+		$('#pendingModal').modal('show')
+	})
+
+	$('#approvedBtn').click(function () {
+		// Show the modal
+		$('#approvedModal').modal('show')
+	})
+
+	$('#rejectedBtn').click(function () {
+		// Show the modal
+		$('#rejectedModal').modal('show')
 	})
 
 	$('.change-leave-status').click(function (e) {
@@ -133,8 +153,9 @@ $(document).ready(function () {
 		)
 	})
 
-	$('.delete-leave').click(function () {
-		var leaveId = $(this).data('id') // Get the leave ID of the selected row
+	$('.delete-leave').click(function (e) {
+		e.preventDefault()
+		var id = $(this).data('id') // Get the leave ID of the selected row
 
 		// Confirm delete
 		if (confirm('Are you sure you want to delete this leave?')) {
@@ -142,7 +163,7 @@ $(document).ready(function () {
 			$http.post({
 				url: 'leave/delete',
 				data: {
-					id: leaveId,
+					id: id,
 				},
 				success: function (response) {
 					// Handle success response
@@ -150,7 +171,7 @@ $(document).ready(function () {
 					// Assuming response is a JSON object with success status
 					if (response.success) {
 						// Fade out and remove the deleted leave row from the table
-						$('tr[data-id="' + leaveId + '"]').fadeOut(500, function () {
+						$('tr[data-id="' + id + '"]').fadeOut(500, function () {
 							$(this).remove()
 						})
 					}

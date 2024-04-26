@@ -4,15 +4,10 @@ class User_Controller extends Base_Controller{
 
     protected $post_methods = [ 'login', 'save', 'deleteUser' ];
 
-    public function __construct(){
-        parent::__construct();
-    }
-
     public function index(){
         $this->load_view( [], 'login' );
     }
 
-    // method post
     public function login(){
 
         if( isset( $_POST['username'] ) && isset( $_POST['password'] ) ){
@@ -42,16 +37,25 @@ class User_Controller extends Base_Controller{
         $this->index();
     }
 
-    public function list(){
+    public function list( $id = false  ){
 
-        $users = $this->model->get();
-        $total = $this->model->get_count();
+        $where = [];
+        $data = [ 'page_title' => 'User List' ];
+        $view = 'user_lists';
+        if( $id ){
+            # show only on user
+            $where[ 'id' ] = $id;
+            $view = 'user_show';
+        }else{
+            # list all the users
+            $total = $this->model->get_count();
+            $data[ 'total' ] = $total;
+        }
+
+        $users = $this->model->get( $where );
+        $data[ 'users' ] = $users;
         
-        $this->load_view( [ 
-            'page_title' => 'User List',
-            'users'      => $users,
-            'total'      => $total
-        ], 'user_lists' );
+        $this->load_view( $data, $view );
     }
     
     public function save(){

@@ -44,9 +44,15 @@
             </li>
             <li>
             <a href="holiday" class="nav-link link-body-emphasis">
-                    Holidays
+                    Holiday
                 </a>
             </li>
+
+            <!-- <li>
+            <a href="setting" class="nav-link link-body-emphasis">
+                    Settings
+                </a>
+            </li> -->
             <?php } ?>
 
     </ul>

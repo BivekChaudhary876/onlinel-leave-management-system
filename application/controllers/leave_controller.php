@@ -7,6 +7,7 @@ class Leave_Controller extends Base_Controller {
     public function index() {
 
         $type_m = load_model( 'type' );
+        $user_m = load_model( 'user' );
         $users = false;
 
         $where = $where_count = [];
@@ -25,19 +26,18 @@ class Leave_Controller extends Base_Controller {
         }
 
         if( isset( $_GET[ 'to_date' ] ) && $_GET[ 'to_date' ] ){
-            $where[ 'DATE(lr.created_date) <'] = $_GET[ 'to_date' ];
-            $where_count[ 'DATE(created_date) <'] = $_GET[ 'to_date' ];
+            $where[ 'DATE(lr.created_date) <' ] = $_GET[ 'to_date' ];
+            $where_count[ 'DATE(created_date) <' ] = $_GET[ 'to_date' ];
         }
 
         if ( is_admin() ) {
-            $user_m = load_model( 'user' );
             $users  = $user_m->get( [], false );
             $total  = $this->model->get_count( $where_count );
         } else {
             $where[ 'lr.user_id' ] = get_current_user_id();
-            $total = $this->model->get_count([ 
-                'user_id' => get_current_user_id()
-            ]);
+            $total = $this->model->get_count( $where_count );
+
+            $users  = $user_m->get( [ "id" => get_current_user_id() ], false );
         }
 
         $leaves = $this->model->get( $where );
@@ -69,14 +69,14 @@ class Leave_Controller extends Base_Controller {
     public function delete() {
         try {
             $leaveId = $_POST['id'];
-            $deleted = $this->model->delete($leaveId);
-            if ($deleted) {
-                echo json_encode(['success' => true]);
+            $deleted = $this->model->delete( $leaveId );
+            if ( $deleted ) {
+                echo json_encode( ['success' => true] );
             } else {
-                echo json_encode(['success' => false, 'message' => 'Failed to delete leave']);
+                echo json_encode( ['success' => false, 'message' => 'Failed to delete leave'] );
             }
-        } catch (Exception $e) {
-            echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+        } catch ( Exception $e ) {
+            echo json_encode( ['success' => false, 'message' => 'Error: ' . $e->getMessage() ] );
         }
     }
 }

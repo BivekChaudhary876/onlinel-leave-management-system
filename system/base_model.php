@@ -68,15 +68,10 @@ abstract class Base_Model{
 
     public function delete( $id ) {
         try {
-            // Construct SQL query for deleting user
             $sql = "DELETE FROM {$this->table} WHERE id = {$id}";
-        
-            // Execute the SQL query with user ID as parameter
             $deleted = $this->db->exec( $sql );
-            
             return $deleted;
         } catch ( Exception $e ) {
-            // Log or handle the exception
             echo "Error deleting user: " . $e->getMessage();
             return false;
         }

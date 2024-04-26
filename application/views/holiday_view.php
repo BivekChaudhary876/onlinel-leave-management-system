@@ -53,7 +53,7 @@
 
 <?php if ( $role == 'admin'): ?>
 <!-- Display the table of holiday list -->
-<div class="my-3 text-center">
+<div class="my-3 text-start">
     <button id="createHolidayBtn" class="btn btn-outline-success">Add new Holiday</button>
 </div>
 <?php endif; ?>
@@ -61,7 +61,7 @@
 <div class="my-3">
     <table class="table table-striped table-light">
     <thead>
-        <tr class="table-success text-center">
+        <tr class="table-success text-start">
             <th scope="col">S.No</th>
             <th scope="col">Year</th>
             <th scope="col">Month</th>
@@ -73,15 +73,15 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach( $holidays as $j => $holiday ): ?>
-        <tr class="text-center">
-            <td><?= ++$j ?></td>
+        <?php foreach( $holidays as $key => $holiday ): ?>
+        <tr class="text-start">
+            <td><?= ( indexing() + $key+1 ) ?></td>
             <td><?= $holiday[ 'year' ] ?></td>
             <td><?= $holiday[ 'month' ] ?></td>
             <td><?= $holiday[ 'day' ] ?></td>
             <td><?= $holiday[ 'event' ] ?></td>
             <?php if ( $role == 'admin' ) : ?>
-            <td class="text-center">
+            <td class="text-start">
               <button type="button" class="btn btn-outline-info editHoliday" data-id="<?= $holiday[ 'id' ] ?>">Edit</button>
               <button type="button" class="btn btn-outline-danger deleteHoliday" data-id="<?= $holiday[ 'id' ] ?>">Delete</button>
             </td>
@@ -93,39 +93,7 @@
 </div>
 
 <?php
-// Get current page from URL
-$page = isset($_GET['page']) ? $_GET['page'] : 1;
-// Calculate total pages
-$total_page = ceil($total / 2);
-// Build the query string with existing parameters
-$current_query = $_GET;
-// Remove the 'page' key if it exists
-unset($current_query['page']); 
-// Build query string from current parameters to generate URL-encoded query string from the associative (or indexed) array
-$query_string = http_build_query($current_query);
-?>
-<!-- Create pagination -->
-<div class="text-center">
-  <ul class="pagination">
-    <!-- Previous button -->
-    <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-      <a class="page-link" href="leave?page=<?= $page - 1 ?>&<?= $query_string ?>" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-
-    <!-- Page numbers -->
-    <?php for ($i = 1; $i <= $total_page; $i++): ?>
-      <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-        <a class="page-link" href="leave?page=<?= $i ?>&<?= $query_string ?>"><?= $i ?></a>
-      </li>
-    <?php endfor; ?>
-
-    <!-- Next button -->
-    <li class="page-item <?= ($page >= $total_page) ? 'disabled' : '' ?>">
-      <a class="page-link" href="leave?page=<?= $page + 1 ?>&<?= $query_string ?>" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</div>
+pagination([
+  'controller'=>'holiday',
+  'total' => $total
+]);

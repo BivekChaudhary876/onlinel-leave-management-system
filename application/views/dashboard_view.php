@@ -46,11 +46,9 @@ $r = 1;
         <thead>
             <tr class="table-success text-center">
                 <th scope="col">S.No</th>
-            <?php if( is_admin() ): ?>
                 <th scope="col">Username</th>
                 <th scope="col">Email</th>
                 <th scope="col">Department</th>
-            <?php endif; ?>
                 <th scope="col">Type</th>
                 <th scope="col">From</th>
                 <th scope="col">To</th>
@@ -61,14 +59,12 @@ $r = 1;
         <tbody>
 
         <?php foreach( $total_leave_requests as $leave_request ): ?>
-        <?php if ( is_admin() || ( is_user() && $leave_request['username'] == $_SESSION['current_user']['username'])) : ?>
+        <?php if ( is_admin() || ( is_user() && $leave_request['username'] == current_user() ) ) : ?>
             <tr class="text-center"> 
                 <td><?php  echo $l++ ?></td>
-            <?php if( is_admin() ) : ?>
                 <td><?= $leave_request[ 'username' ];?></td>
                 <td><?= $leave_request[ 'email' ];?></td>
                 <td><?= $leave_request[ 'department' ];?></td>
-            <?php endif; ?>
                 <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
                 <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
                 <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
@@ -105,7 +101,7 @@ $r = 1;
 
         <?php foreach( $total_leave_requests as $leave_request ):?>
 
-        <?php if ( (is_admin() && $leave_request['status'] == 'pending') || ( is_user() && $leave_request['username'] == $_SESSION['current_user']['username'] && $leave_request['status'] == 'pending') ) : ?>
+        <?php if ( (is_admin() && $leave_request['status'] == 'pending') || ( is_user() && $leave_request['username'] == current_user() && $leave_request['status'] == 'pending') ) : ?>
             <tr class="text-center"> 
                 <td><?php  echo $i++ ?></td>
             <?php if( is_admin() ):?>
@@ -148,7 +144,7 @@ $r = 1;
     <tbody>
 
         <?php foreach( $total_leave_requests as $leave_request ) : ?>
-          <?php if ( (is_admin() && $leave_request['status'] == 'approved') || ( is_user() && $leave_request['username'] == $_SESSION['current_user']['username'] && $leave_request['status'] == 'approved') ) : ?>
+          <?php if ( (is_admin() && $leave_request['status'] == 'approved') || ( is_user() && $leave_request['username'] == current_user() && $leave_request['status'] == 'approved') ) : ?>
         <tr class="text-center"> 
             <td><?php  echo $j++ ?></td>
             <?php if( is_admin() ):?>
@@ -192,7 +188,7 @@ $r = 1;
     <tbody>
 
         <?php foreach( $total_leave_requests as $leave_request ) : ?>
-          <?php if ( (is_admin() && $leave_request['status'] == 'rejected') || ( is_user() && $leave_request['username'] == $_SESSION['current_user']['username'] && $leave_request['status'] == 'rejected') ) : ?>
+          <?php if ( (is_admin() && $leave_request['status'] == 'rejected') || ( is_user() && $leave_request['username'] == current_user() && $leave_request['status'] == 'rejected') ) : ?>
         <tr class="text-center"> 
             <td><?php  echo $j++ ?></td>
             <?php if( is_admin() ):?>
@@ -284,20 +280,7 @@ $r = 1;
 
 <script>
   $(document).ready(function(){
-    $('#pendingBtn').click(function () {
-		// Show the modal
-		$('#pendingModal').modal('show')
-	})
-
-	$('#approvedBtn').click(function () {
-		// Show the modal
-		$('#approvedModal').modal('show')
-	})
-
-	$('#rejectedBtn').click(function () {
-		// Show the modal
-		$('#rejectedModal').modal('show')
-	})
+    
   })
     var ctx = document.getElementById('leaveChart').getContext('2d');
     var leaveChart = new Chart(ctx, {
