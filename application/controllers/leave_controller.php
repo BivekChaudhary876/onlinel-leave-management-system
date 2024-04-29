@@ -35,8 +35,8 @@ class Leave_Controller extends Base_Controller {
             $total  = $this->model->get_count( $where_count );
         } else {
             $where[ 'lr.user_id' ] = get_current_user_id();
+            $where_count[ 'user_id' ] = get_current_user_id();
             $total = $this->model->get_count( $where_count );
-
             $users  = $user_m->get( [ "id" => get_current_user_id() ], false );
         }
 
@@ -50,6 +50,26 @@ class Leave_Controller extends Base_Controller {
             'leaves'      => $leaves,
             'total'       => $total,
         ],'leave');
+    }
+
+    public function details( $id ) {
+        if ( !$id ) {
+            redirect('leave');
+        }
+
+        $details = $this->model->get(
+            [ 'lr.id' => $id ], 
+            true
+        );
+
+        if (!$details) {
+            redirect('leave');
+        }
+
+        $this->load_view([
+            'page_title'    => 'Leave Details',
+            'details' => $details,
+        ], 'leave_details');  
     }
 
     public function save() {

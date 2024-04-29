@@ -58,14 +58,14 @@ class Dashboard_Controller extends Base_Controller {
 
         // Pass data to the view
         $this->load_view([
-            'users'          => $user_m->get(),
-            'page_title'     => 'Leave List',
-            'leave_requests' => $leave_requests,
+            'users'                => $user_m->get(),
+            'page_title'           => 'Leave List',
+            'leave_requests'       => $leave_requests,
             'total_leave_requests' => $total_leave_requests,
-            'total_leaves'   => $total_leaves,
-            'total_pending'  => $total_pending,
-            'total_approved' => $total_approved,
-            'total_rejected' => $total_rejected
+            'total_leaves'         => $total_leaves,
+            'total_pending'        => $total_pending,
+            'total_approved'       => $total_approved,
+            'total_rejected'       => $total_rejected
         ], 'dashboard');
     }
 

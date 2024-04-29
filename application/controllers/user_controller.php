@@ -37,6 +37,17 @@ class User_Controller extends Base_Controller{
         $this->index();
     }
 
+    // public function list(){
+    //     $users = $this->model->get();
+    //     $total = $this->model->get_count();
+        
+    //     $this->load_view( [ 
+    //         'page_title' => 'User List',
+    //         'total' => $total,
+    //         'users' => $users
+    //     ], 'user_lists' );
+    // }
+    
     public function list( $id = false  ){
 
         $where = [];
@@ -45,7 +56,7 @@ class User_Controller extends Base_Controller{
         if( $id ){
             # show only on user
             $where[ 'id' ] = $id;
-            $view = 'user_show';
+            $view = 'user_details';
         }else{
             # list all the users
             $total = $this->model->get_count();
@@ -57,7 +68,6 @@ class User_Controller extends Base_Controller{
         
         $this->load_view( $data, $view );
     }
-    
     public function save(){
         
         $data = [
@@ -76,9 +86,9 @@ class User_Controller extends Base_Controller{
     }
 
     // Method to handle deleting a user
-    public function deleteUser() {
+    public function delete() {
         try {
-            $userId = $_POST['userId'];
+            $userId = $_POST['id'];
             $deleted = $this->model->delete($userId);
             if ($deleted) {
                 echo json_encode(['success' => true]);

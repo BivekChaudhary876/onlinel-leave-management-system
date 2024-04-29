@@ -32,90 +32,82 @@ var $http = {
 
 $(document).ready(function () {
 	$('#createUserBtn').click(function () {
-		// Show the modal
+		$('#id').val('')
+		$('#username').val('')
+		$('#email').val('')
+		$('#department').val('')
 		$('#createUserModal').modal('show')
 	})
 
-	$('.editUser').click(function () {
-		var userId = $(this).data('id')
-		var username = $(this).closest('tr').find('td:eq( 1 )').text()
-		var email = $(this).closest('tr').find('td:eq( 2 )').text()
-		var department = $(this).closest('tr').find('td:eq( 3 )').text()
+	$('.edit-user').click(function () {
+		var id = $(this).data('id')
+		var username = $(this).closest('tr').find('td:eq(1)').text()
+		var email = $(this).closest('tr').find('td:eq(2)').text()
+		var department = $(this).closest('tr').find('td:eq(3)').text()
 
-		// Populate the modal with user data
-		$('#userid').val(userId)
+		$('#id').val(id)
 		$('#username').val(username)
 		$('#email').val(email)
 		$('#department').val(department)
 
-		// Show the modal
 		$('#createUserModal').modal('show')
 	})
 
-	// Function to handle "Delete" button click
-	$('.deleteUser').click(function () {
-		var userId = $(this).data('id') // Get the user ID of the selected row
-
-		// Confirm delete
+	function delete_user(id, $element) {
 		if (confirm('Are you sure you want to delete this user?')) {
-			// AJAX request to delete the user
-			$.ajax({
-				type: 'POST',
-				url: 'user/deleteUser',
-				data: {
-					userId: userId,
+			$http.post(
+				{
+					url: 'user/delete',
+					data: {
+						id: id,
+					},
+					success: function (response) {
+						var res = JSON.parse(response)
+						if (res.success) {
+							$element.fadeOut(500, function () {
+								$(this).remove()
+							})
+						} else {
+							alert('Error: ' + res.message)
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error('Error:', xhr.responseText)
+						alert('An error occurred while deleting the user.')
+					},
 				},
-				success: function (response) {
-					// Handle success response
-					console.log(response) // Log the response from the server
-					// Assuming response is a JSON object with success status
-					if (response.success) {
-						// Fade out and remove the deleted user row from the table
-						$('tr[data-userid="' + userId + '"]').fadeOut(500, function () {
-							$(this).remove()
-						})
-					}
-				},
-				error: function (xhr, status, error) {
-					// Handle error response
-					console.error(xhr.responseText) // Log the error response from the server
-					// You can display an error message to the user
-					alert('An error occurred while deleting the user.')
-				},
-				complete: function (res) {
-					location.reload()
-				},
-			})
+				$element
+			)
 		}
+	}
+
+	$('.delete-user').click(function () {
+		var id = $(this).data('id')
+		var $row = $(this).closest('tr')
+		delete_user(id, $row)
 	})
 
 	$('#createLeaveBtn').click(function () {
-		// Show the modal
 		$('#createLeaveModal').modal('show')
 	})
 
 	$('#viewBtn').click(function () {
-		// Show the modal
 		$('#viewModal').modal('show')
 	})
 
 	$('#totalLeaveBtn').click(function () {
-		// Show the modal
 		$('#totalLeaveModal').modal('show')
 	})
 
 	$('#pendingBtn').click(function () {
-		// Show the modal
 		$('#pendingModal').modal('show')
 	})
 
 	$('#approvedBtn').click(function () {
-		// Show the modal
 		$('#approvedModal').modal('show')
 	})
 
 	$('#rejectedBtn').click(function () {
-		// Show the modal
 		$('#rejectedModal').modal('show')
 	})
 
@@ -153,148 +145,109 @@ $(document).ready(function () {
 		)
 	})
 
-	$('.delete-leave').click(function (e) {
-		e.preventDefault()
-		var id = $(this).data('id') // Get the leave ID of the selected row
-
-		// Confirm delete
-		if (confirm('Are you sure you want to delete this leave?')) {
-			// AJAX request to delete the leave
-			$http.post({
-				url: 'leave/delete',
-				data: {
-					id: id,
-				},
-				success: function (response) {
-					// Handle success response
-					console.log(response) // Log the response from the server
-					// Assuming response is a JSON object with success status
-					if (response.success) {
-						// Fade out and remove the deleted leave row from the table
-						$('tr[data-id="' + id + '"]').fadeOut(500, function () {
-							$(this).remove()
-						})
-					}
-				},
-				error: function (xhr, status, error) {
-					// Handle error response
-					console.error(xhr.responseText) // Log the error response from the server
-					alert('An error occurred while deleting the leave.')
-				},
-				complete: function (res) {
-					location.reload()
-				},
-			})
-		}
-	})
-
 	$('#createHolidayBtn').click(function () {
 		// Show the modal
 		$('#createHolidayModal').modal('show')
 	})
 
-	$('.editHoliday').click(function () {
+	$('.edit-holiday').click(function () {
 		var holidayId = $(this).data('id')
 		var year = $(this).closest('tr').find('td:eq( 1 )').text()
 		var month = $(this).closest('tr').find('td:eq( 2 )').text()
 		var day = $(this).closest('tr').find('td:eq( 3 )').text()
 		var event = $(this).closest('tr').find('td:eq( 4 )').text()
 
-		// Populate the modal with user data
 		$('#id').val(holidayId)
 		$('#year').val(year)
 		$('#month').val(month)
 		$('#day').val(day)
 		$('#event').val(event)
 
-		// Show the modal
 		$('#createHolidayModal').modal('show')
 	})
 
-	$('.deleteHoliday').click(function () {
-		var holidayId = $(this).data('id') // Get the holiday ID of the selected row
-
-		// Confirm delete
+	function delete_holiday(id, $element) {
 		if (confirm('Are you sure you want to delete this holiday?')) {
-			// AJAX request to delete the holiday
-			$http.post({
-				url: 'holiday/delete',
-				data: {
-					id: holidayId,
+			$http.post(
+				{
+					url: 'holiday/delete',
+					data: {
+						id: id,
+					},
+					success: function (response) {
+						var res = JSON.parse(response)
+						if (res.success) {
+							$element.fadeOut(500, function () {
+								$(this).remove()
+							})
+						} else {
+							alert('Error: ' + res.message)
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error('Error:', xhr.responseText)
+						alert('An error occurred while deleting the user.')
+					},
 				},
-				success: function (response) {
-					// Handle success response
-					console.log(response) // Log the response from the server
-					// Assuming response is a JSON object with success status
-					if (response.success) {
-						// Fade out and remove the deleted holiday row from the table
-						$('tr[data-id="' + holidayId + '"]').fadeOut(500, function () {
-							$(this).remove()
-						})
-					}
-				},
-				error: function (xhr, status, error) {
-					// Handle error response
-					console.error(xhr.responseText) // Log the error response from the server
-					// You can display an error message to the holiday
-					alert('An error occurred while deleting the holiday.')
-				},
-				complete: function (res) {
-					location.reload()
-				},
-			})
+				$element
+			)
 		}
+	}
+
+	$('.delete-holiday').click(function () {
+		var id = $(this).data('id')
+		var $row = $(this).closest('tr')
+		delete_holiday(id, $row)
 	})
 
 	$('#creatLeaveTypeBtn').click(function () {
-		// Show the modal
+		$('#id').val('')
+		$('#name').val('')
 		$('#createLeaveTypeModal').modal('show')
 	})
 
-	$('.editType').click(function () {
-		var typeId = $(this).data('id')
-		var type = $(this).closest('tr').find('td:eq( 1 )').text()
-		// Populate the modal with user data
-		$('#id').val(typeId)
-		$('#type').val(type)
+	$('.edit-type').click(function () {
+		var id = $(this).data('id')
+		var type = $(this).closest('tr').find('td:eq(1)').text()
 
-		// Show the modal
+		$('#id').val(id)
+		$('#name').val(type)
+
 		$('#createLeaveTypeModal').modal('show')
 	})
 
-	$('.deleteType').click(function () {
-		var typeId = $(this).data('id') // Get the holiday ID of the selected row
-
-		// Confirm delete
-		if (confirm('Are you sure you want to delete this type?')) {
-			// AJAX request to delete the type
-			$http.post({
-				url: 'type/delete',
-				data: {
-					id: typeId,
+	function delete_type(id, $element) {
+		if (confirm('Are you sure you want to delete this leave type?')) {
+			$http.post(
+				{
+					url: 'type/delete',
+					data: {
+						id: id,
+					},
+					success: function (response) {
+						var res = JSON.parse(response)
+						if (res.success) {
+							$element.fadeOut(500, function () {
+								$(this).remove()
+							})
+						} else {
+							alert('Error: ' + res.message)
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error('Error:', xhr.responseText)
+						alert('An error occurred while deleting the leave type.')
+					},
 				},
-				success: function (response) {
-					// Handle success response
-					console.log(response) // Log the response from the server
-					// Assuming response is a JSON object with success status
-					if (response.success) {
-						// Fade out and remove the deleted type row from the table
-						$('tr[data-id="' + typeId + '"]').fadeOut(500, function () {
-							$(this).remove()
-						})
-					}
-				},
-				error: function (xhr, status, error) {
-					// Handle error response
-					console.error(xhr.responseText) // Log the error response from the server
-					// You can display an error message to the holiday
-					alert('An error occurred while deleting the holiday.')
-				},
-				complete: function (res) {
-					location.reload()
-				},
-			})
+				$element
+			)
 		}
+	}
+
+	$('.delete-type').click(function () {
+		var id = $(this).data('id')
+		var $row = $(this).closest('tr')
+		delete_type(id, $row)
 	})
 })
 ;(function () {

@@ -85,10 +85,7 @@
             <th scope="col">Type</th>
             <th scope="col">Status</th>
             <th scope="col">Date</th>
-
-            <?php if ( is_admin() ) : ?>
-              <th scope="col">Actions</th>
-            <?php  endif; ?>
+            <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -99,16 +96,16 @@
                         <td><?php echo $leave[ 'username' ]; ?></td>
                   <?php endif; ?>
                   <td><?php echo $leave[ 'leave_type' ]; ?></td>
-                  <td class="status"><?php echo get_status_badge($leave['status']) ?></td>
+                  <td class="status"><?php echo get_status_badge( $leave[ 'status' ] ) ?></td>
                   <td><?php echo $leave[ 'created_date' ]; ?></td>
 
-                  <?php if( is_admin()): ?>
                         <td>
+                          <?php if( is_admin() ) :?>
                           <button class="btn btn-outline-success change-leave-status" data-id="<?= $leave[ 'id' ] ?>" data-status="approved">Approve</button>
                           <button class="btn btn-outline-danger change-leave-status" data-id="<?= $leave[ 'id' ] ?>" data-status="rejected">Reject</button>
-                          <a href='user/list/<?php echo $user['id']; ?>'"><button class="btn btn-primary">View </button></a>
+                          <?php endif; ?>
+                          <a href='leave/details/<?php echo $leave[ 'id' ]; ?>'"><button class="btn btn-outline-primary">View </button></a>
                         </td>
-                <?php endif; ?>
               </tr>
           <?php endforeach; ?>
     </tbody>

@@ -15,11 +15,31 @@ class Holiday_Controller extends Base_Controller{
         ], 'holiday' ); 
     }
 
-    public function save(){
-        $data = [
-            'year'  => $_POST[ 'year' ],
-            'month' => $_POST[ 'month' ],
-            'day'   => $_POST[ 'day' ],
+    public function details( $id ) {
+        if ( !$id ) {
+            redirect('holiday');
+        }
+
+        $details = $this->model->get(
+            [ 'id' => $id ], 
+            true
+        );
+
+        if (!$details) {
+            redirect('holiday');
+        }
+
+        $this->load_view([
+            'page_title'    => 'Holiday Details',
+            'details' => $details,
+        ], 'holiday_details');  
+    }
+
+    public function save() {
+
+         $data = [
+            'from_date' => $_POST[ 'from_date' ],
+            'to_date' => $_POST[ 'to_date' ],
             'event' => $_POST[ 'event' ]
         ];
         if( isset( $_POST[ 'id'] ) && $_POST[ 'id' ] > 0 ){
@@ -27,7 +47,6 @@ class Holiday_Controller extends Base_Controller{
         }
         $this->model->save( $data );
         redirect( 'holiday' );
-
     }
     public function delete() {
         try {

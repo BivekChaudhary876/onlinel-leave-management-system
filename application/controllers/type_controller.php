@@ -22,10 +22,8 @@ class Type_Controller extends Base_Controller{
         if( isset( $_POST[ 'id'] ) && $_POST[ 'id' ] > 0 ){
             $data[ 'id' ] = $_POST[ 'id' ];
         }
-
         $this->model->save( $data );
         redirect( 'type' );
-
     }
     public function delete() {
         try {

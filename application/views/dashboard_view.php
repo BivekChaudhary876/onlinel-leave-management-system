@@ -1,10 +1,4 @@
-<?php 
-$leave_id=1;
-$i = 1;
-$j = 1;
-$l = 1;
-$r = 1;
-?>
+
   
 <div class="my-3">
     <?php if ( is_admin() ) :?>
@@ -39,176 +33,40 @@ $r = 1;
     <?php endif; ?>
 </div>
 
-<!-- Total leave List -->
-<div class="modal fade" id="totalLeaveModal">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <table class="table table-striped table-light table-hover">
-        <thead>
-            <tr class="table-success text-center">
-                <th scope="col">S.No</th>
-                <th scope="col">Username</th>
-                <th scope="col">Email</th>
-                <th scope="col">Department</th>
-                <th scope="col">Type</th>
-                <th scope="col">From</th>
-                <th scope="col">To</th>
-                <th scope="col">Description</th>
-                <th scope="col">Status</th>
-            </tr>
-        </thead>
-        <tbody>
 
-        <?php foreach( $total_leave_requests as $leave_request ): ?>
-        <?php if ( is_admin() || ( is_user() && $leave_request['username'] == current_user() ) ) : ?>
-            <tr class="text-center"> 
-                <td><?php  echo $l++ ?></td>
-                <td><?= $leave_request[ 'username' ];?></td>
-                <td><?= $leave_request[ 'email' ];?></td>
-                <td><?= $leave_request[ 'department' ];?></td>
-                <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-                <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
-                <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
-                <td><?php  echo $leave_request[ 'description' ]; ?></td>
-                <td><?= get_status_badge( $leave_request[ 'status' ] ) ?></td>
-            </tr>
-        <?php endif; ?>
-        <?php endforeach; ?>
-        </tbody>
-   </table>
-  </div>
-</div>
+<?php 
+// Total leave List
+$data = [
+    "current_status" => ['pending','approved','rejected']
+];
 
-<!-- Pending List -->
-<div class="modal fade" id="pendingModal">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <table class="table table-striped table-light table-hover">
-        <thead>
-            <tr class="table-success text-center">
-                <th scope="col">S.No</th>
-            <?php if( is_admin() ) : ?>
-                <th scope="col">Username</th>
-                <th scope="col">Email</th>
-                <th scope="col">Department</th>
-            <?php endif; ?>
-                <th scope="col">Type</th>
-                <th scope="col">From</th>
-                <th scope="col">To</th>
-                <th scope="col">Description</th>
-                <th scope="col">Status</th>
-            </tr>
-        </thead>
-        <tbody>
+leave_list([
+    "modal-id"       => 'totalLeaveModal',  
+    "model"          => $total_leave_requests,
+    "current_status" => $data['current_status'][0]
+]);
 
-        <?php foreach( $total_leave_requests as $leave_request ):?>
+// Pending List
+leave_list([
+    "modal-id"       => 'pendingModal',
+    "model"          => $total_leave_requests,
+    "current_status" => 'pending'
+]);
 
-        <?php if ( (is_admin() && $leave_request['status'] == 'pending') || ( is_user() && $leave_request['username'] == current_user() && $leave_request['status'] == 'pending') ) : ?>
-            <tr class="text-center"> 
-                <td><?php  echo $i++ ?></td>
-            <?php if( is_admin() ):?>
-                <td><?= $leave_request[ 'username' ];?></td>
-                <td><?= $leave_request[ 'email' ];?></td>
-                <td><?= $leave_request[ 'department' ];?></td>
-            <?php endif; ?>
-                <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-                <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
-                <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
-                <td><?php  echo $leave_request[ 'description' ]; ?></td>
-                <td><?= get_status_badge($leave_request['status']) ?></td>
-            </tr>
-        <?php endif; ?>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-  </div>
-</div>
+// Approved List
+leave_list([
+    "modal-id"       => 'approvedModal',
+    "model"          => $total_leave_requests,
+    "current_status" => 'approved'
+]);
 
-<!-- Approved List -->
-<div class="modal fade" id="approvedModal">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <table class="table table-striped table-light table-hover">
-      <thead>
-        <tr class="table-success text-center">
-            <th scope="col">S.No</th>
-        <?php if( is_admin() ) : ?>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Department</th>
-        <?php endif; ?>
-            <th scope="col">Type</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
-            <th scope="col">Description</th>
-            <th scope="col">Status</th>
-        </tr>
-    </thead>
-    <tbody>
+// Rejected List
+leave_list([
+    "modal-id"       => 'rejectedModal',
+    "model"          => $total_leave_requests,
+    "current_status" => 'rejected'
+]);?>
 
-        <?php foreach( $total_leave_requests as $leave_request ) : ?>
-          <?php if ( (is_admin() && $leave_request['status'] == 'approved') || ( is_user() && $leave_request['username'] == current_user() && $leave_request['status'] == 'approved') ) : ?>
-        <tr class="text-center"> 
-            <td><?php  echo $j++ ?></td>
-            <?php if( is_admin() ):?>
-            <td><?= $leave_request[ 'username' ];?></td>
-            <td><?= $leave_request[ 'email' ];?></td>
-            <td><?= $leave_request[ 'department' ];?></td>
-        <?php endif; ?>
-            <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-            <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
-            <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
-            <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td><?= get_status_badge($leave_request['status']) ?></td>
-        
-        </tr>
-        <?php endif; ?>
-        <?php endforeach; ?>
-    </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Approved List -->
-<div class="modal fade" id="rejectedModal">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <table class="table table-striped table-light table-hover">
-      <thead>
-        <tr class="table-success text-center">
-            <th scope="col">S.No</th>
-        <?php if( is_admin() ) : ?>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Department</th>
-        <?php endif; ?>
-            <th scope="col">Type</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
-            <th scope="col">Description</th>
-            <th scope="col">Status</th>
-        </tr>
-    </thead>
-    <tbody>
-
-        <?php foreach( $total_leave_requests as $leave_request ) : ?>
-          <?php if ( (is_admin() && $leave_request['status'] == 'rejected') || ( is_user() && $leave_request['username'] == current_user() && $leave_request['status'] == 'rejected') ) : ?>
-        <tr class="text-center"> 
-            <td><?php  echo $j++ ?></td>
-            <?php if( is_admin() ):?>
-            <td><?= $leave_request[ 'username' ];?></td>
-            <td><?= $leave_request[ 'email' ];?></td>
-            <td><?= $leave_request[ 'department' ];?></td>
-        <?php endif; ?>
-            <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-            <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
-            <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
-            <td><?php  echo $leave_request[ 'description' ]; ?></td>
-            <td><?= get_status_badge($leave_request['status']) ?></td>
-        
-        </tr>
-        <?php endif; ?>
-        <?php endforeach; ?>
-    </tbody>
-    </table>
-  </div>
-</div>
 
 
 
