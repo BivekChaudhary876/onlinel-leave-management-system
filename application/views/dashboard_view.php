@@ -106,6 +106,7 @@ leave_list([
           </div>
 
       </div>
+
       <div class="col-6">
           <?php // Initialize arrays to store leave type and count
           $leaveTypes = [];
@@ -131,9 +132,6 @@ leave_list([
       </div>
   </div>
   <?php }?>
-
-
-
 
 
 <script>

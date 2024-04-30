@@ -26,12 +26,20 @@ if (file_exists( $controller_path ) ) {
     $class = ucfirst( $controller . '_Controller' );
     $obj = new $class();
     // send remaining parts as parameter to the method         
-    $query = $_GET[ 'action' ];
+    $query = isset($_GET['action']) ? $_GET['action'] : '';
     $parts = explode( '/', $query );
 
-    call_user_func_array(array( $obj, $method ), array_slice( $parts, 2 ));
+    if (method_exists($obj, $method)) {
+        call_user_func_array(array($obj, $method), array_slice($parts, 2));
+    } else {
+        header("HTTP/1.1 404 Not Found");
+        include PATH . '/application/views/405_view.php';
+        exit;
+    }
 } else {
-    die( 'controller not found' );
+    header("HTTP/1.1 404 Not Found");
+    include PATH . '/application/views/404_view.php';
+    exit;
 }
 
 Conn::get_instance()->close();

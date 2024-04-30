@@ -1,9 +1,14 @@
+
+<?php 
+  $logo = get_option( 'logo' );
+  $header_bg = get_option( 'header_bg' );
+?>
 <header>
-    <div class="px-3 py-2 text-bg-dark border-bottom">
+    <div class="px-3 py-2  border-bottom" style="background:<?php  echo $header_bg; ?>">
       <div class="container">
         <div class="row">
           <div class="col-2 d-flex align-items-center my-2 my-lg-0 me-lg-auto">
-            <a href="index.php"><img src="public/img/logo.png" alt="logo" height="50"></a>
+            <a href="index.php"><img src="<?php echo $logo; ?>" alt="logo" height="50"></a>
           </div>
           <div class="col-10">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">

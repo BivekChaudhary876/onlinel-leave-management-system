@@ -66,8 +66,15 @@
   </table>
 </div>
 
+
 <?php
 pagination([
   'controller' => 'holiday',
   'total' => $total
-]);
+]);?>
+
+
+<script>
+$( "#draggable" ).draggable();
+$( "#drag" ).draggable();
+</script>

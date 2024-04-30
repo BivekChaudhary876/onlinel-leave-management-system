@@ -89,7 +89,7 @@ function get_status_badge( $status ){
 
 function indexing(){
     // Calculate the starting index based on the current page and items per page
-    $start_index = (get_current_page() - 1) * get_per_page();
+    $start_index = ( get_current_page() - 1 ) * get_per_page();
     return $start_index;
 }
 
@@ -114,14 +114,17 @@ function get_current_user_id(){
 }
 
 function get_current_page(){
-    return isset($_GET['page']) ? intval($_GET['page']) : 1;
+    return isset( $_GET[ 'page' ] ) ? intval( $_GET[ 'page' ]) : 1;
+}
+
+function get_option( $key ){
+    $setting = load_model( 'setting' );
+    $pp = $setting->get( [ 'name' => $key ], false );
+    return $pp[ 0 ][ 'value' ];
 }
 
 function get_per_page(){
-
-    $setting = load_model( 'setting' );
-    $pp = $setting->get( [ 'name' => 'per_page' ], false );
-    return $pp[ 0 ][ 'value' ];
+    return get_option( 'per_page' );
 }
 
 function pagination( $args ){
@@ -215,7 +218,3 @@ function leave_list( $args ){?>
     </div>
 <?php
 }
-
-
-
-

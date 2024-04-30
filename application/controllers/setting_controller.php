@@ -26,7 +26,7 @@ class Setting_Controller extends Base_Controller{
             $this->model->save( [ "value" => $d[ "data" ] ], [ 'name' => $d[ "where" ] ] );
         }
 
-        redirect('setting');
+        redirect( 'setting');
     }
 }
 
