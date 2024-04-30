@@ -48,6 +48,7 @@
             <td class="text-start">
               <button class="btn btn-outline-info edit-type" data-id="<?= $type[ 'id' ] ?>">Edit</button>
               <button class="btn btn-outline-danger delete-type" data-id="<?= $type[ 'id' ] ?>">Delete</button>
+              <a href="type/details/<?php echo $type[ 'id' ]?>"><button class="btn btn-outline-primary">View</button></a>
             </td>
           <?php endif; ?>
         </tr>

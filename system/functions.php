@@ -114,11 +114,14 @@ function get_current_user_id(){
 }
 
 function get_current_page(){
-    return isset($_SESSION['page']) ? intval($_SESSION['page']) : 1;
+    return isset($_GET['page']) ? intval($_GET['page']) : 1;
 }
 
 function get_per_page(){
-    return isset($_SESSION['per_page']) ? intval($_SESSION['per_page']) : 2;
+
+    $setting = load_model( 'setting' );
+    $pp = $setting->get( [ 'name' => 'per_page' ], false );
+    return $pp[ 0 ][ 'value' ];
 }
 
 function pagination( $args ){
@@ -156,15 +159,6 @@ function pagination( $args ){
             </a>
             </li>
         </ul>
-    </div>
-<?php
-}
-
-function page_settings(){?>
-    <div class="dropdown">
-        <a href="dashboard/settings"><button class="btn" type="button">
-            Settings
-        </button></a>
     </div>
 <?php
 }

@@ -36,13 +36,16 @@ abstract class Base_Model{
        return $this->db->fetch_row($result);
     }
 
-    public function save( $data = [] ) {
+    public function save( $data = [], $where = false ) {
         try{
             $id = false;
             $values = array_values( $data );
-            if( isset( $data[ 'id' ] ) ){
-                $id = $data[ 'id' ];
-                unset( $data[ 'id'] );
+            if( $where || isset( $data[ 'id' ] ) ){
+
+                if( !$where ){
+                    $id = $data[ 'id' ];
+                    unset( $data[ 'id'] );
+                }
                 $sql = 'UPDATE';
             }else{
                 $sql = 'INSERT INTO';
@@ -58,7 +61,11 @@ abstract class Base_Model{
 
             if( $id ){
                 $sql .= ' WHERE id=' . $id;
+            }elseif( $where ){
+                $sql .= ' WHERE ' . array_keys( $where )[0] . '="' . array_values( $where )[0] . '"';
             }
+
+            // dd( $sql );
             // Executing the SQL query with positional placeholders
             return $this->db->exec( $sql );
         }catch( Exception $e ){

@@ -15,6 +15,26 @@ class Type_Controller extends Base_Controller{
         ], 'type' );
     }
 
+    public function details( $id ){
+         if ( !$id ) {
+            redirect('type');
+        }
+
+        $details = $this->model->get(
+            [ 'id' => $id ], 
+            true
+        );
+
+        if (!$details) {
+            redirect('type');
+        }
+
+        $this->load_view([
+            'page_title'    => 'Leave Type Details',
+            'details' => $details,
+        ], 'type_details');  
+    }
+
     public function save(){
         $data = [
             'name' => $_POST[ 'name' ]

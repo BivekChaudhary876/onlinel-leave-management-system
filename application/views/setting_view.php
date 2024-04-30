@@ -1,11 +1,23 @@
-<form method="GET" action="">
-    <div class="form-group">
-        <label for="page">Page</label>
-        <input type="number" name="page" class="form-control" value="<?= $page ?>">
-    </div>
-    <div class="form-group">
-        <label for="per_page">List per page</label>
-        <input type="number" name="per_page" class="form-control" value="<?= $per_page ?>">
-    </div>
-    <input type="submit" class="btn btn-light" value="Show">
-</form>
+<div class="my-3 w-50">
+    <form method="POST" action="setting/save">
+        <p>
+            <label>Per Page</label>
+            <input type="text" name="per_page" value="<?php echo $settings[ 'per_page' ]; ?>" class="form-control" placeholder="" />
+        </p>
+
+        <p>
+            <label>Logo</label>
+            <input type="text" name="logo" value="<?php echo $settings[ 'logo' ]; ?>" class="form-control" placeholder="" />
+        </p>
+        <p>
+            <label>Header Color</label>
+            <input type="color" name="header" value="<?php echo $settings[ 'header' ]; ?>" class="form-control" placeholder="" />
+        </p>
+        <p>
+            <label>Primary Color</label>
+            <input type="color" name="primary" value="<?php echo $settings[ 'primary' ]; ?>" class="form-control" placeholder="" />
+        </p>
+        <input type="submit" value="Save" class="p-1 btn btn-outline-success">
+    </form>
+</div>
+ 

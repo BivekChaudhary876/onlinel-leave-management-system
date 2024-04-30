@@ -1,30 +1,34 @@
 <?php
 class Setting_Controller extends Base_Controller{
     public function index(){
-        
-        $default_page=get_current_page();
-        $default_per_page = get_per_page();
-        $page = isset($_SESSION['page']) ? intval($_SESSION['page']) : $default_page;
-        $per_page = isset($_SESSION['per_page']) ? intval($_SESSION['per_page']) : $default_per_page;
-
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            if (isset($_GET['page'])) {
-                $_SESSION['page'] = intval($_GET['page']);
-                $page = $_SESSION['page']; 
-            }
-            if (isset($_GET['per_page'])) {
-                $_SESSION['per_page'] = intval($_GET['per_page']);
-                $per_page = $_SESSION['per_page']; 
-            }
+        $settings = $this->model->get();
+        $data = [];
+        foreach( $settings as $setting ){
+            $data[ $setting[ 'name' ] ] = $setting[ 'value' ];
         }
 
-        $this->load_view([
-            'page_title' => 'Admin Setting',
-            'page' => $page,
-            'per_page' => $per_page
-        ],'setting');
+        $this->load_view( [ 
+            'page_title' => 'Settings',
+            'settings'   => $data
+        ], 'setting' );
     }
 
+    public function save() {
+       
+        $data = [
+            [ "data" => intval( $_POST[ 'per_page' ] ), "where" => "per_page" ],
+            [ "data" => $_POST[ 'logo' ], "where" => "logo" ],
+            [ "data" => $_POST[ 'header' ], "where" => "header" ],
+            [ "data" => $_POST[ 'primary' ], "where" => "primary" ]
+        ];
+
+        foreach( $data as $d ){
+            $this->model->save( [ "value" => $d[ "data" ] ], [ 'name' => $d[ "where" ] ] );
+        }
+
+        redirect('setting');
+    }
 }
+
 
 
