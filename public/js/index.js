@@ -36,6 +36,7 @@ $(document).ready(function () {
 		$('#username').val('')
 		$('#email').val('')
 		$('#department').val('')
+		$('#submitBtn').val('Create')
 		$('#createUserModal').modal('show')
 	})
 
@@ -49,7 +50,8 @@ $(document).ready(function () {
 		$('#username').val(username)
 		$('#email').val(email)
 		$('#department').val(department)
-
+		$('#exampleModalLabel').text('Edit User')
+		$('#submitBtn').val('Update')
 		$('#createUserModal').modal('show')
 	})
 
@@ -146,23 +148,39 @@ $(document).ready(function () {
 	})
 
 	$('#createHolidayBtn').click(function () {
-		// Show the modal
+		$('#id').val('')
+		$('#from_date').val('')
+		$('#to_date').val('')
+		$('#event').val('')
+		$('#submitBtn').val('Create')
 		$('#createHolidayModal').modal('show')
 	})
 
 	$('.edit-holiday').click(function () {
-		var holidayId = $(this).data('id')
-		var year = $(this).closest('tr').find('td:eq( 1 )').text()
-		var month = $(this).closest('tr').find('td:eq( 2 )').text()
-		var day = $(this).closest('tr').find('td:eq( 3 )').text()
-		var event = $(this).closest('tr').find('td:eq( 4 )').text()
+		var $row = $(this).closest('tr')
+		var id = $row.data('id')
+		var from_date = $row.data('from_date')
+		var to_date = $row.data('to_date')
+		var event = $row.data('event')
 
-		$('#id').val(holidayId)
-		$('#year').val(year)
-		$('#month').val(month)
-		$('#day').val(day)
+		console.log(
+			'Editing holiday with ID:',
+			id,
+			'From:',
+			from_date,
+			'To:',
+			to_date,
+			'Event:',
+			event
+		)
+
+		$('#id').val(id)
+		$('#from_date').val(from_date)
+		$('#to_date').val(to_date)
 		$('#event').val(event)
-
+		$('#exampleModalLabel').text('Edit Holiday')
+		$('#createHolidayForm').attr('action', 'holiday/save')
+		$('#submitBtn').val('Update')
 		$('#createHolidayModal').modal('show')
 	})
 
@@ -203,6 +221,7 @@ $(document).ready(function () {
 	$('#creatLeaveTypeBtn').click(function () {
 		$('#id').val('')
 		$('#name').val('')
+		$('#submitBtn').val('Create')
 		$('#createLeaveTypeModal').modal('show')
 	})
 
@@ -212,7 +231,8 @@ $(document).ready(function () {
 
 		$('#id').val(id)
 		$('#name').val(type)
-
+		$('#exampleModalLabel').text('Edit Leave Type')
+		$('#submitBtn').val('Update')
 		$('#createLeaveTypeModal').modal('show')
 	})
 

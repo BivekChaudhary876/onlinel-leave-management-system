@@ -1,33 +1,44 @@
 
+<div class="my-3 text-center">
+    <h1>Dashboard</h1>
+</div>
+<div class="row" id="droppable"style="gap:0px">
+    <div class="col-4" id="col1" style="border:1px solid green;">
+        <p>widget 1</p>
+    </div>
+    <div class="col-4" id="col2"  style="border:1px solid orange;">
+        <p>widget 2</p>
+    </div>
+    <div class="col-4" id="col3"  style="border:1px solid blue;">
+        <p>widget 3</p>
+    </div>
+</div>
+
+<div id="draggable-h">
+    <p>hello</p>
+</div>
+
   
 <div class="my-3">
     <?php if ( is_admin() ) :?>
-            <div class="my-3 text-center">
-                <h1>Check Leave Requests</h1>
-            </div>
             <!-- Total and status counts -->
             <div class="row">
                 <div class="my-3 text-center d-flex justify-content-evenly">
-                    <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br> <?= $total_leaves ?></button>
-                    <button id="pendingBtn" class="btn btn-outline-warning">Pending<br> <?= $total_pending ?></button>
-                    <button id="approvedBtn" class="btn btn-outline-success">Approved<br> <?= $total_approved ?></button>
-                    <button id="rejectedBtn" class="btn btn-outline-danger">Rejected<br> <?= $total_rejected ?></button>
+                    <p id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br> <?php echo $total_leaves ?></p>
+                    <p id="pendingBtn" class="btn btn-outline-warning">Pending<br> <?php echo $total_pending ?></p>
+                    <p id="approvedBtn" class="btn btn-outline-success">Approved<br> <?php echo $total_approved ?></p>
+                    <p id="rejectedBtn" class="btn btn-outline-danger">Rejected<br> <?php echo $total_rejected ?></p>
                 </div>
             </div>
 
     <?php else: ?>
-            <div class="text-center my-3">
-                <h2>Leave Requests</h2>
-                
-            </div>
-
              <!-- Total and status counts -->
             <div class="row">
                 <div class="my-3 text-center d-flex justify-content-evenly">
-                    <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br> <?= $total_leaves ?></button>
-                    <button id="pendingBtn" class="btn btn-outline-warning">Pending<br> <?= $total_pending ?></button>
-                    <button id="approvedBtn" class="btn btn-outline-success">Approved<br> <?= $total_approved ?></button>
-                    <button id="rejectedBtn" class="btn btn-outline-danger">Rejected<br> <?= $total_rejected ?></button>
+                    <p id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br> <?php echo $total_leaves ?></p>
+                    <p id="pendingBtn" class="btn btn-outline-warning">Pending<br> <?php echo $total_pending ?></p>
+                    <p id="approvedBtn" class="btn btn-outline-success">Approved<br> <?php echo $total_approved ?></p>
+                    <p id="rejectedBtn" class="btn btn-outline-danger">Rejected<br> <?php echo $total_rejected ?></p>
                 </div>
             </div>
     <?php endif; ?>
@@ -72,25 +83,21 @@ leave_list([
 
 <?php if( is_admin() ){?>
   <div class="row">
-      <div class="col-6">
+      <div id="line" class="col-6">
 
           <?php
-          // Initialize an array to store leave request counts for each month
           $leaveCountsByMonth = [];
 
-          // Loop through leave requests and count leave requests for each month
           foreach ( $total_leave_requests as $leave_request ) {
               $from = new DateTime( $leave_request['from_date'] );
               $monthYear = $from->format('F Y');
 
-              // Increment the count for the month or initialize it if not present
               if (isset($leaveCountsByMonth[$monthYear])) {
                   $leaveCountsByMonth[$monthYear]++;
               } else {
                   $leaveCountsByMonth[$monthYear] = 1;
               }
           }
-          // Step 3: Prepare data for the line chart
           $months = [];
           $leaveCounts = [];
           
@@ -100,19 +107,17 @@ leave_list([
           }
           ?>
 
-          <!-- Step 4: Render the line chart using a charting library like Chart.js -->
           <div class="my-3">
               <canvas id="leaveChart"></canvas>
           </div>
 
       </div>
 
-      <div class="col-6">
-          <?php // Initialize arrays to store leave type and count
+      <div class="col-6" id="pie">
+          <?php 
           $leaveTypes = [];
           $leaveCounters = [];
 
-          // Iterate through leave requests to count leave types
           foreach ($total_leave_requests as $leave_request) {
               $type = $leave_request['leave_type'];
               if (!isset($leaveTypes[$type])) {
@@ -122,7 +127,6 @@ leave_list([
               }
           }
 
-          // Extract leave types and counts for the pie chart
           $leaveTypeLabels = array_keys($leaveTypes);
           $leaveTypeCounts = array_values($leaveTypes);
           ?>
@@ -135,9 +139,7 @@ leave_list([
 
 
 <script>
-  $(document).ready(function(){
-    
-  })
+  
     var ctx = document.getElementById('leaveChart').getContext('2d');
     var leaveChart = new Chart(ctx, {
         type: 'line',
@@ -159,11 +161,9 @@ leave_list([
             }
         }
     });
-
     // Get data from PHP
     var leaveTypeLabels = <?php echo json_encode($leaveTypeLabels); ?>;
     var leaveTypeCounts = <?php echo json_encode($leaveTypeCounts); ?>;
-
     // Render pie chart
     var pie_chart = document.getElementById('leavePieChart').getContext('2d');
     var leavePieChart = new Chart(pie_chart, {
@@ -201,6 +201,158 @@ leave_list([
             }
         }
     });
+    
+
+// $(document).ready(function () {
+//     // Make the items draggable
+//     $("#draggable-h, #totalLeaveBtn, #pendingBtn, #approvedBtn, #rejectedBtn").draggable({
+//         revert: "invalid",
+//         stack: ".draggable",
+//         zIndex: 1000,
+//     });
+
+//     // Set up sortable and droppable behavior for widgets
+//     $(".col-4").sortable({
+//         connectWith: ".col-4",
+//         placeholder: "sortable-placeholder",
+//         update: saveWidgetOrder,
+//     }).disableSelection();
+
+//     $(".col-4").droppable({
+//         accept: "#draggable-h, #totalLeaveBtn, #pendingBtn, #approvedBtn, #rejectedBtn",
+//         drop: function (event, ui) {
+//             var droppedItem = ui.draggable;
+//             $(this).append(droppedItem);
+//             saveWidgetOrder();
+//         },
+//     });
+
+//     // Function to save widget order to local storage
+//     function saveWidgetOrder() {
+//         let widgetOrder = {
+//             col1: $("#col1").sortable("toArray"),
+//             col2: $("#col2").sortable("toArray"),
+//             col3: $("#col3").sortable("toArray"),
+//         };
+
+//         localStorage.setItem("widgetOrder", JSON.stringify(widgetOrder));
+//     }
+
+//     // On page load, initialize the widgets based on stored order
+//     let savedWidgetOrder = localStorage.getItem("widgetOrder");
+//     if (savedWidgetOrder) {
+//         let order = JSON.parse(savedWidgetOrder);
+
+//         order.col1.forEach(function (widget) {
+//             $("#" + widget).appendTo("#col1");
+//         });
+//         order.col2.forEach(function (widget) {
+//             $("#" + widget).appendTo("#col2");
+//         });
+//         order.col3.forEach(function (widget) {
+//             $("#" + widget).appendTo("#col3");
+//         });
+//     }
+
+//     $("#droppable").droppable({
+//         accept: "#totalLeaveBtn",
+//         drop: function (event, ui) {
+//             alert("Dropped on Drop!");
+//             saveWidgetOrder();
+//         },
+//     });
+
+//     if (localStorage.getItem("dragDropped") === "true") {
+//         $("#draggable-h, #totalLeaveBtn, #pendingBtn, #approvedBtn, #rejectedBtn").appendTo("#droppable").css({
+//             top: 0,
+//             left: 0,
+//         });
+//         alert("Drag was previously dropped and re-initialized.");
+//     }
+// });
+
+$(document).ready(function () {
+    // Make the items draggable
+    $("#draggable-h, #totalLeaveBtn, #pendingBtn, #approvedBtn, #rejectedBtn").draggable({
+        revert: "invalid",
+        stack: ".draggable",
+        zIndex: 1000,
+    });
+
+    // Set up sortable and droppable behavior for widgets
+    $(".col-4").sortable({
+        connectWith: ".col-4",
+        placeholder: "sortable-placeholder",
+        update: saveWidgetOrder,
+    }).disableSelection();
+
+    $(".col-4").droppable({
+        accept: "#draggable-h, #totalLeaveBtn, #pendingBtn, #approvedBtn, #rejectedBtn",
+        drop: function (event, ui) {
+            var droppedItem = ui.draggable;
+            $(this).append(droppedItem);
+            saveWidgetOrder();
+        },
+    });
+
+    // Function to save widget order to local storage
+    function saveWidgetOrder() {
+        let widgetOrder = {
+            col1: $("#col1").sortable("toArray"),
+            col2: $("#col2").sortable("toArray"),
+            col3: $("#col3").sortable("toArray"),
+            droppable: $("#droppable").sortable("toArray"), // added the drop container
+        };
+
+        localStorage.setItem("widgetOrder", JSON.stringify(widgetOrder));
+    }
+
+    // On page load, initialize the widgets based on stored order
+    let savedWidgetOrder = localStorage.getItem("widgetOrder");
+    if (savedWidgetOrder) {
+        let order = JSON.parse(savedWidgetOrder);
+
+        order.col1.forEach(function (widget) {
+            $("#" + widget).appendTo("#col1");
+        });
+        order.col2.forEach(function (widget) {
+            $("#" + widget).appendTo("#col2");
+        });
+        order.col3.forEach(function (widget) {
+            $("#" + widget).appendTo("#col3");
+        });
+        if (order.droppable) {
+            order.droppable.forEach(function (widget) {
+                $("#" + widget).appendTo("#droppable");
+            });
+        }
+    }
+
+    $("#droppable").droppable({
+        accept: "#totalLeaveBtn",
+        drop: function (event, ui) {
+            alert("Dropped on Drop!");
+            saveWidgetOrder();
+        },
+    });
+
+    // Additional code for dragging out from the droppable container
+    $("#droppable").sortable({
+        connectWith: ".col-4",
+        placeholder: "sortable-placeholder",
+        update: saveWidgetOrder,
+    }).disableSelection();
+
+    if (localStorage.getItem("dragDropped") === "true") {
+        $("#draggable-h, #totalLeaveBtn, #pendingBtn, #approvedBtn, #rejectedBtn").appendTo("#droppable").css({
+            top: 0,
+            left: 0,
+        });
+        alert("Drag was previously dropped and re-initialized.");
+    }
+});
+
+
 </script>
 
 

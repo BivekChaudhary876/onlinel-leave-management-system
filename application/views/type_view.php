@@ -1,5 +1,5 @@
 <div class="modal fade" id="createLeaveTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-started" role="document">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Leave Type</h5>
@@ -8,11 +8,11 @@
         <form method="POST" action="type/save">
           <input type="hidden" id="id" name="id">
           <div class="form-group">
-            <label for="year">Leavve Type</label>
+            <label for="name">Leavve Type</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Leave Type" required>
           </div>
           <div class="modal-footer justify-content-center">
-            <input type="submit" class="btn btn-success"></input>
+            <input type="submit" class="btn btn-success" id="submitBtn"></input>
           </div>
         </form>
       </div>
@@ -31,7 +31,7 @@
     <thead>
       <tr class="table-success text-start">
         <th scope="col">S.No</th>
-        <th scope="col">Type</th>
+        <th scope="col">Name</th>
         <th scope="col">Date</th>
         <?php if ( is_admin() ) : ?>
           <th scope="col">Actions</th>

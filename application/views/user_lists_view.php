@@ -99,7 +99,7 @@
 
             <?php if ( is_admin() ) { ?>
               <div class="modal-footer justify-content-center">
-                <input type="submit" class="btn btn-success createUser" value="Create"></input>
+                <input type="submit" id="submitBtn" class="btn btn-success createUser"></input>
               </div>
             <?php } ?>
         </form>
