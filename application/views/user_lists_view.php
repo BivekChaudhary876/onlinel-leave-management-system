@@ -34,6 +34,7 @@
         </tbody>
       </table>
     </div>
+                </div>
 
     <?php
     pagination([

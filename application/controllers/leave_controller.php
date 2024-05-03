@@ -10,14 +10,17 @@ class Leave_Controller extends Base_Controller {
         $user_m = load_model( 'user' );
         $users = false;
 
+        $leave_status = [['status'=>'pending'],['status'=>'approved'],['status'=>'rejected']];
+
         $where = $where_count = [];
+        if (isset($_GET['selected_status']) && !empty($_GET['selected_status'])) {
+            $where['lr.status'] = $_GET['selected_status'];
+            $where_count['status'] = $_GET['selected_status'];
+        }
+
         if( isset( $_GET[ 'selected_user' ] ) && !empty( $_GET[ 'selected_user' ] ) ){
            $where = [ 'lr.user_id' => $_GET[ 'selected_user' ] ];
            $where_count = [ 'user_id' => $_GET[ 'selected_user' ] ];
-        }
-
-        if( isset( $_GET[ 'selected_status' ] ) && !empty( $_GET[ 'selected_status' ] ) ){
-           $where = [ 'lr.status' => $_GET[ 'selected_status' ] ];
         }
 
         if( isset( $_GET[ 'from_date' ] ) && $_GET[ 'from_date' ] ){
@@ -48,6 +51,7 @@ class Leave_Controller extends Base_Controller {
             'page_title'  => 'Leave List',
             'leave_types' => $leave_types,
             'leaves'      => $leaves,
+            'leave_status'      => $leave_status,
             'total'       => $total,
         ],'leave');
     }

@@ -9,7 +9,18 @@
     <div class="col">
         <div class="my-3 text-end">
             <form method="GET" action="">
-              
+
+                <select name="selected_status" class="p-1 btn border-success rounded-start rounded-end">
+                  <option value="">Select Status</option>
+                  <?php
+                      $selected_status = isset($_GET['selected_status']) ? $_GET['selected_status'] : '';
+                      foreach ($leave_status as $status) :
+                          $is_selected = ($status['status'] == $selected_status) ? 'selected' : '';
+                      ?>
+                          <option value="<?= $status['status'] ?>" <?= $is_selected ?>><?= ucfirst($status['status']) ?></option>
+                  <?php endforeach; ?>
+              </select>
+
                 <select name="selected_user" class="p-1 btn border-success rounded-start rounded-end">
                     <?php if( is_admin() ) : ?>
                       <option value="0">Select User</option>
@@ -17,15 +28,15 @@
                     <?php
                         $selected_user = isset($_GET['selected_user']) ? $_GET['selected_user'] : '0';
                         foreach ($users as $user) : 
-                            $is_selected = ($user['id'] == $selected_user) ? 'selected' : '';?>
-                            <option value="<?= $user['id'] ?>" <?= $is_selected ?> ><?= $user['username'] ?></option>
+                            $is_selected = ( $user[ 'id' ] == $selected_user) ? 'selected' : '';?>
+                            <option value="<?= $user[ 'id' ] ?>" <?= $is_selected ?> ><?= $user['username'] ?></option>
                         <?php endforeach; ?> 
                 </select>
 
                 <input type="date" name="from_date" class="p-1 btn border-success rounded-start rounded-end" placeholder="From" 
-                    value="<?= isset($_GET['from_date']) ? $_GET['from_date'] : '' ?>" />
+                    value="<?= isset( $_GET[ 'from_date' ] ) ? $_GET[ 'from_date' ] : '' ?>" />
                 <input type="date" name="to_date" class="p-1 btn border-success rounded-start rounded-end" placeholder="To"
-                    value="<?= isset($_GET['to_date']) ? $_GET['to_date'] : '' ?>" />
+                    value="<?= isset( $_GET[ 'to_date' ] ) ? $_GET[ 'to_date' ] : '' ?>" />
                 <input type="submit" value="Filter" class="p-1 btn btn-outline-success">
             </form>
         </div>

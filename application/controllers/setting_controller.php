@@ -1,7 +1,7 @@
 <?php
 class Setting_Controller extends Base_Controller{
     public function index(){
-        $settings = $this->model->get();
+        $settings = $this->model->get([], false);
         $data = [];
         foreach( $settings as $setting ){
             $data[ $setting[ 'name' ] ] = $setting[ 'value' ];
@@ -18,8 +18,8 @@ class Setting_Controller extends Base_Controller{
         $data = [
             [ "data" => intval( $_POST[ 'per_page' ] ), "where" => "per_page" ],
             [ "data" => $_POST[ 'logo' ], "where" => "logo" ],
-            [ "data" => $_POST[ 'header' ], "where" => "header" ],
-            [ "data" => $_POST[ 'primary' ], "where" => "primary" ]
+            [ "data" => $_POST[ 'header_bg' ], "where" => "header_bg" ],
+            [ "data" => $_POST[ 'primary_bg' ], "where" => "primary_bg" ]
         ];
 
         foreach( $data as $d ){
