@@ -31,6 +31,55 @@ var $http = {
 }
 
 $(document).ready(function () {
+	$('.draggable-widget').draggable({
+		containment: 'document',
+		revert: 'invalid',
+		zIndex: 1000,
+	})
+
+	$('.droppable-widget-area').droppable({
+		drop: function (event, ui) {
+			const droppedWidget = ui.draggable
+			const $dropArea = $(this)
+
+			$dropArea.append(droppedWidget)
+
+			droppedWidget.css({
+				top: 0,
+				left: 0,
+				position: 'relative',
+			})
+
+			var widget_order = {
+				first: [],
+				second: [],
+				third: [],
+			}
+
+			$('#widget-area-first .draggable-widget').each(function () {
+				widget_order['first'].push($(this).attr('id'))
+			})
+
+			$('#widget-area-second .draggable-widget').each(function () {
+				widget_order['second'].push($(this).attr('id'))
+			})
+
+			$('#widget-area-third .draggable-widget').each(function () {
+				widget_order['third'].push($(this).attr('id'))
+			})
+
+			$http.post(
+				{
+					url: 'dashboard/save_widget_order',
+					data: {
+						widget_order: widget_order,
+					},
+				},
+				$(this)
+			)
+		},
+	})
+
 	$('#createUserBtn').click(function () {
 		$('#id').val('')
 		$('#username').val('')
@@ -291,6 +340,4 @@ $(document).ready(function () {
 	})
 })()
 
-$(document).ready(function () {
-	
-})
+$(document).ready(function () {})

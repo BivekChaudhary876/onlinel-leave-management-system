@@ -2,7 +2,7 @@
 
 class User_Controller extends Base_Controller{
 
-    protected $post_methods = [ 'login', 'save', 'deleteUser' ];
+    protected $post_methods = [ 'login', 'save' ];
 
     public function index(){
         $this->load_view( [], 'login' );
@@ -23,30 +23,17 @@ class User_Controller extends Base_Controller{
             if( empty( $user ) ){
                 redirect( 'user' );
             } else {
-                //user exists
                 $_SESSION[ 'current_user' ] = $user[ 0 ];
-                // Redirect based on user's role
                 if ( $user[0] ) {
-                    redirect( 'dashboard' ); // Redirect admin to dashboard
+                    redirect( 'dashboard' ); 
                 } else {
-                    redirect( 'user' ); // Redirect regular user to user list
+                    redirect( 'user' ); 
                 }
             }
         }  
 
         $this->index();
     }
-
-    // public function list(){
-    //     $users = $this->model->get();
-    //     $total = $this->model->get_count();
-        
-    //     $this->load_view( [ 
-    //         'page_title' => 'User List',
-    //         'total' => $total,
-    //         'users' => $users
-    //     ], 'user_lists' );
-    // }
     
     public function list( $id = false  ){
 
@@ -68,6 +55,7 @@ class User_Controller extends Base_Controller{
         
         $this->load_view( $data, $view );
     }
+    
     public function save(){
         
         $data = [

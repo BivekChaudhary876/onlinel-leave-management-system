@@ -96,9 +96,8 @@ class Conn
         return $data[0];
     }
 
-    public function escape( $string )
-    {
-        return $string;
+    public function escape( $string ){
+        return mysqli_real_escape_string( $this->connection, $string );
     }
 
     public function exec( $sql = false )

@@ -9,7 +9,8 @@ $system_files = [
     'functions',
     'conn',
     'base_controller',
-    'base_model'
+    'base_model',
+    'base_widget'
 ];
 
 foreach ( $system_files as $system_file ) {

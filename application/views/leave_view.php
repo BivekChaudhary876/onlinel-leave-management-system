@@ -13,11 +13,11 @@
                 <select name="selected_status" class="p-1 btn border-success rounded-start rounded-end">
                   <option value="">Select Status</option>
                   <?php
-                      $selected_status = isset($_GET['selected_status']) ? $_GET['selected_status'] : '';
+                      $selected_status = isset( $_GET[ 'selected_status' ] ) ? $_GET[ 'selected_status' ] : '';
                       foreach ($leave_status as $status) :
-                          $is_selected = ($status['status'] == $selected_status) ? 'selected' : '';
+                          $is_selected = ( $status[ 'status' ] == $selected_status ) ? 'selected' : '';
                       ?>
-                          <option value="<?= $status['status'] ?>" <?= $is_selected ?>><?= ucfirst($status['status']) ?></option>
+                          <option value="<?= $status[ 'status' ] ?>" <?= $is_selected ?>><?= ucfirst( $status[ 'status' ] ) ?></option>
                   <?php endforeach; ?>
               </select>
 
@@ -57,7 +57,7 @@
 							<label class="form-control-label">Leave Type</label>
 							<select name="type_id" class="form-control">
 								<option value="">Select Leave Type</option>
-								<?php foreach($leave_types as $type ): ?>
+								<?php foreach( $leave_types as $type ): ?>
                       <option value="<?= $type[ 'id' ] ?>"><?= $type[ 'name' ]?></option>
                 <?php endforeach; ?>
 							</select>

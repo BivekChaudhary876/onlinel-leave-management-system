@@ -38,6 +38,49 @@ function load_model( $model ){
     return false;
 }
 
+function load_widgets(){
+    ?>
+    <div class="row">
+        <?php
+            $widgets = glob( PATH . '/application/widgets/*.php' );
+            $setting_m = load_model( 'setting' );
+            $db_widgets_area = $setting_m->get( [ "name"=>"widget_order" ] );
+            $db_widgets_area = unserialize( $db_widgets_area[0][ "value" ] );
+           
+            $widgets_area = [
+                'first'  => [],
+                'second' => [],
+                'third'  => []
+            ];
+
+            foreach( $db_widgets_area as $col => $widgets ){
+                foreach( $widgets as $widget ){
+                    $class = str_replace( '-', '_', $widget ) . '_widget';
+                    require_once PATH . '/application/widgets/' . $class . '.php';
+                    $obj = new $class();
+                    $widgets_area[ $col ][] = $obj;
+                }
+            }
+
+            foreach( $widgets_area as $i => $widgets ){
+                ?>
+                <div id="widget-area-<?php echo $i; ?>" class="widget-area col-4">
+                    <h3>Widget <?php echo $i; ?></h3>
+                    <div class="droppable-widget-area">
+                        <?php 
+                            foreach( $widgets as $widget ){
+                                echo $widget->render();
+                            }
+                        ?>
+                    </div>
+                </div>
+                <?php
+            }
+        ?>
+    </div>
+    <?php
+}
+
 function dd( $v ){
     ?>
     <div class="var-dump">
