@@ -37,6 +37,9 @@ class User_Controller extends Base_Controller{
     
     public function list( $id = false  ){
 
+        if( !is_admin() ){
+            redirect( "dashboard" );
+        }
         $where = [];
         $data = [ 'page_title' => 'User List' ];
         $view = 'user_lists';

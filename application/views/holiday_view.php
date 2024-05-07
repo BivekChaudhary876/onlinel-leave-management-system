@@ -53,12 +53,12 @@
         <tr data-id="<?= $holiday[ 'id' ] ?>" data-from_date="<?= $holiday[ 'from_date' ] ?>" data-to_date="<?= $holiday[ 'to_date' ] ?>" data-event="<?= $holiday[ 'event' ] ?>">
           <td><?php echo ( indexing() + $key+1 ) ?></td>
           <td><?php echo $holiday[ 'event' ] ?></td>
-          <td><?php echo $holiday[ 'created_date' ] ?></td>
+          <td><?php echo $holiday[ 'from_date' ] ?></td>
           <?php if ( is_admin() ) : ?>
             <td class="text-start">
-              <button class="btn btn-outline-info edit-holiday" data-id="<?= $holiday[ 'id' ] ?>">Edit</button>
-              <button class="btn btn-outline-danger delete-holiday" data-id="<?= $holiday[ 'id' ] ?>">Delete</button>
-              <a href="holiday/details/<?= $holiday[ 'id' ] ?>"><button class="btn btn-outline-primary">View</button></a>
+              <button class="btn-edit edit-holiday" data-id="<?= $holiday[ 'id' ] ?>"><?php echo edit();?></button>
+              <button class="btn-delete delete-holiday" data-id="<?= $holiday[ 'id' ] ?>"><?php echo delete();?></button>
+              <a href="holiday/details/<?= $holiday[ 'id' ] ?>"><?php echo view();?></a>
             </td>
           <?php endif; ?>
         </tr>

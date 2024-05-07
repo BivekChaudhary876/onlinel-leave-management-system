@@ -11,7 +11,7 @@ class Leave_List_Widget extends Base_Widget{
         $leave_m = load_model( 'leave' );
         $total_leave_requests = $leave_m->get( [], false );
         ?>
-        <table class="table">
+        <table class="table content">
             <tbody>
                 <?php 
                 $count =0;

@@ -1,4 +1,4 @@
-<div class="my-3 w-50">
+<div class="my-3 w-50 setting">
     <form method="POST" action="setting/save">
         <p>
             <label>Per Page</label>

@@ -38,22 +38,28 @@ function load_model( $model ){
     return false;
 }
 
+function get_active_widgets(){
+    $setting_m = load_model( 'setting' );
+    $db_widgets = $setting_m->get( [ "name"=>"widget_order" ] );
+    if( empty( $db_widgets[0]["value"] ) ){
+        return [];
+    }
+    $db_widgets = unserialize( $db_widgets[0][ "value" ] );
+    return $db_widgets;
+}
+
 function load_widgets(){
     ?>
     <div class="row">
         <?php
-            $widgets = glob( PATH . '/application/widgets/*.php' );
-            $setting_m = load_model( 'setting' );
-            $db_widgets_area = $setting_m->get( [ "name"=>"widget_order" ] );
-            $db_widgets_area = unserialize( $db_widgets_area[0][ "value" ] );
-           
+            $active_widgets = get_active_widgets();
             $widgets_area = [
                 'first'  => [],
                 'second' => [],
                 'third'  => []
             ];
 
-            foreach( $db_widgets_area as $col => $widgets ){
+            foreach( $active_widgets as $col => $widgets ){
                 foreach( $widgets as $widget ){
                     $class = str_replace( '-', '_', $widget ) . '_widget';
                     require_once PATH . '/application/widgets/' . $class . '.php';
@@ -65,7 +71,6 @@ function load_widgets(){
             foreach( $widgets_area as $i => $widgets ){
                 ?>
                 <div id="widget-area-<?php echo $i; ?>" class="widget-area col-4">
-                    <h3>Widget <?php echo $i; ?></h3>
                     <div class="droppable-widget-area">
                         <?php 
                             foreach( $widgets as $widget ){
@@ -263,3 +268,19 @@ function leave_list( $args ){?>
 }
 
 
+// Actions icon
+function edit(){
+?>
+    <i class="fa fa-pencil-square-o" style="font-size:16px"></i>
+<?php
+}
+function delete(){
+?>
+    <i class="fa fa-trash" style="font-size:16px"></i>
+<?php
+}
+function view(){
+?>
+    <i class="fa fa-eye" style="font-size:16px"></i> 
+<?php
+}

@@ -95,7 +95,6 @@
             <?php endif;?>
             <th scope="col">Type</th>
             <th scope="col">Status</th>
-            <th scope="col">Date</th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -108,14 +107,13 @@
                   <?php endif; ?>
                   <td><?php echo $leave[ 'leave_type' ]; ?></td>
                   <td class="status"><?php echo get_status_badge( $leave[ 'status' ] ) ?></td>
-                  <td><?php echo $leave[ 'created_date' ]; ?></td>
 
                         <td>
                           <?php if( is_admin() ) :?>
-                          <button class="btn btn-outline-success change-leave-status" data-id="<?= $leave[ 'id' ] ?>" data-status="approved">Approve</button>
-                          <button class="btn btn-outline-danger change-leave-status" data-id="<?= $leave[ 'id' ] ?>" data-status="rejected">Reject</button>
+                          <button class="btn-edit change-leave-status" data-id="<?= $leave[ 'id' ] ?>" data-status="approved"><?php echo edit();?></button>
+                          <button class="btn-delete change-leave-status" data-id="<?= $leave[ 'id' ] ?>" data-status="rejected"><?php echo delete();?></button>
                           <?php endif; ?>
-                          <a href='leave/details/<?php echo $leave[ 'id' ]; ?>'"><button class="btn btn-outline-primary">View </button></a>
+                          <a href='leave/details/<?php echo $leave[ 'id' ]; ?>'"><?php echo view();?></a>
                         </td>
               </tr>
           <?php endforeach; ?>

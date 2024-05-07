@@ -1,4 +1,4 @@
-<div class="my-3 d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 170px;">
+<div class="mx-1 my-3 d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 170px;">
     <ul class="nav nav-pills flex-column mb-auto">
       <?php if( is_admin() ) : ?>
         <li>
@@ -47,6 +47,9 @@
            <a href="setting" class="nav-link link-body-emphasis">
                 Settings
             </a>
+        </li>
+        <li>
+            <a href="widget" class="nav-link link-body-emphasis">Widget</a>
         </li>
 
     </ul>

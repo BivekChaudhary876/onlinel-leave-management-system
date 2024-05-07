@@ -39,13 +39,13 @@ abstract class Base_Controller{
 
         extract( $data );
         require_once PATH . '/application/views/templates/head.php';
-        echo '<div class="container-fluid">';
+        echo '<div class="">';
         echo '<div class="row">';
         if( !( 'user' == $this->c && 'index' == $this->m ) ){
             require_once PATH . '/application/views/templates/navbar.php';
             echo '</div>';
             echo '</div>';
-            echo '<div class="container">';
+            echo '<div class="mx-4">';
             echo '<div class="row">';
             echo '<div class="col-2">';
             require_once PATH . '/application/views/templates/sidebar.php';

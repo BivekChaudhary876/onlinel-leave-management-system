@@ -80,6 +80,30 @@ $(document).ready(function () {
 		},
 	})
 
+	$('.widget-action').click(function () {
+		var $this = $(this)
+		var $status = $(this).closest('tr').find('.status')
+		$http.post(
+			{
+				url: 'widget/toggle_widget',
+				data: {
+					name: $(this).data('name'),
+				},
+				success: function (response) {
+					if ('activate' == response.operation) {
+						$this.text('Deactivate')
+						$status.text('Active')
+					}
+					if ('deactivate' == response.operation) {
+						$this.text('Activate')
+						$status.text('Inactive')
+					}
+				},
+			},
+			$(this)
+		)
+	})
+
 	$('#createUserBtn').click(function () {
 		$('#id').val('')
 		$('#username').val('')
@@ -267,11 +291,11 @@ $(document).ready(function () {
 		delete_holiday(id, $row)
 	})
 
-	$('#creatLeaveTypeBtn').click(function () {
+	$('#create-type-btn').click(function () {
 		$('#id').val('')
 		$('#name').val('')
 		$('#submitBtn').val('Create')
-		$('#createLeaveTypeModal').modal('show')
+		$('#create-type-modal').modal('show')
 	})
 
 	$('.edit-type').click(function () {
@@ -280,9 +304,9 @@ $(document).ready(function () {
 
 		$('#id').val(id)
 		$('#name').val(type)
-		$('#exampleModalLabel').text('Edit Leave Type')
+		$('#modal-title').text('Edit Leave Type')
 		$('#submitBtn').val('Update')
-		$('#createLeaveTypeModal').modal('show')
+		$('#create-type-modal').modal('show')
 	})
 
 	function delete_type(id, $element) {

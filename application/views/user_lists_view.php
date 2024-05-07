@@ -1,40 +1,43 @@
 <?php if ( is_admin() ) { ?>
-  <div class="my-3 text-start">
+  <div class="">
     <button id="createUserBtn" class="btn btn-outline-success">Create New User</button>
-
-    <div class="my-3">
-      <table class="table table-striped table-light">
-        <thead>
-          <tr class="table-success text-start">
-            <th scope="col">S.No</th>
-            <th scope="col">User Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Department</th>
-            <th scope="col">Date</th>
-            <th scope="col">Actions</th>
+    <table class="table table-striped table-light">
+      <thead>
+        <tr class="table-success text-start">
+          <th scope="col">S.No</th>
+          <th scope="col">User Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Department</th>
+          <th scope="col">Date</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ( $users as $key => $user ) : ?>
+          <tr class="text-start">
+            <td><?php echo ( indexing() + $key + 1 ) ?></td>
+            <td><?php echo $user[ 'username' ]; ?></td>
+            <td><?php echo $user[ 'email' ]; ?></td>
+            <td><?php echo $user[ 'department' ]; ?></td>
+            <td><?php echo $user[ 'created_date' ]; ?></td>
+            <td class="text-start">
+            <?php if( is_admin()):?>
+              <button class="btn-edit edit-user" data-id="<?= $user[  'id'] ?>">
+                <?php echo edit();?>
+              </button>
+              <button class="btn-delete delete-user" data-id="<?= $user[ 'id' ] ?>">
+                <?php echo delete();?>
+              </button>
+            <?php endif; ?>
+                <a href='user/list/<?php echo $user[ 'id' ]; ?>'">
+                <?php echo view();?>
+                </a>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          <?php foreach ( $users as $key => $user ) : ?>
-            <tr class="text-start">
-              <td><?php echo ( indexing() + $key + 1 ) ?></td>
-              <td><?php echo $user[ 'username' ]; ?></td>
-              <td><?php echo $user[ 'email' ]; ?></td>
-              <td><?php echo $user[ 'department' ]; ?></td>
-              <td><?php echo $user[ 'created_date' ]; ?></td>
-              <td class="text-start">
-                <?php if( is_admin()):?>
-                <button class="btn btn-outline-info edit-user" data-id="<?= $user[  'id'] ?>">Edit</button>
-                <button class="btn btn-outline-danger delete-user" data-id="<?= $user[ 'id' ] ?>">Delete</button>
-                <?php endif; ?>
-                <a href='user/list/<?php echo $user[ 'id' ]; ?>'"><button class="btn btn-outline-primary">View </button></a>
-              </td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-    </div>
-                </div>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
 
     <?php
     pagination([
@@ -42,8 +45,6 @@
       "total" => $total
     ]);
     ?>
-  </div>
-
   <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
