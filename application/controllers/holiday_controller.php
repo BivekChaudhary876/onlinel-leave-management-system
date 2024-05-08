@@ -11,7 +11,11 @@ class Holiday_Controller extends Base_Controller{
         $this->load_view( [ 
             'page_title' => 'Holiday',
             'holidays'   => $holidays,
-            'total'      => $total
+            'total'      => $total,
+            'modal' => [
+                "title" => "Add / Update Holiday",
+                "view"  => "holiday"
+            ]
         ], 'holiday' ); 
     }
 

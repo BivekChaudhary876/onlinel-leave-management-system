@@ -96,15 +96,115 @@ body {
 	text-transform: capitalize;
 }
 
+#submit-btn {
+	display: flex;
+	justify-content: end;
+	align-items: end;
+}
+
 .btn-delete {
-	color: red;
+	color: #dc3545;
+	background-color: transparent;
 }
 
 .btn-edit {
-	color: green;
+	color: #198754;
+	background-color: transparent;
 }
 
 .btn-edit,
 .btn-delete {
 	border: none;
+	transition: background-color 0.3s ease-in-out;
+}
+
+
+
+.button {
+	margin: 15px 0px;
+}
+.button,
+.approved-btn,
+.rejected-btn {
+	border-radius: 5px;
+	background-color: transparent;
+	transition: background-color 0.3s ease-in-out;
+}
+
+.button,
+.approved-btn {
+	border: 1px solid #198754;
+	color: #198754;
+}
+.rejected-btn {
+	border: 1px solid #dc3545;
+	color: #dc3545;
+}
+
+.button:hover {
+	background-color: #198754;
+	color: #fff;
+}
+
+.approved-btn:hover {
+	background-color: #198754;
+	color: #fff;
+}
+
+.rejected-btn:hover {
+	background-color: #dc3545;
+	color: #fff;
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 34px;
+	height: 20px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	transition: 0.4s;
+}
+
+.slider.round {
+	border-radius: 20px;
+}
+
+.slider:before {
+	position: absolute;
+	content: '';
+	height: 14px;
+	width: 14px;
+	border-radius: 50%;
+	background-color: white;
+	transition: 0.4s;
+	left: 4px;
+	bottom: 3px;
+}
+
+input:checked + .slider {
+	background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+	transform: translateX(14px);
+}
+
+
+.details{
+	box-shadow: 1px 1px 8px 0px #a7a7a7;
 }

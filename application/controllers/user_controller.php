@@ -40,8 +40,16 @@ class User_Controller extends Base_Controller{
         if( !is_admin() ){
             redirect( "dashboard" );
         }
+
         $where = [];
-        $data = [ 'page_title' => 'User List' ];
+        $data = [ 
+            'page_title' => 'User List', 
+            'modal' => [
+                "title" => "Add / Update User",
+                "view"  => "user"
+            ] 
+        ];
+
         $view = 'user_lists';
         if( $id ){
             # show only on user
@@ -64,6 +72,8 @@ class User_Controller extends Base_Controller{
         $data = [
             'username'   => $_POST[ 'username' ], 
             'email'      => $_POST[ 'email' ], 
+            'gender'      => $_POST[ 'gender' ], 
+            'birth_date'      => $_POST[ 'birth_date' ], 
             'department' => $_POST[ 'department' ],
             'password'   => $_POST[ 'password' ]
 

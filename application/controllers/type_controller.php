@@ -4,6 +4,14 @@ class Type_Controller extends Base_Controller{
 
     protected $post_methods = [ 'save' , 'delete' ];
 
+    public function __construct(){
+        if( !is_admin() ){
+            redirect( "dashboard" );
+        }
+
+        parent::__construct();
+    }
+
     public function index(){
         $types = $this->model->get();
         $total  = $this->model->get_count();
@@ -11,7 +19,11 @@ class Type_Controller extends Base_Controller{
         $this->load_view( [ 
             'page_title' => 'Type',
             'types'      => $types,
-            'total'      => $total
+            'total'      => $total,
+            'modal' => [
+                "title" => "Add / Update Leave Type",
+                "view"  => "leave_type"
+            ]
         ], 'type' );
     }
 

@@ -54,6 +54,7 @@ class Leave_Controller extends Base_Controller {
             'leaves'       => $leaves,
             'leave_status' => $leave_status,
             'total'        => $total,
+            
         ],'leave');
     }
 

@@ -35,7 +35,7 @@
                 <li>
                   <div class="my-3">
                     <?php if ( isset( $_SESSION['current_user'])): ?>
-                      <a class=" " href="dashboard/logout"><button class="btn btn-outline-danger">Logout</button></a>
+                      <a class=" " href="dashboard/logout"><button class="btn btn-outline-danger"><?php echo icon("logout"); ?>Logout</button></a>
                     <?php endif ;?>
                   </div>
                 </li>

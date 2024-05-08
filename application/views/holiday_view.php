@@ -1,70 +1,32 @@
-<!-- Modal for Adding/Editing Holidays -->
-<div class="modal fade" id="createHolidayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Holiday</h5>
-      </div>
-      <div class="modal-body">
-        <form id="createHolidayForm" method="POST" action="holiday/save">
-          <input type="hidden" id="id" name="id"> 
-          <div class="form-group">
-            <label for="from_date">From</label>
-            <input type="date" class="form-control" id="from_date" name="from_date"> 
-          </div>
-          <div class="form-group">
-            <label for="to_date">To</label>
-            <input type="date" class="form-control" id="to_date" name="to_date"> 
-          </div>
-          <div class="form-group">
-            <label for="event">Event</label>
-            <textarea class="form-control" id="event" name="event" rows="3" required></textarea> 
-          </div>
-          <div class="modal-footer justify-content-center">
-            <input type="submit" class="btn btn-success" id="submitBtn"> 
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<?php if ( is_admin() ) : ?>
-  <div class="my-3 text-start">
-    <button id="createHolidayBtn" class="btn btn-outline-success">Add New Holiday</button>
-  </div>
-<?php endif; ?>
-
-<!-- Holiday Table -->
-<div class="my-3">
+<div class="">
+  <button class="open-app-modal button">Add new Holiday</button>
   <table class="table table-striped table-light">
     <thead>
       <tr class="table-success text-start">
         <th scope="col">S.No</th>
         <th scope="col">Event</th>
         <th scope="col">Date</th>
-        <?php if ( is_admin() ) : ?>
-          <th scope="col">Actions</th>
-        <?php endif; ?>
+        <?php echo action_header();?>
       </tr>
     </thead>
     <tbody>
       <?php foreach ($holidays as $key => $holiday) : ?>
-        <tr data-id="<?= $holiday[ 'id' ] ?>" data-from_date="<?= $holiday[ 'from_date' ] ?>" data-to_date="<?= $holiday[ 'to_date' ] ?>" data-event="<?= $holiday[ 'event' ] ?>">
-          <td><?php echo ( indexing() + $key+1 ) ?></td>
-          <td><?php echo $holiday[ 'event' ] ?></td>
-          <td><?php echo $holiday[ 'from_date' ] ?></td>
-          <?php if ( is_admin() ) : ?>
-            <td class="text-start">
-              <button class="btn-edit edit-holiday" data-id="<?= $holiday[ 'id' ] ?>"><?php echo edit();?></button>
-              <button class="btn-delete delete-holiday" data-id="<?= $holiday[ 'id' ] ?>"><?php echo delete();?></button>
-              <a href="holiday/details/<?= $holiday[ 'id' ] ?>"><?php echo view();?></a>
-            </td>
-          <?php endif; ?>
-        </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
+        <td><?php echo ( indexing() + $key+1 ) ?></td>
+        <td><?php echo $holiday[ 'event' ] ?></td>
+        <td><?php echo $holiday[ 'from_date' ] ?></td>
+        <?php if ( is_admin() ) : ?>
+          <td class="text-start">
+            <button class="btn-edit open-app-modal" data-value="<?php echo esc_attr( json_encode( $holiday ) ); ?>" data-id="    <?php echo esc_attr( $holiday[ 'id'] ); ?>">
+              <?php icon( "fa-pencil-square-o" ); ?>
+            </button>
+            <button class="btn-delete delete-holiday" data-id="<?= $holiday[ 'id' ] ?>"><?php echo icon('delete');?></button>
+            <a href="holiday/details/<?= $holiday[ 'id' ] ?>"><?php echo icon('view');?></a>
+          </td>
+        <?php endif; ?>
+      </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>
 </div>
 
 <!-- Pagination -->

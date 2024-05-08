@@ -2,12 +2,12 @@
     <ul class="nav nav-pills flex-column mb-auto">
       <?php if( is_admin() ) : ?>
         <li>
-            <a href="dashboard" class="nav-link link-body-emphasis">
+            <a href="dashboard" class="nav-link link-body-emphasis"><?php echo icon("dashboard");?>
                 Dashboard
             </a>
         </li>
         <li>
-            <a href="user/list" class="nav-link link-body-emphasis">
+            <a href="user/list" class="nav-link link-body-emphasis"><?php echo icon("user");?>
                 Users
             </a>
         </li>
@@ -28,7 +28,7 @@
         </li>
         <?php else: ?>
             <li>
-            <a href="dashboard" class="nav-link link-body-emphasis">
+            <a href="dashboard" class="nav-link link-body-emphasis"><?php echo icon("dashboard");?>
                 Dashboard
             </a>
         </li>  
@@ -44,7 +44,7 @@
         </li>
         <?php endif; ?>
         <li>
-           <a href="setting" class="nav-link link-body-emphasis">
+           <a href="setting" class="nav-link link-body-emphasis"><?php echo icon("settings");?>
                 Settings
             </a>
         </li>

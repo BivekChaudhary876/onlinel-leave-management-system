@@ -192,7 +192,7 @@ function pagination( $args ){
         $query_string = '&' . $query_string;
     }
     ?>
-    <div class="text-center">
+    <div class="text-center pagination">
         <ul class="pagination">
             <li class="page-item <?= ( $page <= 1 ) ? 'disabled' : '' ?>">
             <a class="page-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $page - 1 ?><?= $query_string ?>" aria-label="Previous">
@@ -200,7 +200,7 @@ function pagination( $args ){
             </a>
             </li>
         <?php for ($i = 1; $i <= $total_page; $i++): ?>
-            <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+            <li class="page-item <?php echo ($i == $page) ? 'active' : '' ;?>">
             <a class="page-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $i ?><?= $query_string ?>"><?= $i ?></a>
             </li>
         <?php endfor; ?>
@@ -214,73 +214,66 @@ function pagination( $args ){
 <?php
 }
 
-function total_status_count( $params ){?>
-    <div class="row">
-        <div class="my-3 text-center d-flex justify-content-evenly">
-            <button id="totalLeaveBtn" class="btn btn-outline-info">Total Leaves<br> <?php $params['total_leave']?></button>
-            <button id="pendingBtn" class="btn btn-outline-warning">Pending<br> <?php $params['total_pending'] ?></button>
-            <button id="approvedBtn" class="btn btn-outline-success">Approved<br> <?php $params['total_approved'] ?></button>
-            <button id="rejectedBtn" class="btn btn-outline-danger">Rejected<br> <?php $params['total_rejected'] ?></button>
+//Modal for Adding/Editing Holidays
+function modal_open( $args ){
+    ?>
+    <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-title"><?php echo $args[ 'modal-title' ];?></h5>
+            </div>
+            <div class="modal-body">
+    <?php
+    }
+
+    function modal_close(){
+        ?>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
- <?php
+    <?php
+    }
+
+    function create_btn( $args ){
+    ?>
+        <button id="<?php echo $args[ 'id' ];?>" class="add-btn"><?php echo $args[ 'title' ];?></button>
+    <?php 
+    }
+
+    function action_header(){
+        if ( is_admin() ) {
+            ?>
+                <th scope="col">Actions</th>
+          <?php
+        }
+    }
+
+    function action_body( $args ){
+        if ( is_admin() ) : ?>
+            <td class="text-start">
+              <button class="btn-edit <?php echo $args['edit-class']?>edit-type" data-id="<?= $args[ 'id' ] ?>"><?php echo edit();?></button>
+              <button class="btn-delete <?php echo $args['delete-class']?> delete-type" data-id="<?= $args[ 'id' ] ?>"><?php echo delete()?></button>
+              <a href="<?php echo $args['controller']?>/details/<?php echo $args[ 'id' ]?>"><?php echo view();?></a>
+            </td>
+          <?php endif;
+    }
+
+function holiday_date( $args ){
+    $inputDate = $args['holiday_date'];
+    $date = new DateTime($inputDate);
+    $format = $date->format('jS F Y');
 }
 
-function leave_list( $args ){?>
-    <div class="modal fade" id="<?php echo $args['modal-id']?>">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <table class="table table-striped table-light table-hover">
-                <thead>
-                    <tr class="table-success text-center">
-                        <th scope="col">S.No</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Department</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">From</th>
-                        <th scope="col">To</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php $l=1; ?>
-                <?php foreach( $args['model'] as $leave_request ): ?>
-                <?php if ( ( is_admin() && $leave_request['status'] == $args['current_status'] )|| ( is_user() && $leave_request['username'] == current_user() && $leave_request['status'] == $args['current_status'] ) )  : ?>
-                    <tr class="text-center"> 
-                        <td><?php  echo $l++ ?></td>
-                        <td><?= $leave_request[ 'username' ];?></td>
-                        <td><?= $leave_request[ 'email' ];?></td>
-                        <td><?= $leave_request[ 'department' ];?></td>
-                        <td><?php  echo $leave_request[ 'leave_type' ]; ?></td>
-                        <td><?php  echo $leave_request[ 'from_date' ]; ?></td>
-                        <td><?php  echo $leave_request[ 'to_date' ]; ?></td>
-                        <td><?php  echo $leave_request[ 'description' ]; ?></td>
-                        <td><?= get_status_badge( $leave_request[ 'status' ] ) ?></td>
-                    </tr>
-                <?php endif;?>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-<?php
+function icon( $c ){
+    $class = [ "edit" => "fa-pencil-square-o", "view" => "fa-eye", "delete" => "fa-trash" ,"dashboard" => "fa-tachometer", "user" => "fa-user", "settings" => "fa-cog", "login" => "fa-sign-in", "logout" => "fa-sign-out"];
+    ?>
+    <i class="fa <?php echo isset( $class[ $c ] ) ? $class[ $c ] : $c; ?>"></i>
+    <?php
 }
 
 
-// Actions icon
-function edit(){
-?>
-    <i class="fa fa-pencil-square-o" style="font-size:16px"></i>
-<?php
-}
-function delete(){
-?>
-    <i class="fa fa-trash" style="font-size:16px"></i>
-<?php
-}
-function view(){
-?>
-    <i class="fa fa-eye" style="font-size:16px"></i> 
-<?php
+function esc_attr( $string ){
+    return htmlspecialchars( $string, ENT_QUOTES, 'UTF-8' );
 }

@@ -19,7 +19,19 @@
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="public/js/index.js"></script>
     <title><?php $page_title;?></title>
-
-    
 </head>
 <body>
+    <?php if( isset( $modal ) ): ?>
+        <div class="modal fade" id="app-modal" tabindex="-1" role="dialog" aria-labelledby="App Modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><?php echo $modal[ 'title' ];?></h5>
+                    </div>
+                    <div class="modal-body">
+                        <?php require_once PATH . "/application/views/modals/{$modal[ 'view' ]}_modal.php"; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>

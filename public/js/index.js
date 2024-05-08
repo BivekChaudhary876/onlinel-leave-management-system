@@ -69,89 +69,96 @@ $(document).ready(function () {
 			})
 
 			$http.post(
-				{
-					url: 'dashboard/save_widget_order',
-					data: {
-						widget_order: widget_order,
-					},
+			{
+				url: 'dashboard/save_widget_order',
+				data: {
+					widget_order: widget_order,
 				},
-				$(this)
+			},
+			$(this)
 			)
 		},
 	})
 
 	$('.widget-action').click(function () {
-		var $this = $(this)
-		var $status = $(this).closest('tr').find('.status')
+		var $this = $(this),
+		isChecked = $this.is(':checked'),
+		$status = $(this).closest('tr').find('.status')
 		$http.post(
-			{
-				url: 'widget/toggle_widget',
-				data: {
-					name: $(this).data('name'),
-				},
-				success: function (response) {
-					if ('activate' == response.operation) {
-						$this.text('Deactivate')
-						$status.text('Active')
-					}
-					if ('deactivate' == response.operation) {
-						$this.text('Activate')
-						$status.text('Inactive')
-					}
-				},
+		{
+			url: 'widget/toggle_widget',
+			data: {
+				name: $(this).data('name'),
 			},
-			$(this)
+			success: function (response) {
+				if ('activate' == response.operation) {
+					$this.text('Deactivate')
+					$status.text('Active'), $this.prop('checked', true)
+				}
+				if ('deactivate' == response.operation) {
+					$this.text('Activate')
+					$status.text('Inactive'), $this.prop('checked', false)
+				}
+			},
+		},
+		$(this)
 		)
 	})
 
-	$('#createUserBtn').click(function () {
-		$('#id').val('')
-		$('#username').val('')
-		$('#email').val('')
-		$('#department').val('')
-		$('#submitBtn').val('Create')
-		$('#createUserModal').modal('show')
-	})
+	$('.open-app-modal').click(function () {
+		var data = $(this).data( 'value' );
+		var $modal = $('#app-modal');
+		if( data ){
+			for( var i in data ){
+				var $ele = $( '#'+i );
 
-	$('.edit-user').click(function () {
-		var id = $(this).data('id')
-		var username = $(this).closest('tr').find('td:eq(1)').text()
-		var email = $(this).closest('tr').find('td:eq(2)').text()
-		var department = $(this).closest('tr').find('td:eq(3)').text()
+				if( $ele.length ){
+					if( $ele.is( "input" ) ){
+						var type = $ele.attr( 'type' );
+						if( type === 'radio'){
+							$$ele.attr( 'name' ).val( data[ i ] ).prop('checked', true);
 
-		$('#id').val(id)
-		$('#username').val(username)
-		$('#email').val(email)
-		$('#department').val(department)
-		$('#exampleModalLabel').text('Edit User')
-		$('#submitBtn').val('Update')
-		$('#createUserModal').modal('show')
+						}else{
+							$ele.val( data[ i ] );
+						}
+					} else if ($ele.is("select")) {
+						$ele.val(data[ i ]);
+					}
+				}
+			}
+		}else{
+			$modal.find('input').val('');
+			$modal.find('radio').prop('checked', false);
+			$modal.find('select').val('');
+		}
+
+		$modal.modal('show')
 	})
 
 	function delete_user(id, $element) {
 		if (confirm('Are you sure you want to delete this user?')) {
 			$http.post(
-				{
-					url: 'user/delete',
-					data: {
-						id: id,
-					},
-					success: function (response) {
-						var res = JSON.parse(response)
-						if (res.success) {
-							$element.fadeOut(500, function () {
-								$(this).remove()
-							})
-						} else {
-							alert('Error: ' + res.message)
-						}
-					},
-					error: function (xhr, status, error) {
-						console.error('Error:', xhr.responseText)
-						alert('An error occurred while deleting the user.')
-					},
+			{
+				url: 'user/delete',
+				data: {
+					id: id,
 				},
-				$element
+				success: function (response) {
+					var res = JSON.parse(response)
+					if (res.success) {
+						$element.fadeOut(500, function () {
+							$(this).remove()
+						})
+					} else {
+						alert('Error: ' + res.message)
+					}
+				},
+				error: function (xhr, status, error) {
+					console.error('Error:', xhr.responseText)
+					alert('An error occurred while deleting the user.')
+				},
+			},
+			$element
 			)
 		}
 	}
@@ -162,125 +169,64 @@ $(document).ready(function () {
 		delete_user(id, $row)
 	})
 
-	$('#createLeaveBtn').click(function () {
-		$('#createLeaveModal').modal('show')
-	})
-
-	$('#viewBtn').click(function () {
-		$('#viewModal').modal('show')
-	})
-
-	$('#totalLeaveBtn').click(function () {
-		$('#totalLeaveModal').modal('show')
-	})
-
-	$('#pendingBtn').click(function () {
-		$('#pendingModal').modal('show')
-	})
-
-	$('#approvedBtn').click(function () {
-		$('#approvedModal').modal('show')
-	})
-
-	$('#rejectedBtn').click(function () {
-		$('#rejectedModal').modal('show')
-	})
-
 	$('.change-leave-status').click(function (e) {
 		e.preventDefault()
 
 		var id = $(this).data('id'),
-			status = $(this).data('status'),
-			$status = $(this).closest('tr').find('.status')
+		status = $(this).data('status'),
+		$status = $(this).closest('tr').find('.status')
 
 		$http.post(
-			{
-				url: 'leave/save',
-				data: {
-					id: id,
-					status: status,
-				},
-				success: function () {
-					// Update the status cell in the table
-					$status.html(
-						'<span class="badge text-bg-' +
-							(status === 'approved' ? 'success' : 'danger') +
-							'">' +
-							status +
-							'</span>'
-					)
-				},
-				error: function (xhr) {
-					// Handle error response
-					console.error(xhr.responseText)
-					alert('An error occurred while updating the leave status.')
-				},
+		{
+			url: 'leave/save',
+			data: {
+				id: id,
+				status: status,
 			},
-			$(this)
+			success: function () {
+					// Update the status cell in the table
+				$status.html(
+					'<span class="badge text-bg-' +
+					(status === 'approved' ? 'success' : 'danger') +
+					'">' +
+					status +
+					'</span>'
+					)
+			},
+			error: function (xhr) {
+					// Handle error response
+				console.error(xhr.responseText)
+				alert('An error occurred while updating the leave status.')
+			},
+		},
+		$(this)
 		)
-	})
-
-	$('#createHolidayBtn').click(function () {
-		$('#id').val('')
-		$('#from_date').val('')
-		$('#to_date').val('')
-		$('#event').val('')
-		$('#submitBtn').val('Create')
-		$('#createHolidayModal').modal('show')
-	})
-
-	$('.edit-holiday').click(function () {
-		var $row = $(this).closest('tr')
-		var id = $row.data('id')
-		var from_date = $row.data('from_date')
-		var to_date = $row.data('to_date')
-		var event = $row.data('event')
-
-		console.log(
-			'Editing holiday with ID:',
-			id,
-			'From:',
-			from_date,
-			'To:',
-			to_date,
-			'Event:',
-			event
-		)
-
-		$('#id').val(id)
-		$('#from_date').val(from_date)
-		$('#to_date').val(to_date)
-		$('#event').val(event)
-		$('#exampleModalLabel').text('Edit Holiday')
-		$('#createHolidayForm').attr('action', 'holiday/save')
-		$('#submitBtn').val('Update')
-		$('#createHolidayModal').modal('show')
 	})
 
 	function delete_holiday(id, $element) {
 		if (confirm('Are you sure you want to delete this holiday?')) {
 			$http.post(
-				{
-					url: 'holiday/delete',
-					data: {
-						id: id,
-					},
-					success: function (response) {
-						var res = JSON.parse(response)
-						if (res.success) {
-							$element.fadeOut(500, function () {
-								$(this).remove()
-							})
-						} else {
-							alert('Error: ' + res.message)
-						}
-					},
-					error: function (xhr, status, error) {
-						console.error('Error:', xhr.responseText)
-						alert('An error occurred while deleting the user.')
-					},
+			{
+				url: 'holiday/delete',
+				data: {
+					id: id,
 				},
-				$element
+				success: function (response) {
+					var res = JSON.parse(response)
+					if (res.success) {
+						$element.fadeOut(500, function () {
+							$(this).remove()
+						})
+					} else {
+						alert('Error: ' + res.message)
+					}
+				},
+				error: function (xhr, status, error) {
+					console.error('Error:', xhr.responseText)
+					alert('An error occurred while deleting the user.')
+				},
+			},
+			$element
 			)
 		}
 	}
@@ -291,48 +237,30 @@ $(document).ready(function () {
 		delete_holiday(id, $row)
 	})
 
-	$('#create-type-btn').click(function () {
-		$('#id').val('')
-		$('#name').val('')
-		$('#submitBtn').val('Create')
-		$('#create-type-modal').modal('show')
-	})
-
-	$('.edit-type').click(function () {
-		var id = $(this).data('id')
-		var type = $(this).closest('tr').find('td:eq(1)').text()
-
-		$('#id').val(id)
-		$('#name').val(type)
-		$('#modal-title').text('Edit Leave Type')
-		$('#submitBtn').val('Update')
-		$('#create-type-modal').modal('show')
-	})
-
 	function delete_type(id, $element) {
 		if (confirm('Are you sure you want to delete this leave type?')) {
 			$http.post(
-				{
-					url: 'type/delete',
-					data: {
-						id: id,
-					},
-					success: function (response) {
-						var res = JSON.parse(response)
-						if (res.success) {
-							$element.fadeOut(500, function () {
-								$(this).remove()
-							})
-						} else {
-							alert('Error: ' + res.message)
-						}
-					},
-					error: function (xhr, status, error) {
-						console.error('Error:', xhr.responseText)
-						alert('An error occurred while deleting the leave type.')
-					},
+			{
+				url: 'type/delete',
+				data: {
+					id: id,
 				},
-				$element
+				success: function (response) {
+					var res = JSON.parse(response)
+					if (res.success) {
+						$element.fadeOut(500, function () {
+							$(this).remove()
+						})
+					} else {
+						alert('Error: ' + res.message)
+					}
+				},
+				error: function (xhr, status, error) {
+					console.error('Error:', xhr.responseText)
+					alert('An error occurred while deleting the leave type.')
+				},
+			},
+			$element
 			)
 		}
 	}
@@ -363,5 +291,3 @@ $(document).ready(function () {
 		}
 	})
 })()
-
-$(document).ready(function () {})
