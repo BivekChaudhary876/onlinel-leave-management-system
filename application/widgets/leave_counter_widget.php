@@ -51,13 +51,43 @@ class Leave_Counter_Widget extends Base_Widget{
 
     public function widget(){
         $total = $this->get();
+
+        $base_url = 'leave?selected_status=';
+        // dd($base_url);
         ?>
         <ul>
-            <li><strong>Total Leave</strong> <span><?php echo $total[ 'total' ]; ?></span></li>
-            <li><strong>Total Pending</strong> <span><?php echo $total[ 'pending' ]; ?></span></li>
-            <li><strong>Total Approved</strong> <span><?php echo $total[ 'approved' ]; ?></span></li>
-            <li><strong>Total Rejected</strong> <span><?php echo $total[ 'rejected' ]; ?></span></li>
-        </ul>
-        <?php
-    }
+            <li>
+                <a href="<?php echo $base_url .'' ;?>">
+                    <strong>Total Leave</strong>
+                    <span><?php echo $total[ 'total' ]; ?>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="<?php echo $base_url .'pending';?>">
+                <strong>Total Pending</strong>
+                <span>
+                    <?php echo $total[ 'pending' ]; ?>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="<?php echo $base_url . 'approved';?>">
+                <strong>Total Approved</strong> 
+                <span>
+                    <?php echo $total[ 'approved' ]; ?>
+                </span>
+            </a>
+        </li>
+        <li> 
+            <a href="<?php echo $base_url . 'rejected';?>">
+                <strong>Total Rejected</strong>
+                <span>
+                    <?php echo $total[ 'rejected' ]; ?>
+                </span>
+            </a>
+        </li>
+    </ul>
+    <?php
+}
 }

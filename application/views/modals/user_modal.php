@@ -2,11 +2,11 @@
 	<input type="hidden" id="id" name="id">
 	<div class="form-group">
 		<label for="username">Username</label>
-		<input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
+		<input type="text" class="input" id="username" name="username" placeholder="Enter Username">
 	</div>
 	<div class="form-group">
 		<label for="email">Email</label>
-		<input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+		<input type="email" class="input" id="email" name="email" placeholder="Enter email">
 	</div>
 	<div>
 		<label>Gender</label><br>
@@ -17,11 +17,12 @@
 	</div>
 	<div class="form-group">
 		<label for="birth_date">Birth Date</label>
-		<input type="date" class="form-control" id="birth_date" name="birth_date">
+		<input type="date" class="input" id="birth_date" name="birth_date">
 	</div>
 	<div class="form-group">
 		<label class="form-control-label">Department</label>
-		<select id="department" name="department" class="form-control">
+		<select id="department" name="department" class="input">
+			<option value="">Select Department</option>
 			<option value="HR">HR</option>
 			<option value="Development">Development</option>
 			<option value="UI/UX">UI/UX</option>
@@ -30,8 +31,8 @@
 		</select>
 	</div>
 	<div class="form-group">
-		<label for="password" class="form-control-label">Password</label>
-		<input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+		<label for="password" class="input-label">Password</label>
+		<input type="password" class="input" id="password" name="password" placeholder="Enter Password">
 	</div>
 	<div class="modal-footer">
 		<button type="submit" id="submit-btn" class="button">Add/Update</button>

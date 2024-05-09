@@ -50,7 +50,7 @@ class User_Controller extends Base_Controller{
             ] 
         ];
 
-        $view = 'user_lists';
+        $view = 'user';
         if( $id ){
             # show only on user
             $where[ 'id' ] = $id;

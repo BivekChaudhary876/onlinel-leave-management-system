@@ -1,56 +1,43 @@
-<div class="mx-1 my-3 d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 170px;">
-    <ul class="nav nav-pills flex-column mb-auto">
-      <?php if( is_admin() ) : ?>
-        <li>
-            <a href="dashboard" class="nav-link link-body-emphasis"><?php echo icon("dashboard");?>
-                Dashboard
-            </a>
-        </li>
-        <li>
-            <a href="user/list" class="nav-link link-body-emphasis"><?php echo icon("user");?>
-                Users
-            </a>
-        </li>
-        <li>
-          <a href="type" class="nav-link link-body-emphasis">
-                Leave Type
-            </a>
-        </li>
-        <li>
-          <a href="leave" class="nav-link link-body-emphasis">
-                Leave
-            </a>
-        </li>
-        <li>
-          <a href="holiday" class="nav-link link-body-emphasis">
-                Holidays
-            </a>
-        </li>
-        <?php else: ?>
-            <li>
-            <a href="dashboard" class="nav-link link-body-emphasis"><?php echo icon("dashboard");?>
-                Dashboard
-            </a>
-        </li>  
-        <li>
-        <a href="leave"  class="nav-link link-body-emphasis">
-                Leave
-            </a>
-        </li>
-        <li>
-        <a href="holiday" class="nav-link link-body-emphasis">
-                Holiday
-            </a>
-        </li>
-        <?php endif; ?>
-        <li>
-           <a href="setting" class="nav-link link-body-emphasis"><?php echo icon("settings");?>
-                Settings
-            </a>
-        </li>
-        <li>
-            <a href="widget" class="nav-link link-body-emphasis">Widget</a>
-        </li>
+<?php
+$controller_folder = PATH . '/application/controllers/';
 
+$controller_files = glob($controller_folder . '*.php');
+
+$controller_names = [];
+foreach ($controller_files as $file) {
+    $base_name = basename($file); 
+    $controller_name = str_replace(['_controller.php', '_'], ['', ' '], $base_name);
+    $controller_names[] = strtolower(trim($controller_name));
+}
+
+$current_controller = get_current_controller();
+
+?>
+<div class="sidebar">
+    <ul class="nav nav-pills flex-column">
+        <?php
+        foreach ($controller_names as $controller) {
+            $is_admin = in_array( $controller, ['type', 'user']);
+
+            if( $is_admin && !is_admin() ){
+                continue;
+            }
+            $is_active = ($current_controller === $controller) ? 'active' : '';
+            $controller_url = ($controller === 'user') ? $controller . '/list' : $controller;
+            ?>
+            <li class="nav-item">
+                <a class="nav-link link-body-emphasis nav-list <?php echo $is_active; ?>" href="<?php echo strtolower( str_replace( ' ', '', $controller_url ) ); ?>">
+                    <?php echo icon( $controller ); ?>
+                    <?php echo ucwords( $controller ); ?>
+                </a>
+            </li>
+            <?php
+        }
+        ?>
+        <li class="nav-item">
+            <?php if ( isset( $_SESSION['current_user'])): ?>
+                <a class="nav-link nav-list logout" href="dashboard/logout"><?php echo icon("logout"); ?>Logout</a>
+            <?php endif ;?>
+        </li>
     </ul>
 </div>

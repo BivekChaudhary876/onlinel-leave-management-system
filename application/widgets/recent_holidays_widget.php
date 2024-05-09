@@ -23,7 +23,7 @@ class Recent_Holidays_Widget extends Base_Widget{
             <td><?php echo ( indexing() + $key+1 );?></td>
             <td><?php echo $holiday[ 'event' ] ?></td>
             <td>
-                <a href='holiday/details/<?php echo $holiday[ 'id' ]; ?>'"><span class="btn text-secondary">View </span></a>
+                <a href='holiday/details/<?php echo $holiday[ 'id' ]; ?>'><?php echo icon('view');?></a>
             </td>
         </tr>
         <?php endforeach;

@@ -35,9 +35,9 @@ body {
 	background: black !important;
 }
 
-.widget-area {
+/*.widget-area {
 	margin-top: 15px;
-}
+}*/
 
 .widget-area h3 {
 	font-size: 12px;
@@ -121,7 +121,7 @@ body {
 
 
 .button {
-	margin: 15px 0px;
+	padding: 4px !important;
 }
 .button,
 .approved-btn,
@@ -163,6 +163,7 @@ body {
 	height: 20px;
 }
 
+/*Slider for the actions that act as activate and deactivate*/
 .switch input {
 	opacity: 0;
 	width: 0;
@@ -204,7 +205,121 @@ input:checked + .slider:before {
 	transform: translateX(14px);
 }
 
+/*Sidebar Design*/
+.sidebar {
+	width: 170px;
+    padding: 15px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 1px 1px 8px 0px #a7a7a7;
+}
 
-.details{
+.logout{
+	color: red;
+	font-size: 12px;
+	border:none;
+
+}
+.profile{
+	color: #000;
+	font-size: 12px;
+	border:none;
+
+}
+
+.nav-list{
+	transition: all 0.3s ease;
+
+}
+.nav-list:hover{
+	padding: 6px;
+	border-radius: 5px;
+	background-color: white;
+	text-decoration: none;
+}
+.drop{
+	width: 170px;
+    padding: 15px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 1px 1px 8px 0px #a7a7a7;
+}
+
+
+.col-2,.col-10{
+	margin-top: 15px;
+}
+
+
+/*table design*/
+.table {
+	margin: 15px 0px;
+    box-shadow: 1px 1px 8px 0px #a7a7a7;
+}
+.table-header{
+	background-color: lightgray;
+}
+
+.select {
+    word-wrap: normal;
+    border: 1px solid #a7a7a7;
+    border-radius: 5px;
+    background-color: #eeeeee;
+    padding: 4px;
+    margin-right: 8px;
+}
+
+.input{
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: 1px solid #dee2e6;
+    border-radius: .375rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+/*Design for actions column*/
+a{
+	text-decoration: none;
+	color: #000;
+}
+
+.actions{
+	margin-right: 5px;
+}
+
+
+/*information details view*/
+
+p{
+	font-weight: 300;
+}
+
+.card-details{
+	width: 75%;
+	font-size: 12px;
+	padding: 15px ;
+	border-radius: 5px;
 	box-shadow: 1px 1px 8px 0px #a7a7a7;
+}
+
+.card-title{
+	margin-bottom: 20px;
+}
+.info{
+	display: flex;
+	gap: 8px;
+	line-height: 1px;
+	font-size:12px;
+}
+
+.fa{
+	margin-right: 10px;
 }

@@ -214,52 +214,6 @@ function pagination( $args ){
 <?php
 }
 
-//Modal for Adding/Editing Holidays
-function modal_open( $args ){
-    ?>
-    <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal-title"><?php echo $args[ 'modal-title' ];?></h5>
-            </div>
-            <div class="modal-body">
-    <?php
-    }
-
-    function modal_close(){
-        ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <?php
-    }
-
-    function create_btn( $args ){
-    ?>
-        <button id="<?php echo $args[ 'id' ];?>" class="add-btn"><?php echo $args[ 'title' ];?></button>
-    <?php 
-    }
-
-    function action_header(){
-        if ( is_admin() ) {
-            ?>
-                <th scope="col">Actions</th>
-          <?php
-        }
-    }
-
-    function action_body( $args ){
-        if ( is_admin() ) : ?>
-            <td class="text-start">
-              <button class="btn-edit <?php echo $args['edit-class']?>edit-type" data-id="<?= $args[ 'id' ] ?>"><?php echo edit();?></button>
-              <button class="btn-delete <?php echo $args['delete-class']?> delete-type" data-id="<?= $args[ 'id' ] ?>"><?php echo delete()?></button>
-              <a href="<?php echo $args['controller']?>/details/<?php echo $args[ 'id' ]?>"><?php echo view();?></a>
-            </td>
-          <?php endif;
-    }
-
 function holiday_date( $args ){
     $inputDate = $args['holiday_date'];
     $date = new DateTime($inputDate);
@@ -267,7 +221,7 @@ function holiday_date( $args ){
 }
 
 function icon( $c ){
-    $class = [ "edit" => "fa-pencil-square-o", "view" => "fa-eye", "delete" => "fa-trash" ,"dashboard" => "fa-tachometer", "user" => "fa-user", "settings" => "fa-cog", "login" => "fa-sign-in", "logout" => "fa-sign-out"];
+    $class = [ "edit" => "fa-pencil-square-o", "view" => "fa-eye", "delete" => "fa-trash" ,"dashboard" => "fa-tachometer", "holiday" => "fa-superpowers", "leave" => "fa-leaf", "user" => "fa-users", "setting" => "fa-cog", "type" => "fa-puzzle-piece", "widget" => "fa-sitemap", "login" => "fa-sign-in", "logout" => "fa-sign-out"];
     ?>
     <i class="fa <?php echo isset( $class[ $c ] ) ? $class[ $c ] : $c; ?>"></i>
     <?php

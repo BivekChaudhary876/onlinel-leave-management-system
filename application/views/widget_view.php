@@ -1,7 +1,7 @@
 <div class="widget-lists-wrapper">
-    <table class="table table-striped table-light">
+    <table class="table table-light">
         <thead>
-            <tr class="table-success">
+            <tr class="table-secondary">
                 <th>Name</th>
                 <th>Status</th>
                 <th>Actions</th>

@@ -26,7 +26,7 @@ class Leave_List_Widget extends Base_Widget{
                         <?php endif; ?>
                         <td class="status"><?php echo get_status_badge( $leave[ 'status' ] ) ?></td>
                         <td>
-                            <a href='leave/details/<?php echo $leave[ 'id' ]; ?>'"><span class="btn text-secondary">View </span></a>
+                            <a href='leave/details/<?php echo $leave[ 'id' ]; ?>'><?php echo icon('view');?></a>
                         </td>
                     </tr>
                 <?php 
