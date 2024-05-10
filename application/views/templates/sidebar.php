@@ -26,7 +26,7 @@ $current_controller = get_current_controller();
             $controller_url = ($controller === 'user') ? $controller . '/list' : $controller;
             ?>
             <li class="nav-item">
-                <a class="nav-link link-body-emphasis nav-list <?php echo $is_active; ?>" href="<?php echo strtolower( str_replace( ' ', '', $controller_url ) ); ?>">
+                <a class="nav-link nav-list <?php echo $is_active; ?>" href="<?php echo strtolower( str_replace( ' ', '', $controller_url ) ); ?>">
                     <?php echo icon( $controller ); ?>
                     <?php echo ucwords( $controller ); ?>
                 </a>

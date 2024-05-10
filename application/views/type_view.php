@@ -5,7 +5,7 @@
             <tr class="table-secondary">
                 <th scope="col">S.No</th>
                 <th scope="col">Name</th>
-                <?php echo action_header();?>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>

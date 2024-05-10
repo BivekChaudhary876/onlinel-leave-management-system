@@ -192,20 +192,20 @@ function pagination( $args ){
         $query_string = '&' . $query_string;
     }
     ?>
-    <div class="text-center pagination">
-        <ul class="pagination">
-            <li class="page-item <?= ( $page <= 1 ) ? 'disabled' : '' ?>">
-            <a class="page-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $page - 1 ?><?= $query_string ?>" aria-label="Previous">
+    <div class="pagination-container">
+        <ul class="pagination-list">
+            <li class="pagination-item <?= ( $page <= 1 ) ? 'disabled' : '' ?>">
+            <a class="pagination-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $page - 1 ?><?= $query_string ?>" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
             </li>
         <?php for ($i = 1; $i <= $total_page; $i++): ?>
-            <li class="page-item <?php echo ($i == $page) ? 'active' : '' ;?>">
-            <a class="page-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $i ?><?= $query_string ?>"><?= $i ?></a>
+            <li class="pagination-item  <?php echo ($i == $page) ? 'active' : '' ;?>">
+            <a class="pagination-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $i ?><?= $query_string ?>"><?= $i ?></a>
             </li>
         <?php endfor; ?>
-            <li class="page-item <?= ( $page >= $total_page ) ? 'disabled' : '' ?>">
-            <a class="page-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $page + 1 ?><?= $query_string ?>" aria-label="Next">
+            <li class="pagination-item <?= ( $page >= $total_page ) ? 'disabled' : '' ?>">
+            <a class="pagination-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $page + 1 ?><?= $query_string ?>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
             </li>
