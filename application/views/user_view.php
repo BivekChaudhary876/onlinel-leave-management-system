@@ -25,7 +25,7 @@
                             <button class="btn-delete delete-user " data-id="<?= $user[ 'id' ] ?>">
                                 <?php icon( "fa-trash" ); ?>
                             </button>
-                            <a href='user/list/<?php echo $user[ 'id' ]; ?>'><?php icon( "fa-eye" ); ?></a>
+                            <a href='user/list/<?php echo esc_attr( $user[ 'id' ] ); ?>'><?php icon( "fa-eye" ); ?></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

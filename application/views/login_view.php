@@ -1,8 +1,7 @@
-<div class="row bg-login" style="background-image: url('public/img/loginPage.jpg');
-background-size: cover;
-background-repeat: no-repeat;
-background-attachment: fixed;
-color: #fff;">
+<div class="row bg-login login-section" style="background-image: url('public/img/loginPage.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;">
 <!-- Image column -->
 <div class="col-md-6">
   <div class="col-md-8 mx-auto my-5">

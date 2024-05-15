@@ -48,24 +48,24 @@
 		<tbody>
 			<?php foreach( $leaves as $key => $leave ) : ?>
 				<tr> 
-					<td><?php  echo ( indexing() + $key+1 ) ; ?></td>
+					<td><?php  echo esc_attr( ( indexing() + $key+1 ) ); ?></td>
 					<?php if( is_admin() ): ?>
-						<td><?php echo $leave[ 'username' ]; ?></td>
+						<td><?php echo esc_attr( $leave[ 'username' ] ); ?></td>
 					<?php endif; ?>
-					<td><?php echo $leave[ 'leave_type' ]; ?></td>
-					<td class="status"><?php echo get_status_badge( $leave[ 'status' ] ) ?></td>
+					<td><?php echo esc_attr( $leave[ 'leave_type' ] ); ?></td>
+					<td class="status"><?php echo get_status_badge( $leave[ 'status' ] ) ; ?></td>
 					<td>
 						<?php if( is_admin() ) :?>
 							<?php if ( $leave[ 'status' ] == 'pending' ):?>
-								<button class="approved-btn change-leave-status actions" data-id="<?php echo $leave[ 'id' ]; ?>" data-status="approved">Approve</button>
-								<button class="rejected-btn change-leave-status actions" data-id="<?php echo $leave[ 'id' ]; ?>" data-status="rejected">Reject</button>
+								<button class="approved-btn change-leave-status actions" data-id="<?php echo esc_attr( $leave[ 'id' ] ); ?>" data-status="approved">Approve</button>
+								<button class="rejected-btn change-leave-status actions" data-id="<?php echo esc_attr( $leave[ 'id' ] ); ?>" data-status="rejected">Reject</button>
 							<?php elseif ( $leave[ 'status' ] == 'approved'):?>
-							<button class="rejected-btn change-leave-status actions" data-id="<?php echo $leave[ 'id' ]; ?>" data-status="rejected">Reject</button>
+							<button class="rejected-btn change-leave-status actions" data-id="<?php echo esc_attr( $leave[ 'id' ] ); ?>" data-status="rejected">Reject</button>
 						<?php else:?>
-							<button class="approved-btn change-leave-status actions" data-id="<?php echo $leave[ 'id' ]; ?>" data-status="approved">Approve</button>
+							<button class="approved-btn change-leave-status actions" data-id="<?php echo esc_attr( $leave[ 'id' ] ); ?>" data-status="approved">Approve</button>
 						<?php endif;
 					endif; ?>
-					<a href="leave/details/<?php echo $leave[ 'id' ]; ?>"><?php echo icon( "view" ); ?></a>
+					<a href="leave/details/<?php echo esc_attr( $leave[ 'id' ] ); ?>"><?php echo icon( "view" ); ?></a>
 				</td>
 			</tr>
 		<?php endforeach; ?>

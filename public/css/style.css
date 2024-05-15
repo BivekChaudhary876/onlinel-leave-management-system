@@ -4,13 +4,12 @@ body {
 	overflow-x: hidden;
 }
 
-.bg-login {
+/*.bg-login {
 	background-image: url('public/img/loginPage.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	color: #fff;
-}
+}*/
 
 .col-2,.col-10{
 	margin-top: 15px;

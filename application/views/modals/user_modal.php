@@ -6,7 +6,7 @@
 	</div>
 	<div class="form-group">
 		<label for="email">Email</label>
-		<input type="email" class="input" id="email" name="email" placeholder="Enter email">
+		<input type="email" class="input" id="email" name="email" placeholder="Enter Email">
 	</div>
 	<div>
 		<label>Gender</label><br>
@@ -29,6 +29,14 @@
 			<option value="Finance">Finance</option>
 			<option value="Customer Support">Customer Support</option>
 		</select>
+	</div>
+	<div class="form-group">
+		<label for="address">Address</label>
+		<input type="text" class="input" id="address" name="address" placeholder="Enter Address">
+	</div>
+	<div class="form-group">
+		<label for="phone">Contact</label>
+		<input type="number" class="input" id="phone" name="phone" placeholder="Enter Contact">
 	</div>
 	<div class="form-group">
 		<label for="password" class="input-label">Password</label>

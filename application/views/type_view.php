@@ -11,8 +11,8 @@
         <tbody>
             <?php foreach ( $types as $key => $type ) : ?>
                 <tr>
-                    <td><?php echo ( indexing() + $key + 1 ) ?></td>
-                    <td><?php echo $type[ 'name' ] ?></td>
+                    <td><?php echo esc_attr( ( indexing() + $key + 1 ) ) ; ?></td>
+                    <td><?php echo esc_attr( $type[ 'name' ] ) ; ?></td>
                     <td>
                         <button class="btn-edit open-app-modal" data-value="<?php echo esc_attr( json_encode( $type ) ); ?>" data-id="<?= $type[ 'id' ] ?>"><?php icon( "edit" );?></button>
                         <button class="btn-delete delete-type" data-id="<?= $type[ 'id' ] ?>"><?php icon( "delete" )?></button>

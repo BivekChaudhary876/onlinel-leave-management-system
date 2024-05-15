@@ -5,7 +5,7 @@ $header_bg = get_option( 'header_bg' );
 ?>
 <header>
   <div class="px-3 border-bottom" style="background:<?php  echo $header_bg; ?>">
-    <div class="container-fluid">
+    <div class="container-fluid py-2">
       <div class="row ">
         <div class="col-2 d-flex align-items-center my-2 my-lg-0 me-lg-auto">
           <a href="index.php"><img src="public/img/logo.png" alt="logo" height="50"></a>
@@ -17,7 +17,7 @@ $header_bg = get_option( 'header_bg' );
 
             <ul class="nav justify-content-center">
              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <h6 class="my-0 text-white">Welcome, <?php echo $_SESSION['current_user']['username']; ?></h6>
+              <p class="my-0 text-white fw-bold">Welcome, <?php echo $_SESSION['current_user']['username']; ?></p>
               <img src="public/img/user.png" alt="Profile" width="32" height="32" class="rounded-circle ms-2">
             </a>
             <ul class="dropdown-menu drop">

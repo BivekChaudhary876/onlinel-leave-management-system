@@ -13,10 +13,18 @@
     </thead>
     <tbody>
       <?php foreach ($holidays as $key => $holiday) : ?>
-        <td><?php echo ( indexing() + $key+1 ) ?></td>
-        <td><?php echo $holiday[ 'event' ] ?></td>
-        <td><?php echo $holiday[ 'from_date' ] ?></td>
-        
+        <td><?php echo esc_attr( ( indexing() +$key+1 ) ) ?></td>
+        <td><?php echo esc_attr( $holiday[ 'event' ] ) ?></td>
+        <td>
+          <?php 
+          if ($holiday['to_date']) :
+            echo esc_attr( date('jS M Y, l', strtotime( $holiday[ 'from_date' ] ) ) ). ' - ' . esc_attr( date( 'jS M Y, l', strtotime( $holiday[ 'to_date' ] ) ) );
+          else :
+            echo esc_attr( date( 'jS M Y, l', strtotime( $holiday[' from_date' ] ) ) );
+          endif; ?>
+
+        </td>
+
         <td>
           <?php if ( is_admin() ) : ?>
             <button class="btn-edit open-app-modal" data-value="<?php echo esc_attr( json_encode( $holiday ) ); ?>" data-id="    <?php echo esc_attr( $holiday[ 'id'] ); ?>">
@@ -26,7 +34,7 @@
           <?php endif; ?>
           <a href="holiday/details/<?= $holiday[ 'id' ] ?>"><?php echo icon('view');?></a>
         </td>
-        
+
       </tr>
     <?php endforeach; ?>
   </tbody>

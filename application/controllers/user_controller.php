@@ -75,6 +75,8 @@ class User_Controller extends Base_Controller{
             'gender'      => $_POST[ 'gender' ], 
             'birth_date'      => $_POST[ 'birth_date' ], 
             'department' => $_POST[ 'department' ],
+            'address' => $_POST[ 'address' ],
+            'phone' => $_POST[ 'phone' ],
             'password'   => $_POST[ 'password' ]
 
         ];
