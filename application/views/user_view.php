@@ -18,6 +18,7 @@
                         <td><?php echo esc_attr( $user[ 'username' ] ); ?></td>
                         <td><?php echo esc_attr( $user[ 'email' ] ); ?></td>
                         <td><?php echo esc_attr( $user[ 'department' ] ); ?></td>
+                        
                         <td> 
                             <button class="btn-edit open-app-modal " data-value="<?php echo esc_attr( json_encode( $user ) ); ?>" data-id="<?php echo esc_attr( $user[ 'id'] ); ?>">
                                 <?php icon( "fa-pencil-square-o" ); ?>

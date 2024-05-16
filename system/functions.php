@@ -221,7 +221,7 @@ function holiday_date( $args ){
 }
 
 function icon( $c ){
-    $class = [ "edit" => "fa-pencil-square-o", "view" => "fa-eye", "delete" => "fa-trash" ,"dashboard" => "fa-tachometer", "holiday" => "fa-superpowers", "leave" => "fa-leaf", "user" => "fa-users", "setting" => "fa-cog", "type" => "fa-puzzle-piece", "widget" => "fa-sitemap", "login" => "fa-sign-in", "logout" => "fa-sign-out"];
+    $class = [ "edit" => "fa-pencil-square-o", "view" => "fa-eye", "delete" => "fa-trash" ,"dashboard" => "fa-tachometer", "holiday" => "fa-superpowers", "leave" => "fa-leaf", "user" => "fa-users", "setting" => "fa-cog", "type" => "fa-puzzle-piece", "widget" => "fa-sitemap", "login" => "fa-sign-in", "logout" => "fa-sign-out", "birthday"=>"fa-birthday-cake",];
     ?>
     <i class="fa <?php echo isset( $class[ $c ] ) ? $class[ $c ] : $c; ?>"></i>
     <?php

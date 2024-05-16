@@ -4,6 +4,8 @@ class Leave_Counter_Widget extends Base_Widget{
 
     protected $name = 'leave-counter';
 
+    protected $icon = 'leave';
+
     protected $title = 'Recent Leave Requests By Status';
 
     public function get(){
@@ -53,7 +55,6 @@ class Leave_Counter_Widget extends Base_Widget{
         $total = $this->get();
 
         $base_url = 'leave?selected_status=';
-        // dd($base_url);
         ?>
         <ul>
             <li>

@@ -4,13 +4,6 @@ body {
 	overflow-x: hidden;
 }
 
-/*.bg-login {
-	background-image: url('public/img/loginPage.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-}*/
-
 .col-2,.col-10{
 	margin-top: 15px;
 }
@@ -26,6 +19,25 @@ body {
 /*.widget-area {
 	margin-top: 15px;
 }*/
+
+.widget{
+	background: #fff; 
+	margin: 15px 0px;
+	border-radius: 3px;
+	border-bottom: 1px dashed #d2d2d2;
+    padding: 15px 15px;
+    box-shadow: 1px 1px 8px 0px #a7a7a7;
+
+}
+.widget tbody{
+	padding: 5px;
+
+}
+
+.widget td{
+    padding: 10px;
+    border-bottom: 1px dashed #cdcdcd;
+}
 
 .widget-area h3 {
 	font-size: 12px;
@@ -79,6 +91,36 @@ body {
 	box-shadow: 1px 1px 8px 0px #a7a7a7;
 }
 
+/*upcoming event day color */
+.today, .tommorrow{
+	font-size: 10px;
+    font-weight: 400;
+	padding: 4px 5px;
+	border-radius: 6px;
+}
+.today{
+	color: #fff;
+	background-color: #198754;
+}
+
+.tommorrow{
+	color: #fff;
+	background-color: #0d6efd;
+}
+.date{
+	color: #a8a807;
+}
+
+/*badge*/
+.badge{
+	color: #fff;
+	font-size: 10px;
+    font-weight: 400;
+    padding: 4px 5px;
+    border-radius: 6px;
+    background-color: #198754;
+}
+
 /* Widgets Lists */
 
 .widget-lists-wrapper .name {
@@ -108,7 +150,7 @@ body {
 }
 
 .button {
-	padding: 4px !important;
+	padding: 4px 12px !important;
 }
 
 .button,
@@ -294,6 +336,11 @@ transition: all 0.3s ease;
 	border: 1px solid #dee2e6;
 	border-radius: .375rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.color-input{
+	width: 10%;
+	border: 1px solid #dee2e6;
 }
 
 /*Design for actions column*/

@@ -3,6 +3,8 @@ abstract class Base_Widget{
 
     protected $name = '';
 
+    protected $icon = '';
+
     protected $title = '';
 
     protected static $widgets = [];
@@ -26,11 +28,28 @@ abstract class Base_Widget{
     public function render(){
         ?>
         <div id="<?php echo str_replace ( ' ', '-', $this->name ); ?>" class="draggable-widget <?php echo $this->name; ?>">
-            <h5><?php echo $this->title; ?></h5>
-            <div>
+            <h5><?php echo icon($this->icon) . $this->title; ?></h5>
+            <div class="widget">
                 <?php echo $this->widget(); ?>
             </div>
         </div>
         <?php
+    }
+
+    public function format_date( $date ){
+
+        $today = date('m-d');
+        $tomorrow = date('m-d', strtotime('+1 day'));
+
+        $current_date = date( 'm-d', strtotime( $date ) );
+        $date = date( 'jS M, l', strtotime( $date ) );
+
+        if( $current_date === $today ) {
+            return '<span class="today">Today</span>';
+        } elseif( $current_date === $tomorrow ){
+            return '<span class="tommorrow">Tommorrow</span>';
+        } 
+
+        return "<span class='date'>{$date}</span>";
     }
 }

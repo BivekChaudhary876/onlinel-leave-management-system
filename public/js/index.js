@@ -121,6 +121,8 @@ $(document).ready(function () {
 						}else{
 							$ele.val( data[ i ] );
 						}
+					}else if ($ele.is("textarea")) {
+						$ele.val(data[ i ]);
 					} else if ($ele.is("select")) {
 						$ele.val(data[ i ]);
 					}

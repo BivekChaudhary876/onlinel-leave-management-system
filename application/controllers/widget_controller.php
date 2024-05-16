@@ -11,12 +11,34 @@ class Widget_Controller extends Base_Controller{
 
     public function index(){
 
-        $db_widgets = get_active_widgets();
-        $active_widgets = $this->list_widgets( $db_widgets );
+        $widget_status = [
+            ['status'=>'all'],
+            ['status'=>'active'],
+            ['status'=>'inactive']
+        ];
+        
+        $selected_status = isset($_GET['selected_status']) ? $_GET['selected_status'] : 'all';
+        $where = [];
+        if ($selected_status === 'active') {
+            $where['status'] = 'active';
+        } elseif ($selected_status === 'inactive') {
+            $where['status'] = 'inactive';
+        }
+        $db_widgets = get_active_widgets($where);
+
+        if ($selected_status === 'all') {
+            $db_widgets = get_active_widgets();
+        }
+
+        // Get installed widgets and render the view
+        $active_widgets = $this->list_widgets($db_widgets);
+
         $this->load_view([
             'page_title'        => 'Widget',
             'installed_widgets' => $this->get_installed_widgets(),
             'active_widgets'    => $active_widgets,
+            'widget_status'     => $widget_status,
+            'selected_status'   => $selected_status,
         ], 'widget');
     }
 
@@ -57,7 +79,7 @@ class Widget_Controller extends Base_Controller{
     }
 
     public function deactivate( $name ){
-        
+
         $active_widgets = get_active_widgets();
         
         $new_active_widgets = [

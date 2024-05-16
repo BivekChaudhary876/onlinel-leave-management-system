@@ -6,24 +6,11 @@ class Holiday_Controller extends Base_Controller{
 
     public function index(){ 
         $holidays = $this->model->get();
-        usort($holidays, function($a, $b) {
-            return strtotime($a['from_date']) - strtotime($b['from_date']);
-        });
-        $upcoming_holidays = [];
-
-        foreach ($holidays as $holiday) {
-            $holiday_end = $holiday['to_date'];
-            $current_date = date('Y-m-d');
-            if ($holiday_end >= $current_date) {
-                $upcoming_holidays[] = $holiday;
-            }
-        }
-
-        $total = count($upcoming_holidays);
+        $total = $this->model->get_count();
 
         $this->load_view( [ 
             'page_title' => 'Holiday',
-            'holidays'   => $upcoming_holidays,
+            'holidays'   => $holidays,
             'total'      => $total,
             'modal' => [
                 "title" => "Add / Update Holiday",
@@ -54,28 +41,27 @@ class Holiday_Controller extends Base_Controller{
 
     public function save() {
 
-       $data = [
-        'from_date' => $_POST[ 'from_date' ],
-        'to_date' => $_POST[ 'to_date' ],
-        'event' => $_POST[ 'event' ]
-    ];
-    if( isset( $_POST[ 'id'] ) && $_POST[ 'id' ] > 0 ){
-        $data[ 'id' ] = $_POST[ 'id' ];
-    }
-    $this->model->save( $data );
-    redirect( 'holiday' );
-}
-public function delete() {
-    try {
-        $holidayId = $_POST[ 'id' ];
-        $deleted = $this->model->delete( $holidayId );
-        if ( $deleted ) {
-            echo json_encode( [ 'success' => true ] );
-        } else {
-            echo json_encode( [ 'success' => false, 'message' => 'Failed to delete holiday' ] );
+         $data = [
+            'from_date' => $_POST[ 'from_date' ],
+            'event' => $_POST[ 'event' ]
+        ];
+        if( isset( $_POST[ 'id'] ) && $_POST[ 'id' ] > 0 ){
+            $data[ 'id' ] = $_POST[ 'id' ];
         }
-    } catch (Exception $e) {
-        echo json_encode( [ 'success' => false, 'message' => 'Error: ' . $e->getMessage() ] );
+        $this->model->save( $data );
+        redirect( 'holiday' );
     }
-}
+    public function delete() {
+        try {
+            $holidayId = $_POST[ 'id' ];
+            $deleted = $this->model->delete( $holidayId );
+            if ( $deleted ) {
+                echo json_encode( [ 'success' => true ] );
+            } else {
+                echo json_encode( [ 'success' => false, 'message' => 'Failed to delete holiday' ] );
+            }
+        } catch (Exception $e) {
+            echo json_encode( [ 'success' => false, 'message' => 'Error: ' . $e->getMessage() ] );
+        }
+    }
 }

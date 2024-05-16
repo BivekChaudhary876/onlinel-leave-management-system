@@ -61,23 +61,19 @@ class Conn
         $this->last_query .= " {$type} {$table} ON {$condition}";
     }
 
-    public function paginate()
-    {
+    public function paginate(){
         $this->last_query = get_paginated_sql( $this->last_query );
     }
 
-    public function get_last_query()
-    {
+    public function get_last_query(){
         return $this->last_query;
     }
 
-    public function order_by( $col = 'id', $order = 'DESC' )
-    {
+    public function order_by( $col = 'id', $order = 'DESC' ){
         $this->last_query .= " ORDER BY {$col} {$order}";
     }
 
-    public function fetch( $result_set )
-    {
+    public function fetch( $result_set ){
         $data = [];
         while ( $row = mysqli_fetch_array( $result_set, MYSQLI_ASSOC ) ) {
             $data[] = $row;

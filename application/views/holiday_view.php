@@ -16,14 +16,7 @@
         <td><?php echo esc_attr( ( indexing() +$key+1 ) ) ?></td>
         <td><?php echo esc_attr( $holiday[ 'event' ] ) ?></td>
         <td>
-          <?php 
-          if ($holiday['to_date']) :
-            echo esc_attr( date('jS M Y, l', strtotime( $holiday[ 'from_date' ] ) ) ). ' - ' . esc_attr( date( 'jS M Y, l', strtotime( $holiday[ 'to_date' ] ) ) );
-          else :
-            echo esc_attr( date( 'jS M Y, l', strtotime( $holiday[' from_date' ] ) ) );
-          endif; ?>
-
-        </td>
+          <?php echo esc_attr( date( 'jS M Y, l', strtotime( $holiday['from_date' ] ) ) );?></td>
 
         <td>
           <?php if ( is_admin() ) : ?>

@@ -4,33 +4,36 @@ class Leave_List_Widget extends Base_Widget{
 
     protected $name = 'leave-list';
 
-    protected $title = 'Recent Leave Requests By Employee';
+    protected $icon = 'user';
+
+    protected $title = 'Recent Leave Requests';
 
     public function widget(){
- 
+
         $leave_m = load_model( 'leave' );
-        $total_leave_requests = $leave_m->get( [], false );
+        $where = [];
+
+        if ( !is_admin() ) {
+            $where[ 'lr.user_id' ] = get_current_user_id();
+        }
+
+        $total_leave_requests = $leave_m->get( $where );
         ?>
-        <table class="table content">
+        <table>
             <tbody>
                 <?php 
-                $count =0;
-                foreach( $total_leave_requests as $key => $leave ) : 
-                    if( $count >= 5):
-                        break;
-                    endif;?>
+                foreach( $total_leave_requests as $key => $leave ) : ?>
                     <tr> 
-                        <td><?php  echo ( indexing() + $key+1 ) ; ?></td>
-                        <?php if( is_admin() ): ?>
-                                <td><?php echo $leave[ 'username' ]; ?></td>
-                        <?php endif; ?>
-                        <td class="status"><?php echo get_status_badge( $leave[ 'status' ] ) ?></td>
+                        <td><?php  echo ( indexing() + $key + 1 ) ; ?></td>
+
+                        <td><?php echo ucfirst( $leave[ 'username' ]) ; ?></td>
+
+                        <td class="status"><?php echo get_status_badge( $leave[ 'status' ] ) ; ?></td>
                         <td>
-                            <a href='leave/details/<?php echo $leave[ 'id' ]; ?>'><?php echo icon('view');?></a>
+                            <a href='leave/details/<?php echo $leave[ 'id' ]; ?>'><?php echo icon( 'view' ) ; ?></a>
                         </td>
                     </tr>
-                <?php 
-                $count++;
+                    <?php 
                 endforeach; ?>
             </tbody>
         </table>

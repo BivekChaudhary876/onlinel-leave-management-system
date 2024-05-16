@@ -11,13 +11,21 @@ abstract class Base_Model{
         $this->db = db();
     }
 
-    public function get( $conditions = [], $pagination = true ){
+    public function get( $conditions = [], $pagination = true, $args = false ){
         
         $this->db->select( $this->columns, $this->table );
 
         $this->db->where( $conditions );
 
-        $this->db->order_by();
+        if( $args ){
+            if( isset( $args[ 'order_by' ] ) && isset( $args[ 'order' ] ) ){
+                $this->db->order_by( $args[ 'order_by' ], $args[ 'order' ] );
+            }else{
+                $this->db->order_by();
+            }
+        }else{
+            $this->db->order_by();
+        }
 
         if( $pagination ){
             $this->db->paginate();
