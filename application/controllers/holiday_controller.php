@@ -13,8 +13,8 @@ class Holiday_Controller extends Base_Controller{
             'holidays'   => $holidays,
             'total'      => $total,
             'modal' => [
-                "title" => "Add / Update Holiday",
-                "view"  => "holiday"
+                "title"  => "Add / Update Holiday",
+                "view"   => "holiday"
             ]
         ], 'holiday' ); 
     }

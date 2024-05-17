@@ -1,4 +1,4 @@
-<div class="">
+<div class="main">
     <button class="open-app-modal button">Add new leave type</button>
     <table class="table table-light">
         <thead>

@@ -54,7 +54,10 @@ class Leave_Controller extends Base_Controller {
             'leaves'       => $leaves,
             'leave_status' => $leave_status,
             'total'        => $total,
-            
+            'modal'        => [
+                "title"    => "Add / Update Leave",
+                "view"     => "leave"
+            ]  
         ],'leave');
     }
 
@@ -73,24 +76,30 @@ class Leave_Controller extends Base_Controller {
         }
 
         $this->load_view([
-            'page_title'    => 'Leave Details',
-            'details' => $details,
+            'page_title' => 'Leave Details',
+            'details'    => $details,
         ], 'leave_details');  
     }
 
     public function save() {
 
-        $valid_data = [ 'id', 'user_id', 'type_id', 'from_date', 'to_date', 'description', 'status' ];
-        $data = [];
-        foreach( $valid_data as $d ){
-            if( isset( $_POST[ $d ] ) ){
-                $data[ $d ] = $_POST[ $d ];
-            }
+        $user_id = isset( $_POST[ 'user_id' ]) && $_POST[ 'user_id' ] !== '' ? $_POST[ 'user_id' ] : get_current_user_id();
+        $data = [
+            'user_id'     => $user_id,
+            'type_id'     => $_POST[ 'type_id' ],
+            'from_date'   => $_POST[ 'from_date' ], // Corrected from 'type_id'
+            'to_date'     => $_POST[ 'to_date'],
+            'description' => $_POST[ 'description' ],
+        ];
+        
+        if ( isset( $_POST[ 'id' ] ) && $_POST[ 'id' ] > 0 ) {
+            $data[ 'id' ] = $_POST[ 'id' ];
         }
-   
-        $this->model->save( $data );
-        redirect( 'leave' );
+        
+        $this->model->save($data);
+        redirect('leave');
     }
+
 
     public function delete() {
         try {
@@ -106,16 +115,3 @@ class Leave_Controller extends Base_Controller {
         }
     }
 }
-
-?>
-
-
-
-
-
-
-
-
-
-
-

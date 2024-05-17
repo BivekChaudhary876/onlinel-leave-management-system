@@ -21,22 +21,18 @@ body {
 }*/
 
 .widget{
-	background: #fff; 
-	margin: 15px 0px;
+	margin: 4px 0px;
 	border-radius: 3px;
-	border-bottom: 1px dashed #d2d2d2;
-    padding: 15px 15px;
-    box-shadow: 1px 1px 8px 0px #a7a7a7;
-
 }
+
 .widget tbody{
 	padding: 5px;
 
 }
 
 .widget td{
-    padding: 10px;
-    border-bottom: 1px dashed #cdcdcd;
+	padding: 10px;
+	border-bottom: 1px dashed #cdcdcd;
 }
 
 .widget-area h3 {
@@ -63,7 +59,7 @@ body {
 
 .draggable-widget h5 {
 	font-size: 14px;
-	margin-bottom: 15px;
+	margin-bottom: 0;
 }
 
 .widget-area .ui-droppable-hover {
@@ -86,15 +82,10 @@ body {
 	font-weight: bold;
 }
 
-.setting {
-	padding: 20px;
-	box-shadow: 1px 1px 8px 0px #a7a7a7;
-}
-
 /*upcoming event day color */
 .today, .tommorrow{
 	font-size: 10px;
-    font-weight: 400;
+	font-weight: 400;
 	padding: 4px 5px;
 	border-radius: 6px;
 }
@@ -115,16 +106,22 @@ body {
 .badge{
 	color: #fff;
 	font-size: 10px;
-    font-weight: 400;
-    padding: 4px 5px;
-    border-radius: 6px;
-    background-color: #198754;
+	font-weight: 400;
+	padding: 4px 5px;
+	border-radius: 6px;
+	background-color: #198754;
 }
 
 /* Widgets Lists */
 
 .widget-lists-wrapper .name {
 	text-transform: capitalize;
+}
+
+
+
+.collapsible {
+	display: none;
 }
 
 #submit-btn {
@@ -150,6 +147,7 @@ body {
 }
 
 .button {
+	margin-bottom: 16px;
 	padding: 4px 12px !important;
 }
 
@@ -238,18 +236,56 @@ input:checked + .slider:before {
 
 /*Sidebar Design*/
 .sidebar {
-	width: 170px;
-	padding: 15px;
+	margin-top: 16px ;
+	margin-bottom: 16px;
+	width: 177px;
+	padding: 8px;
 	background: #f0f0f0;
 	border-radius: 5px;
 	box-shadow: 1px 1px 8px 0px #a7a7a7;
+
+}
+.main{
+	width: 100%;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	padding: 20px;
+	background: #f0f0f0;
+	border-radius: 5px;
+	box-shadow: 1px 1px 8px 0px #a7a7a7;
+}
+
+.table th{
+	padding: 10px 32px;
+}
+
+.table td{
+	padding: 10px 32px;
+}
+
+.footer{
+	display: block;
+}
+
+.footer-container{
+	width: 100%;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	padding-top: 16px;
+	padding-bottom: 16px;
+	text-align: center;
+	border-top: 1px solid #dee2e6;
+	transform: translateX(-50%) !important;
+	left: 50%;
+	position: absolute !important;
+
 
 }
 
 .nav-pills .nav-link {
 	color:#000;
 	border-radius: 0;
-	padding: 10px 15px;
+	padding: 5px 10px;
 }
 
 .nav-pills .nav-link.active {
@@ -303,15 +339,14 @@ transition: all 0.3s ease;
 
 }
 
+
+
 /*table design*/
 .table {
-	margin: 15px 0px;
+	margin:0;
 	box-shadow: 1px 1px 8px 0px #a7a7a7;
 }
 
-.table-header{
-	background-color: lightgray;
-}
 
 .select {
 	word-wrap: normal;
@@ -321,6 +356,20 @@ transition: all 0.3s ease;
 	padding: 4px;
 	margin-right: 8px;
 }
+
+/*setting view form*/
+.form-content input,textarea{
+	margin-top: 10px;
+	margin-bottom: 15px;
+	display: flex;
+	flex-direction: column;
+}
+
+.option{
+	display: flex;
+	justify-content: space-between;
+}
+
 
 .input{
 	display: block;
@@ -413,9 +462,9 @@ p{
 }
 
 .card-details{
-	width: 75%;
+	width: 100%;
 	font-size: 12px;
-	padding: 15px ;
+	padding: 24px ;
 	border-radius: 5px;
 	box-shadow: 1px 1px 8px 0px #a7a7a7;
 }

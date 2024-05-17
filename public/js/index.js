@@ -273,6 +273,17 @@ $(document).ready(function () {
 		delete_type(id, $row)
 	})
 })
+
+function toggleContent(id) {
+                var element = document.getElementById(id);
+                if (element.style.display === "none") {
+                    element.style.display = "block";
+                } else {
+                    element.style.display = "none";
+                }
+            }
+
+            
 ;(function () {
 	function validateDaysInput() {
 		var daysInput = document.getElementById('day')
@@ -293,3 +304,8 @@ $(document).ready(function () {
 		}
 	})
 })()
+
+
+
+
+

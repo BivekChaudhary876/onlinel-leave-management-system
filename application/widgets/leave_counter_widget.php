@@ -6,6 +6,8 @@ class Leave_Counter_Widget extends Base_Widget{
 
     protected $icon = 'leave';
 
+    protected $id = 'leave-status';
+
     protected $title = 'Recent Leave Requests By Status';
 
     public function get(){
@@ -56,39 +58,41 @@ class Leave_Counter_Widget extends Base_Widget{
 
         $base_url = 'leave?selected_status=';
         ?>
-        <ul>
+        <div id="<?php echo $this->id; ?>" class="collapsible">
+            <ul>
+                <li>
+                    <a href="<?php echo $base_url .'' ;?>">
+                        <strong>Total Leave</strong>
+                        <span><?php echo $total[ 'total' ]; ?>
+                    </span>
+                </a>
+            </li>
             <li>
-                <a href="<?php echo $base_url .'' ;?>">
-                    <strong>Total Leave</strong>
-                    <span><?php echo $total[ 'total' ]; ?>
-                </span>
-            </a>
-        </li>
-        <li>
-            <a href="<?php echo $base_url .'pending';?>">
-                <strong>Total Pending</strong>
-                <span>
-                    <?php echo $total[ 'pending' ]; ?>
-                </span>
-            </a>
-        </li>
-        <li>
-            <a href="<?php echo $base_url . 'approved';?>">
-                <strong>Total Approved</strong> 
-                <span>
-                    <?php echo $total[ 'approved' ]; ?>
-                </span>
-            </a>
-        </li>
-        <li> 
-            <a href="<?php echo $base_url . 'rejected';?>">
-                <strong>Total Rejected</strong>
-                <span>
-                    <?php echo $total[ 'rejected' ]; ?>
-                </span>
-            </a>
-        </li>
-    </ul>
+                <a href="<?php echo $base_url .'pending';?>">
+                    <strong>Total Pending</strong>
+                    <span>
+                        <?php echo $total[ 'pending' ]; ?>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $base_url . 'approved';?>">
+                    <strong>Total Approved</strong> 
+                    <span>
+                        <?php echo $total[ 'approved' ]; ?>
+                    </span>
+                </a>
+            </li>
+            <li> 
+                <a href="<?php echo $base_url . 'rejected';?>">
+                    <strong>Total Rejected</strong>
+                    <span>
+                        <?php echo $total[ 'rejected' ]; ?>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
     <?php
 }
 }

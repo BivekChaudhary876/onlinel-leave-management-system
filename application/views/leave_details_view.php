@@ -1,4 +1,5 @@
-<div class="card-details">
+
+<div class="main">
     <h5 class="card-title">Leave Details</h5>
     <div class="row">
         <?php foreach ( $details as $key => $detail  ) : ?>

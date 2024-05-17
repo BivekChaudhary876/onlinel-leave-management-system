@@ -1,4 +1,4 @@
-<div class="">
+<div class="main">
     <button class="open-app-modal button">Add new user</button>
     <div class="table-row">
         <table class="table table-light">
