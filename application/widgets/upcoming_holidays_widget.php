@@ -1,14 +1,14 @@
 <?php 
 
-class Recent_Holidays_Widget extends Base_Widget{
+class Upcoming_Holidays_Widget extends Base_Widget{
 
-    protected $name = 'recent-holidays';
+    protected $name = 'upcoming-holidays';
 
     protected $icon = 'holiday';
 
     protected $id = 'upcoming-holiday';
 
-    protected $title = 'Recent Holidays';
+    protected $title = 'Upcoming Holidays';
 
     public function widget(){
         $holiday_m = load_model('holiday');
