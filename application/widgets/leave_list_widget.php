@@ -6,6 +6,8 @@ class Leave_List_Widget extends Base_Widget{
 
     protected $icon = 'user';
 
+    protected $arrow = 'chevron-right';
+
     protected $id = 'recent-leave-list';
 
     protected $title = 'Recent Leave Requests';
@@ -28,9 +30,11 @@ class Leave_List_Widget extends Base_Widget{
                     foreach( $total_leave_requests as $key => $leave ) : ?>
                         <tr> 
                             <td><?php  echo ( indexing() + $key + 1 ) ; ?></td>
-
-                            <td><?php echo ucfirst( $leave[ 'username' ]) ; ?></td>
-
+                            <td>
+                                <a href="leave/details/<?php echo $leave[ 'id' ]; ?>">
+                                    <?php echo ucfirst( $leave[ 'username' ]) ; ?>
+                                </a>
+                            </td>
                             <td class="status"><?php echo get_status_badge( $leave[ 'status' ] ) ; ?></td>
                             <td>
                                 <a href='leave/details/<?php echo $leave[ 'id' ]; ?>'><?php echo icon( 'view' ) ; ?></a>

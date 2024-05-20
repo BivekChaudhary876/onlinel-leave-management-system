@@ -6,6 +6,8 @@ class Leave_Counter_Widget extends Base_Widget{
 
     protected $icon = 'leave';
 
+    protected $arrow = 'chevron-right';
+
     protected $id = 'leave-status';
 
     protected $title = 'Recent Leave Requests By Status';

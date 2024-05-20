@@ -6,6 +6,8 @@ class Upcoming_Holidays_Widget extends Base_Widget{
 
     protected $icon = 'holiday';
 
+    protected $arrow = 'chevron-right';
+
     protected $id = 'upcoming-holiday';
 
     protected $title = 'Upcoming Holidays';
@@ -19,20 +21,23 @@ class Upcoming_Holidays_Widget extends Base_Widget{
                 <tbody>
                     <?php
                     foreach ( $holidays as $key => $holiday ) :
-                       ?>
-                       <tr>
+                     ?>
+                     <tr>
                         <td><?php echo ( indexing() + $key + 1 ); ?></td>
-                        <td><?php echo ucfirst( $holiday[ 'event' ] ); ?></td>
-                        <td><?php echo $this->format_date( $holiday[ 'from_date' ] ); ?></td>
-                        <td><a href="holiday/details/<?= $holiday[ 'id' ] ?>"><?php echo icon('view'); ?></a></td>
-                    </tr>
-                    <?php
-                endforeach;
-                ?>
-            </tbody>
-        </table>
-    </div>
-    <?php
+                        <td>
+                            <a href="holiday/details/<?php echo $holiday[ 'id' ]; ?>">
+                             <?php echo ucfirst( $holiday[ 'event' ] ); ?>
+                         </a>
+                     </td>
+                     <td><?php echo $this->format_date( $holiday[ 'from_date' ] ); ?></td>
+                 </tr>
+                 <?php
+             endforeach;
+             ?>
+         </tbody>
+     </table>
+ </div>
+ <?php
 }
 
 }

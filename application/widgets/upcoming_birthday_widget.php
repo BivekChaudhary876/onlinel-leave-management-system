@@ -6,6 +6,8 @@ class Upcoming_Birthday_Widget extends Base_Widget{
 
     protected $icon = 'birthday';
 
+    protected $arrow = 'chevron-right';
+
     protected $id = 'birth';
 
     protected $title = 'Upcoming Birthdays';
@@ -15,22 +17,26 @@ class Upcoming_Birthday_Widget extends Base_Widget{
         $users = $user_m->get_by_upcoming_birthdays();
         ?>
         <div id="<?php echo $this->id; ?>" class="collapsible">
-        <table>
-            <tbody>
-                <?php
-                foreach( $users as $key => $user ){
-                    ?>
-                    <tr>
-                        <td><?php echo indexing() + $key + 1; ?></td>
-                        <td><?php echo ucfirst( $user[ 'username' ] ); ?> </td>
-                        <td><?php echo $this->format_date( $user[ 'birth_date' ] ); ?></td>
-                    </tr>
+            <table>
+                <tbody>
                     <?php
-                }
-                ?>
-            </tbody>
-        </table>
-    </div>
+                    foreach( $users as $key => $user ){
+                        ?>
+                        <tr>
+                            <td><?php echo indexing() + $key + 1; ?></td>
+                            <td>
+                                <a href="user/details/<?php echo $user[ 'id' ]; ?>">
+                                    <?php echo ucfirst( $user[ 'username' ] ); ?> 
+                                </a>
+                            </td>
+                            <td><?php echo $this->format_date( $user[ 'birth_date' ] ); ?></td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
         <?php
     }
 }
