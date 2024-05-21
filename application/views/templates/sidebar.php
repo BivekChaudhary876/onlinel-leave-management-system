@@ -16,8 +16,11 @@ $current_controller = get_current_controller();
 <div class="sidebar">
     <ul class="nav nav-pills flex-column">
         <?php
-        foreach ($controller_names as $controller) {
-            $is_admin = in_array( $controller, ['type', 'user']);
+        foreach ( $controller_names as $controller ) {
+            if ( $controller === 'error' ) {
+                continue;
+            }
+            $is_admin = in_array( $controller, ['type', 'user'] );
 
             if( $is_admin && !is_admin() ){
                 continue;

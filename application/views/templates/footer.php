@@ -8,7 +8,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed">
-    <p class="footer-content">&copy;<?php echo date("Y"); ?> Eagle Vision IT, All rights reserved.</p>
+    <span class="footer-content">&copy;<?php echo date("Y"); ?> Eagle Vision IT, All rights reserved.</span>
   </div>
 </footer>
 </body>

@@ -322,6 +322,14 @@ input:checked + .slider:before {
 	transform: translateX(14px);
 }
 
+.navbar{
+	margin-top: 16px ;
+	margin-bottom: 16px;
+	padding: 8px;
+	display: flex;
+	justify-content: space-between;
+}
+
 /*Sidebar Design*/
 .sidebar {
 	margin-top: 16px ;
@@ -359,15 +367,13 @@ input:checked + .slider:before {
 	width: 100%;
 	margin-top: 16px;
 	margin-bottom: 16px;
-	padding-top: 16px;
-	padding-bottom: 16px;
+	padding-top: 32px;
+	padding-bottom: 32px;
 	text-align: center;
 	border-top: 1px solid #dee2e6;
 	transform: translateX(-50%) !important;
 	left: 50%;
 	position: absolute !important;
-
-
 }
 
 .nav-pills .nav-link {
@@ -574,4 +580,9 @@ p{
 
 .nav-link{
 	color: #fff;
+}
+
+.error-container{
+    margin: 16px 0px;
+    text-align: center;
 }

@@ -52,35 +52,35 @@ function load_widgets(){
     ?>
     <div class="row">
         <?php
-            $active_widgets = get_active_widgets();
-            $widgets_area = [
-                'first'  => [],
-                'second' => [],
-                'third'  => []
-            ];
+        $active_widgets = get_active_widgets();
+        $widgets_area = [
+            'first'  => [],
+            'second' => [],
+            'third'  => []
+        ];
 
-            foreach( $active_widgets as $col => $widgets ){
-                foreach( $widgets as $widget ){
-                    $class = str_replace( '-', '_', $widget ) . '_widget';
-                    require_once PATH . '/application/widgets/' . $class . '.php';
-                    $obj = new $class();
-                    $widgets_area[ $col ][] = $obj;
-                }
+        foreach( $active_widgets as $col => $widgets ){
+            foreach( $widgets as $widget ){
+                $class = str_replace( '-', '_', $widget ) . '_widget';
+                require_once PATH . '/application/widgets/' . $class . '.php';
+                $obj = new $class();
+                $widgets_area[ $col ][] = $obj;
             }
+        }
 
-            foreach( $widgets_area as $i => $widgets ){
-                ?>
-                <div id="widget-area-<?php echo $i; ?>" class="widget-area col-4">
-                    <div class="droppable-widget-area">
-                        <?php 
-                            foreach( $widgets as $widget ){
-                                echo $widget->render();
-                            }
-                        ?>
-                    </div>
+        foreach( $widgets_area as $i => $widgets ){
+            ?>
+            <div id="widget-area-<?php echo $i; ?>" class="widget-area col-4">
+                <div class="droppable-widget-area">
+                    <?php 
+                    foreach( $widgets as $widget ){
+                        echo $widget->render();
+                    }
+                    ?>
                 </div>
-                <?php
-            }
+            </div>
+            <?php
+        }
         ?>
     </div>
     <?php
@@ -195,27 +195,42 @@ function pagination( $args ){
     <div class="pagination-container">
         <ul class="pagination-list">
             <li class="pagination-item <?= ( $page <= 1 ) ? 'disabled' : '' ?>">
-            <a class="pagination-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $page - 1 ?><?= $query_string ?>" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
+                <a class="pagination-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $page - 1 ?><?= $query_string ?>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
             </li>
-        <?php for ($i = 1; $i <= $total_page; $i++): ?>
-            <li class="pagination-item  <?php echo ($i == $page) ? 'active' : '' ;?>">
-            <a class="pagination-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $i ?><?= $query_string ?>"><?= $i ?></a>
-            </li>
-        <?php endfor; ?>
+            <?php for ($i = 1; $i <= $total_page; $i++): ?>
+                <li class="pagination-item  <?php echo ($i == $page) ? 'active' : '' ;?>">
+                    <a class="pagination-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $i ?><?= $query_string ?>"><?= $i ?></a>
+                </li>
+            <?php endfor; ?>
             <li class="pagination-item <?= ( $page >= $total_page ) ? 'disabled' : '' ?>">
-            <a class="pagination-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $page + 1 ?><?= $query_string ?>" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
+                <a class="pagination-link" href="<?php echo $args[ 'controller' ]; ?>?page=<?= $page + 1 ?><?= $query_string ?>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
             </li>
         </ul>
     </div>
-<?php
+    <?php
 }
 
 function icon( $c ){
-    $class = [ "edit" => "fa-pencil-square-o", "view" => "fa-eye", "delete" => "fa-trash" ,"dashboard" => "fa-tachometer", "holiday" => "fa-superpowers", "leave" => "fa-leaf", "user" => "fa-users", "setting" => "fa-cog", "type" => "fa-puzzle-piece", "widget" => "fa-sitemap", "login" => "fa-sign-in", "logout" => "fa-sign-out", "birthday"=>"fa-birthday-cake", "chevron-right" => "fa-chevron-right",];
+    $class = [ 
+        "edit"        => "fa-pencil-square-o", 
+        "view"        => "fa-eye", 
+        "delete"      => "fa-trash" ,
+        "dashboard"   => "fa-tachometer", 
+        "holiday"     => "fa-superpowers", 
+        "leave"       => "fa-leaf", 
+        "user"        => "fa-users", 
+        "setting"     => "fa-cog", 
+        "type"        => "fa-puzzle-piece", 
+        "widget"      => "fa-sitemap", 
+        "login"       => "fa-sign-in", 
+        "logout"      => "fa-sign-out", 
+        "birthday"    => "fa-birthday-cake", 
+        "collapsible" => "fa-chevron-right",
+    ];
     ?>
     <i class="fa <?php echo isset( $class[ $c ] ) ? esc_attr( $class[ $c ] ) : esc_attr( $c ); ?>"></i>
     <?php
@@ -225,3 +240,6 @@ function icon( $c ){
 function esc_attr( $string ){
     return htmlspecialchars( $string, ENT_QUOTES, 'UTF-8' );
 }
+
+
+

@@ -180,7 +180,7 @@ $(document).ready(function () {
 
 		$http.post(
 		{
-			url: 'leave/save',
+			url: 'leave/update_status',
 			data: {
 				id: id,
 				status: status,
@@ -193,7 +193,8 @@ $(document).ready(function () {
 					'">' +
 					status +
 					'</span>'
-					)
+					);
+				location.reload();
 			},
 			error: function (xhr) {
 					// Handle error response
