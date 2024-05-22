@@ -226,6 +226,7 @@ function icon( $c ){
         "setting"     => "fa-cog", 
         "type"        => "fa-puzzle-piece", 
         "widget"      => "fa-sitemap", 
+        "media"       => "fa-medium",
         "login"       => "fa-sign-in", 
         "logout"      => "fa-sign-out", 
         "birthday"    => "fa-birthday-cake", 

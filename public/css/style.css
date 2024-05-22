@@ -341,9 +341,9 @@ input:checked + .slider:before {
 	box-shadow: 1px 1px 8px 0px #a7a7a7;
 
 }
-.main{
-	width: 100%;
-	margin-top: 16px;
+.col-10{
+	width: 82%;
+	margin-top: 30px;
 	margin-bottom: 16px;
 	padding: 20px;
 	background: #f0f0f0;
@@ -583,6 +583,63 @@ p{
 }
 
 .error-container{
-    margin: 16px 0px;
+	margin: 16px 0px;
+	text-align: center;
+}
+
+.file-list{
+
+}
+.file-list ul {
+	list-style: none;
+	display: flex;
+	gap: 20px;
+}
+.file-list li {
+	border-radius: 5px;
+	box-shadow: 1px 1px 8px 0px #a7a7a7;
+	transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.5s ease-in-out;
+}
+
+.file-list li:hover {
+	transform: scale(1.1); 
+	border: none;
+}
+
+.file-list li img {
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+	transition: transform 0.2s ease-in-out;
+}
+
+
+.poster img {
+	width: 400px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 8px 0px #a7a7a7;
+}
+.poster form{
+	
+}
+
+.trigger-file{
+	margin-bottom: 20px;
     text-align: center;
+}
+
+.custom-file-upload {
+	padding: 10px 15px;
+	background-color: #198754;
+	color: #fff;
+	border-radius: 5px;
+	text-align: center;
+	border: none;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+/* Hide the original file input */
+#file_to_upload {
+	display: none;
 }

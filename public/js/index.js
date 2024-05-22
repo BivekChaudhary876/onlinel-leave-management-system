@@ -273,6 +273,26 @@ $(document).ready(function () {
 		var $row = $(this).closest('tr')
 		delete_type(id, $row)
 	})
+
+	  $('#file_to_upload').on('change', function () {
+        var formData = new FormData($('#media-form')[0]);
+        $http.post(
+            {
+                url: 'media/save',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    location.reload(); // Reload the page to show the new file
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', xhr.responseText);
+                    alert('An error occurred while uploading the file.');
+                }
+            },
+            $(this)
+        );
+    });
 })
 
 function toggleContent(id) {
