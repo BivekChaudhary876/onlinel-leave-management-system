@@ -342,9 +342,10 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.media-file', function() {
-        var mediaTitle = $(this).data('title');
-        $('#logo').val(mediaTitle);
+        var mediaPath = $(this).data('path');
+        $('#logo').val(mediaPath);
         $('#media-popup').remove();
+        $('#navbar-logo').attr('src', mediaPath);
     });
 
     $(document).on('click', function(event) {

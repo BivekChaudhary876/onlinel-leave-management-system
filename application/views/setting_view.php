@@ -32,3 +32,10 @@
 </form>
 
 
+<?php if (!empty($settings['logo'])): ?>
+    <script>
+        $(document).ready(function() {
+            $('#navbar-logo').attr('src', '<?php echo $settings['logo']; ?>').show();
+        });
+    </script>
+<?php endif; ?>

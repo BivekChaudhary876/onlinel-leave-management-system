@@ -36,7 +36,7 @@ class Media_Controller extends Base_Controller {
     }
 
     public function list() {
-        $files = $this->model->get();
+        $files = $this->model->get([], false);
         $this->load_view([
             'files' => $files
         ], 'media_list');
@@ -63,7 +63,7 @@ class Media_Controller extends Base_Controller {
                     $uploadOk = 0;
                 }
 
-                if (!in_array( $imageFileType, [ "jpg", "png", "jpeg", "gif" ] ) ) {
+                if ( !in_array( $imageFileType, [ "jpg", "png", "jpeg", "gif" ] ) ) {
                     $uploadOk = 0;
                 }
 
