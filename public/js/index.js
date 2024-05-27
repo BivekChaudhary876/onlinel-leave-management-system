@@ -268,60 +268,119 @@ $(document).ready(function () {
 		}
 	}
 
+
 	$('.delete-type').click(function () {
 		var id = $(this).data('id')
 		var $row = $(this).closest('tr')
 		delete_type(id, $row)
 	})
 
-	  $('#file_to_upload').on('change', function () {
-        var formData = new FormData($('#media-form')[0]);
-        $http.post(
-            {
-                url: 'media/save',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    location.reload(); // Reload the page to show the new file
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', xhr.responseText);
-                    alert('An error occurred while uploading the file.');
-                }
-            },
-            $(this)
-        );
+	$('#file_to_upload').on('change', function () {
+		var formData = new FormData($('#media-form')[0]);
+		$http.post(
+		{
+			url: 'media/save',
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function (response) {
+				location.reload();
+			},
+			error: function (xhr, status, error) {
+				console.error('Error:', xhr.responseText);
+				alert('An error occurred while uploading the file.');
+			}
+		},
+		$(this)
+		);
+	});
+
+	function delete_media(id, $element) {
+		if (confirm('Are you sure you want to delete this media file?')) {
+			$http.post(
+			{
+				url: 'media/delete',
+				data: {
+					id: id,
+				},
+				success: function (response) {
+					var res = JSON.parse(response)
+					if (res.success) {
+						$element.fadeOut(500, function () {
+							$(this).remove()
+						})
+					} else {
+						alert('Error: ' + res.message)
+					}
+					location.reload();
+				},
+				error: function (xhr, status, error) {
+					console.error('Error:', xhr.responseText)
+					alert('An error occurred while deleting the media file.')
+				},
+			},
+			$element
+			)
+		}
+	}
+	$('.delete-media').click(function () {
+		var id = $(this).data('id')
+		var $row = $(this).closest('tr')
+		delete_media(id, $row)
+	})
+
+	$('#logo').on('click', function() {
+        $.ajax({
+            url: 'media/list',
+            method: 'GET',
+            success: function(data) {
+                // Display the pop-up with media files
+                $('body').append('<div id="media-popup">' + data + '</div>');
+                $('#media-popup').show();
+            }
+        });
     });
+
+    $(document).on('click', '.media-file', function() {
+        var mediaTitle = $(this).data('title');
+        $('#logo').val(mediaTitle);
+        $('#media-popup').remove();
+    });
+
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('#media-popup, #logo').length) {
+            $('#media-popup').remove();
+        }
+    });
+
 })
 
 function toggleContent(id) {
-                var element = document.getElementById(id);
-                if (element.style.display === "none") {
-                    element.style.display = "block";
-                } else {
-                    element.style.display = "none";
-                }
-            }
+	var element = document.getElementById(id);
+	if (element.style.display === "none") {
+		element.style.display = "block";
+	} else {
+		element.style.display = "none";
+	}
+}
 
-            
+
 ;(function () {
 	function validateDaysInput() {
 		var daysInput = document.getElementById('day')
 		var daysValue = daysInput.value
-		// Regular expression to match numbers separated by commas
 		var regex = /^\d+(,\s*\d+)*$/
 		if (!regex.test(daysValue)) {
 			alert('Invalid input for days. Please enter numbers separated by commas.')
-			return false // Return false to prevent form submission
+			return false 
 		}
-		return true // Return true if input is valid
+		return true
 	}
 
 	$('#holidayForm').on('submit', function (event) {
 		// Validate days input
 		if (!validateDaysInput()) {
-			event.preventDefault() // Prevent form submission if validation fails
+			event.preventDefault() 
 		}
 	})
 })()

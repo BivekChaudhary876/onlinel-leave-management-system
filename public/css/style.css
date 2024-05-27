@@ -507,6 +507,7 @@ p{
 
 .pagination-container {
 	text-align: center;
+	margin-top: 16px;
 }
 
 .pagination-list {
@@ -588,12 +589,12 @@ p{
 }
 
 .file-list{
-
+margin-left: -34px;
 }
 .file-list ul {
 	list-style: none;
 	display: flex;
-	gap: 20px;
+	gap: 16px;
 }
 .file-list li {
 	border-radius: 5px;
@@ -607,10 +608,34 @@ p{
 }
 
 .file-list li img {
-	width: 100px;
-	height: 100px;
+	width: 108px;
+	height: 108px;
 	object-fit: cover;
 	transition: transform 0.2s ease-in-out;
+}
+
+#media-popup {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+    max-height: 80%;
+    overflow-y: auto;
+}
+#media-popup ul {
+    list-style-type: none;
+    padding: 0;
+}
+#media-popup li {
+    cursor: pointer;
+    padding: 5px 0;
+}
+#media-popup li:hover {
+    background: #f0f0f0;
 }
 
 

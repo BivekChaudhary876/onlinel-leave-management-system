@@ -1,7 +1,7 @@
 <?php
 class Media_Controller extends Base_Controller {
     protected $post_methods = [ 'save', 'save_file_info', 'update_file_info' ];
-
+    
     public function __construct() {
         parent::__construct();
     }
@@ -12,7 +12,7 @@ class Media_Controller extends Base_Controller {
         $this->load_view( [  
             'page_title' => 'Media',
             'files'      => $files,
-         ], 'media' );
+        ], 'media' );
     }
 
     public function details( $id ) {
@@ -23,7 +23,7 @@ class Media_Controller extends Base_Controller {
         $details = $this->model->get( 
         	[ 'id' => $id ], 
         	true
-         );
+        );
 
         if ( !$details ) {
             redirect( 'media' );
@@ -32,77 +32,87 @@ class Media_Controller extends Base_Controller {
         $this->load_view( [ 
             'page_title' => 'File Details',
             'details'    => $details,
-         ], 'media_details' );
+        ], 'media_details' );
     }
 
-    public function save(  ) {
-        $target_dir = "public/uploads/";
-        $target_file = $target_dir . basename( $_FILES[ "file_to_upload" ][ "name" ] );
-        $uploadOk = 1;
-        $imageFileType = strtolower( pathinfo( $target_file, PATHINFO_EXTENSION ) );
+    public function list() {
+        $files = $this->model->get();
+        $this->load_view([
+            'files' => $files
+        ], 'media_list');
+    }
 
-        if ( isset( $_POST[ "submit" ] ) ) {
-            $check = getimagesize( $_FILES[ "file_to_upload" ][ "tmp_name" ] );
-            if ( $check !== false ) {
+    public function save( $id = null ) {
+        if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
+            if ( isset( $_FILES[ "file_to_upload" ] ) ) {
+                $target_dir = "public/uploads/";
+                $target_file = $target_dir . basename( $_FILES[ "file_to_upload" ][ "name" ] );
                 $uploadOk = 1;
+                $imageFileType = strtolower( pathinfo( $target_file, PATHINFO_EXTENSION ) );
+
+                if ( isset( $_POST[ "submit" ] ) ) {
+                    $check = getimagesize( $_FILES[ "file_to_upload" ][ "tmp_name" ] );
+                    if ( $check !== false ) {
+                        $uploadOk = 1;
+                    } else {
+                        $uploadOk = 0;
+                    }
+                }
+
+                if ( $_FILES[ "file_to_upload" ][ "size" ] > 50000000 ) {
+                    $uploadOk = 0;
+                }
+
+                if (!in_array( $imageFileType, [ "jpg", "png", "jpeg", "gif" ] ) ) {
+                    $uploadOk = 0;
+                }
+
+                if ( $uploadOk == 0 ) {
+                    echo "Sorry, your file was not uploaded.";
+                } else {
+                    if ( move_uploaded_file( $_FILES[ "file_to_upload" ][ "tmp_name" ], $target_file ) ) {
+                        $file_name = $_FILES[ "file_to_upload" ][ "name" ];
+                        $file_title = pathinfo( $file_name, PATHINFO_FILENAME );
+                        $descriptions = $_POST[ 'descriptions' ] ?? $file_title;
+
+                        $data = [
+                            'title' => $file_title,
+                            'file_to_upload' => $file_name,
+                            'descriptions' => $descriptions,
+                        ];
+
+                        if ( $id ) {
+                            $data[ 'id' ] = $id;
+                        }
+
+                        $file_id = $this->model->save($data);
+
+                        redirect( 'media/details/' . $file_id );
+                    } else {
+                        echo "Sorry, there was an error uploading your file.";
+                    }
+                }
             } else {
-                $uploadOk = 0;
+                if ( $id && isset( $_POST[ 'descriptions' ] ) ) {
+                    $descriptions = $_POST[ 'descriptions' ];
+
+                    $updated = $this->model->save( [
+                        'id' => $id,
+                        'descriptions' => $descriptions,
+                    ] );
+
+                    if ( $updated ) {
+                        redirect( 'media/details/' . $id );
+                    }
+                } else {
+                    redirect( 'media' );
+                }
             }
-        }
-
-        if ( $_FILES[ "file_to_upload" ][ "size" ] > 50000000 ) {
-            $uploadOk = 0;
-        }
-
-        if ( !in_array( $imageFileType, [ "jpg", "png", "jpeg", "gif" ] ) ) {
-            $uploadOk = 0;
-        }
-
-        if ( $uploadOk == 0 ) {
-            echo "Sorry, your file was not uploaded.";
         } else {
-            if ( move_uploaded_file( $_FILES[ "file_to_upload" ][ "tmp_name" ], $target_file ) ) {
-                $file_name = $_FILES[ "file_to_upload" ][ "name" ];
-                $this->save_file_info( $file_name );
-            } else {
-                echo "Sorry, there was an error uploading your file.";
-            }
-        }
-        redirect( 'media' );
-    }
-
-    public function save_file_info( $file_name ) {
-        $file_title = pathinfo( $file_name, PATHINFO_FILENAME );
-
-        $file_id = $this->model->save( [ 
-            'title'         => $file_title,
-            'file_to_upload'=> $file_name,
-            'descriptions'  => $file_title,
-         ] );
-
-        return $file_id;
-    }
-
-    public function update_file_info( $id ) {
-        if ( !$id ) {
-            redirect( 'media' );
-        }
-
-        if ( !isset( $_POST[ 'descriptions' ] ) ) {
-            redirect( 'media/details/' . $id );
-        }
-
-        $descriptions = $_POST[ 'descriptions' ];
-
-        $updated = $this->model->save( [ 
-            'id' => $id,
-            'descriptions' => $descriptions,
-         ] );
-
-        if ( $updated ) {
-            redirect( 'media/details/' . $id );
+            redirect('media');
         }
     }
+
 
     public function delete(  ) {
         try {
@@ -114,7 +124,7 @@ class Media_Controller extends Base_Controller {
                 echo json_encode( [ 'success' => false, 'message' => 'Failed to delete file' ] );
             }
         } catch ( Exception $e ) {
-            echo json_encode( [ 'success' => false, 'message' => 'Error: ' . $e->getMessage(  ) ] );
+            echo json_encode( [ 'success' => false, 'message' => 'Error: ' . $e->getMessage() ] );
         }
     }
 }

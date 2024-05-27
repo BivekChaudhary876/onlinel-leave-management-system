@@ -8,7 +8,7 @@ $header_bg = get_option( 'header_bg' );
     <div class="container-fluid">
       <div class="row ">
         <div class="col-3 d-flex align-items-between my-3 mb-3 ">
-          <a href="index.php"><img src="public/img/logo.png" alt="logo" height="50" style="margin-left: 10px;"></a>
+          <a href="index.php"><img src="<?php echo $logo; ?>" alt="logo" height="50" style="margin-left: 10px;"></a>
         </div>
         <div class="col-9">
           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">

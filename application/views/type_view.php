@@ -14,7 +14,7 @@
                 <td><?php echo esc_attr( $type[ 'name' ] ) ; ?></td>
                 <td>
                     <button class="btn-edit open-app-modal" data-value="<?php echo esc_attr( json_encode( $type ) ); ?>" data-id="<?= $type[ 'id' ] ?>"><?php icon( "edit" );?></button>
-                    <button class="btn-delete delete-type" data-id="<?= $type[ 'id' ] ?>"><?php icon( "delete" )?></button>
+                    <button class="btn-delete delete-type" data-id="<?php echo $type[ 'id' ]; ?>"><?php icon( "delete" )?></button>
                     <a href="type/details/<?php echo $type[ 'id' ]?>"><?php echo icon( "view" ); ?></a>
                 </td>
             </tr>
@@ -26,4 +26,3 @@ pagination([
   'total' => $total,
   'controller' => 'type'
 ]);
-?>
