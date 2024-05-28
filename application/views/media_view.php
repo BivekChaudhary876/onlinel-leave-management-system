@@ -8,14 +8,14 @@
 
 
 <?php if ( !empty( $files ) ): ?>
-    <div class="file-list">
+    <div class="file-list" style="gap:16px;">
         <ul>
             <?php foreach( $files as $index => $file ): ?>
                 <?php if( $index % 8 === 0 && $index !== 0 ): ?>
                 </ul>
                 <ul>
                 <?php endif; ?>
-                <li>
+                <li class="media-file">
                     <a href="media/details/<?php echo $file['id']; ?>">
                         <img src="public/uploads/<?php echo htmlspecialchars( $file[ 'file_to_upload' ] ); ?>" alt="<?php echo $file['title'];?>" width="100">
                     </a>
