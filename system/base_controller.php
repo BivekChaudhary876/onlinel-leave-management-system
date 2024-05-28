@@ -27,7 +27,6 @@ abstract class Base_Controller{
                 redirect( 'user' );
             } 
         }
-        
         $this->model = load_model( $this->c );
     }
 
@@ -39,36 +38,46 @@ abstract class Base_Controller{
 
         extract( $data );
         require_once PATH . '/application/views/templates/head.php';
-        echo '<div class="">';
-        echo '<div class="row">';
-        if( !( 'user' == $this->c && 'index' == $this->m ) ){
-            require_once PATH . '/application/views/templates/navbar.php';
-            echo '</div>';
-            echo '</div>';
-            echo '<div class="mx-4">';
+        if($view !== 'media_list'){
+            echo '<div class="">';
             echo '<div class="row">';
-            echo '<div class="col-2">';
-            require_once PATH . '/application/views/templates/sidebar.php';
-            echo '</div>';
+            if( !( 'user' == $this->c && 'index' == $this->m ) ){
+                require_once PATH . '/application/views/templates/navbar.php';
+                echo '</div>';
+                echo '</div>';
+                echo '<div class="mx-4">';
+                echo '<div class="row">';
+                echo '<div class="col-2">';
+                require_once PATH . '/application/views/templates/sidebar.php';
+                echo '</div>';
+            }
+        }else{
+            echo '<div class="media-option">';
         }
+
         ?>
-            <div class="<?php echo(($view == 'login') ? 'col-12' : 'col-10'); ?>">
-                <?php
-                    $view = empty( $view ) ? $this->c : $view;
-                    $view_path = PATH . '/application/views/' . $view . '_view.php';
-                    if( file_exists( $view_path ) ){
-                        require $view_path;
-                    }else{
-                        dd( $view . '_view.php does not exists' ); //dunmp and die function
-                    }
-                ?>
-            </div>
-        <?php
-        echo '</div>';
-        
-        require_once PATH . '/application/views/templates/footer.php';
-        echo '</div>';
-    }
+        <div class="<?php echo(($view == 'login') ? 'col-12' : 'col-10'); ?>">
+            <?php
+            $view = empty( $view ) ? $this->c : $view;
+            $view_path = PATH . '/application/views/' . $view . '_view.php';
+            if( file_exists( $view_path ) ){
+                require $view_path;
+            }else{
+                dd( $view . '_view.php does not exists' ); 
+            }
+            ?>
+            <?php
+            echo '</div>';
+
+            if( $view !== 'media_list' ){
+                echo '</div>';
+                echo '</div>';
+                require_once PATH . '/application/views/templates/footer.php';
+                echo '</div>';  
+            }else {
+                echo '</div>';
+            }
+        }
 
     public function logout(){
         session_start();    

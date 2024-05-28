@@ -206,10 +206,9 @@ body {
 
 
 .collapsible {
-	display: none;
-/*	display: block; */
-overflow: hidden auto; 
-padding: 2px;
+	display: block; 
+	overflow: hidden auto; 
+	padding: 2px;
 }
 
 #submit-btn {
@@ -589,12 +588,12 @@ p{
 }
 
 .file-list{
-margin-left: -32px;
+	margin-left: -32px;
 }
 .file-list ul {
 	list-style: none;
 	display: flex;
-	gap: 16px;
+	gap: 18px;
 }
 .file-list li {
 	border-radius: 5px;
@@ -615,31 +614,29 @@ margin-left: -32px;
 }
 
 #media-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    transform: translate(-50%, -50%);
-    background: white;
-    border: 1px solid #ccc;
-    padding: 20px;
-    z-index: 1000;
-    display: none;
+	position: fixed;
+	top: 25%;
+	left: 20.5%;
+	width: 76.5%;
+	background: #f0f0f0;
+	z-index: 1000;
+	display: none;
 }
 
 #media-popup-content ul {
-    list-style: none;
-    padding: 0;
+	list-style: none;
+	padding: 0;
 }
 
 #media-popup-content li {
-    display: inline-block;
-    cursor: pointer;
+	display:block;
+	cursor: pointer;
 }
 
-/* Hide header, footer, and sidebar */
-#header, #footer, #sidebar {
-    display: none;
+.media-option {
+	width: 98.5%;
+	margin-top: -31px;
+	margin-bottom: -20px;
 }
 
 .poster img {
@@ -653,10 +650,10 @@ margin-left: -32px;
 
 .trigger-file{
 	margin-bottom: 20px;
-    text-align: center;
+	text-align: center;
 }
 
-.custom-file-upload {
+/*.custom-file-upload {
 	padding: 10px 15px;
 	background-color: #198754;
 	color: #fff;
@@ -665,7 +662,7 @@ margin-left: -32px;
 	border: none;
 	cursor: pointer;
 	border-radius: 5px;
-}
+}*/
 
 /* Hide the original file input */
 #file_to_upload {
