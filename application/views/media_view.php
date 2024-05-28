@@ -6,7 +6,6 @@
     </div>
 </form>
 
-
 <?php if ( !empty( $files ) ): ?>
     <div class="file-list" style="gap:16px;">
         <ul>

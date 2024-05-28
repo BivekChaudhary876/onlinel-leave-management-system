@@ -359,20 +359,18 @@ input:checked + .slider:before {
 }
 
 .footer{
-	display: block;
-}
-
-.footer-container{
+/*	position: fixed;*/
+	left: 0px;
+	bottom: 0px;
 	width: 100%;
+}
+.footer-container{
 	margin-top: 16px;
-	margin-bottom: 16px;
 	padding-top: 32px;
 	padding-bottom: 32px;
 	text-align: center;
 	border-top: 1px solid #dee2e6;
-	transform: translateX(-50%) !important;
-	left: 50%;
-	position: absolute !important;
+	
 }
 
 .nav-pills .nav-link {
@@ -589,6 +587,7 @@ p{
 
 .file-list{
 	margin-left: -32px;
+	margin-bottom: -14px;
 }
 .file-list ul {
 	list-style: none;
@@ -649,7 +648,7 @@ p{
 }
 
 .trigger-file{
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	text-align: center;
 }
 
@@ -668,4 +667,6 @@ p{
 #file_to_upload {
 	display: none;
 }
+
+
 

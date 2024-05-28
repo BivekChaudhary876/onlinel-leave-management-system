@@ -4,7 +4,9 @@
         <input type="number" name="per_page" value="<?php echo esc_attr( $settings[ 'per_page' ] ); ?>" class="input"/>
         
         <label>Logo</label>
+        <img id="navbar-logo"  name="logo" src="<?php echo $logo; ?>" alt="logo" height="50" style="margin-left: 10px;display: flex;">
         <input type="text" name="logo" value="<?php echo esc_attr( $settings[ 'logo' ] ); ?>" class="input" id="logo"/>
+
 
         <label>Header Color</label>
         <input type="color" name="header_bg" value="<?php echo esc_attr( $settings[ 'header_bg' ] ); ?>" class="color-input form-control-color"/>
