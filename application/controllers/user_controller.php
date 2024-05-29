@@ -36,14 +36,18 @@ class User_Controller extends Base_Controller{
     }
     
     public function list( $id = false  ){
+        $department_m = load_model('department');
+        $departments = false;
 
         if( !is_admin() ){
             redirect( "dashboard" );
         }
 
         $where = [];
+        $departments = $department_m->get( [], false );
         $data = [ 
             'page_title' => 'User List', 
+            'departments' => $departments,
             'modal' => [
                 "title" => "Add / Update User",
                 "view"  => "user"
@@ -68,13 +72,14 @@ class User_Controller extends Base_Controller{
     }
     
     public function save(){
+        $department_id = isset( $_POST[ 'department_id' ] ) && $_POST[ 'department_id' ] !== '' ? $_POST[ 'department_id' ] : '';
         
         $data = [
             'username'   => $_POST[ 'username' ], 
             'email'      => $_POST[ 'email' ], 
             'gender'     => $_POST[ 'gender' ], 
             'birth_date' => $_POST[ 'birth_date' ], 
-            'department' => $_POST[ 'department' ],
+            'department_id' => $department_id,
             'address'    => $_POST[ 'address' ],
             'phone'      => $_POST[ 'phone' ],
             'password'   => $_POST[ 'password' ]

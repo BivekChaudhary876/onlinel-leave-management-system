@@ -22,12 +22,9 @@
 	<div class="form-group">
 		<label class="form-control-label">Department</label>
 		<select id="department" name="department" class="input">
-			<option value="">Select Department</option>
-			<option value="HR">HR</option>
-			<option value="Development">Development</option>
-			<option value="UI/UX">UI/UX</option>
-			<option value="Finance">Finance</option>
-			<option value="Customer Support">Customer Support</option>
+			<?php foreach( $departments as $department ): ?>
+				<option value="<?= $department[ 'id' ] ?>"><?= $department[ 'name' ]?></option>
+			<?php endforeach; ?>
 		</select>
 	</div>
 	<div class="form-group">

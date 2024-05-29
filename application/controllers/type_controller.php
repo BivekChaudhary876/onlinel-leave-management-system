@@ -28,7 +28,7 @@ class Type_Controller extends Base_Controller{
     }
 
     public function details( $id ){
-       if ( !$id ) {
+     if ( !$id ) {
         redirect('type');
     }
 

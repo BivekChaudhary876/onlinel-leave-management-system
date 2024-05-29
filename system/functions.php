@@ -219,6 +219,7 @@ function icon( $c ){
         "edit"        => "fa-pencil-square-o", 
         "view"        => "fa-eye", 
         "delete"      => "fa-trash" ,
+        "department"  => "fa-building",
         "dashboard"   => "fa-tachometer", 
         "holiday"     => "fa-superpowers", 
         "leave"       => "fa-leaf", 
