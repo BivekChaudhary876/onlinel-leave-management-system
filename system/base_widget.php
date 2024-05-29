@@ -5,7 +5,9 @@ abstract class Base_Widget{
 
     protected $icon = '';
 
-    protected $arrow = '';
+    protected $collapsible = '';
+    
+    protected $uncollapsible = '';
 
     protected $id = '';
 
@@ -32,7 +34,7 @@ abstract class Base_Widget{
     public function render(){
         ?>
         <div id="<?php echo str_replace ( ' ', '-', $this->name ); ?>" class="draggable-widget <?php echo $this->name; ?>">
-            <h5 onclick="toggleContent('<?php echo $this->id; ?>')"><?php echo icon($this->icon) . $this->title; ?><?php echo ''. icon($this->arrow)?></h5>
+            <h5 onclick="toggleContent('<?php echo $this->id; ?>')"><?php echo icon($this->icon) . $this->title; ?><?php echo ''. icon($this->uncollapsible)?></h5>
             <div class="widget"> 
                 <?php echo $this->widget(); ?>
             </div>

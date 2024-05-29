@@ -6,7 +6,9 @@ class Leave_List_Widget extends Base_Widget{
 
     protected $icon = 'user';
 
-    protected $arrow = 'collapsible';
+    protected $collapsible = 'collapsible';
+
+    protected $uncollapsible = 'uncollapse';
 
     protected $id = 'recent-leave-list';
 

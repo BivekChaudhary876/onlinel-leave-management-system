@@ -6,7 +6,9 @@ class Leave_Counter_Widget extends Base_Widget{
 
     protected $icon = 'leave';
 
-    protected $arrow = 'collapsible';
+    protected $collapsible = 'collapsible';
+
+    protected $uncollapsible = 'uncollapse';
 
     protected $id = 'leave-status';
 

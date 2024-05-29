@@ -66,7 +66,7 @@
 							<button class="approved-btn change-leave-status actions" data-id="<?php echo $leave[ 'id' ]; ?>" data-status="approved">Approve</button>
 						<?php endif; ?>
 					<?php endif; ?>
-					<a href="leave/details/<?php echo $leave[ 'id' ]; ?>"><?php echo icon( "view" ); ?></a>
+					<button class="btn-view"><a href="leave/details/<?php echo $leave[ 'id' ]; ?>"><?php echo icon( "view" ); ?></a></button>
 				</td>
 			</tr>
 		<?php endforeach; ?>

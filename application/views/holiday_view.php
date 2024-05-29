@@ -24,7 +24,7 @@
                 <button class="btn-delete delete-holiday" data-id="<?= $holiday[ 'id' ] ?>"><?php echo icon('delete');?></button>
               </button>
             <?php endif; ?>
-            <a href="holiday/details/<?= $holiday[ 'id' ] ?>"><?php echo icon('view');?></a>
+            <button class="btn-view"><a href="holiday/details/<?= $holiday[ 'id' ] ?>"><?php echo icon('view');?></a></button>
           </td>
 
         </tr>

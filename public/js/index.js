@@ -329,7 +329,32 @@ $(document).ready(function () {
 		delete_media(id, $row)
 	})
 
-	$('#logo').on('click', function() {
+	// $('#logo').on('click', function() {
+    //     $.ajax({
+    //         url: 'media/list',
+    //         method: 'GET',
+    //         success: function(data) {
+    //             // Display the pop-up with media files
+    //             $('body').append('<div id="media-popup">' + data + '</div>');
+    //             $('#media-popup').show();
+    //         }
+    //     });
+    // });
+
+    // $(document).on('click', '.media-file', function() {
+    //     var mediaPath = $(this).data('path');
+    //     $('#logo').val(mediaPath);
+    //     $('#media-popup').remove();
+    //     $('#navbar-logo').attr('src', mediaPath);
+    // });
+
+    // $(document).on('click', function(event) {
+    //     if (!$(event.target).closest('#media-popup, #logo').length) {
+    //         $('#media-popup').remove();
+    //     }
+    // });
+
+    $('.navbar-logo').on('click', function() {
         $.ajax({
             url: 'media/list',
             method: 'GET',
@@ -341,15 +366,17 @@ $(document).ready(function () {
         });
     });
 
+    // Functionality for selecting a media file from the pop-up
     $(document).on('click', '.media-file', function() {
         var mediaPath = $(this).data('path');
-        $('#logo').val(mediaPath);
+        $('.navbar-logo').attr('src', mediaPath);
+        $('#logo').val(mediaPath); // Assuming you need to set the value of an input field
         $('#media-popup').remove();
-        $('#navbar-logo').attr('src', mediaPath);
     });
 
+    // Close the pop-up if clicked outside
     $(document).on('click', function(event) {
-        if (!$(event.target).closest('#media-popup, #logo').length) {
+        if (!$(event.target).closest('#media-popup, .navbar-logo').length) {
             $('#media-popup').remove();
         }
     });
@@ -364,7 +391,6 @@ function toggleContent(id) {
 		element.style.display = "none";
 	}
 }
-
 
 ;(function () {
 	function validateDaysInput() {

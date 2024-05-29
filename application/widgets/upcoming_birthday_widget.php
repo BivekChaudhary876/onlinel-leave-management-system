@@ -6,7 +6,9 @@ class Upcoming_Birthday_Widget extends Base_Widget{
 
     protected $icon = 'birthday';
 
-    protected $arrow = 'collapsible';
+    protected $collapsible = 'collapsible';
+
+    protected $uncollapsible = 'uncollapse';
 
     protected $id = 'birth';
 

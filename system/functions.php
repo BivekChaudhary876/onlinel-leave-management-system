@@ -231,6 +231,7 @@ function icon( $c ){
         "logout"      => "fa-sign-out", 
         "birthday"    => "fa-birthday-cake", 
         "collapsible" => "fa-chevron-right",
+        "uncollapse"  => "fa-chevron-down",
     ];
     ?>
     <i class="fa <?php echo isset( $class[ $c ] ) ? esc_attr( $class[ $c ] ) : esc_attr( $c ); ?>"></i>

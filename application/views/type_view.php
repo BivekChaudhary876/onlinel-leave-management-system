@@ -15,7 +15,7 @@
                 <td>
                     <button class="btn-edit open-app-modal" data-value="<?php echo esc_attr( json_encode( $type ) ); ?>" data-id="<?= $type[ 'id' ] ?>"><?php icon( "edit" );?></button>
                     <button class="btn-delete delete-type" data-id="<?php echo $type[ 'id' ]; ?>"><?php icon( "delete" )?></button>
-                    <a href="type/details/<?php echo $type[ 'id' ]?>"><?php echo icon( "view" ); ?></a>
+                    <button class="btn-view"><a href="type/details/<?php echo $type[ 'id' ]?>"><?php echo icon( "view" ); ?></a></button>
                 </td>
             </tr>
         <?php endforeach; ?>

@@ -6,7 +6,8 @@ class Upcoming_Holidays_Widget extends Base_Widget{
 
     protected $icon = 'holiday';
 
-    protected $arrow = 'collapsible';
+    protected $collapsible = 'collapsible';
+    protected $uncollapsible = 'uncollapse';
 
     protected $id = 'upcoming-holiday';
 
