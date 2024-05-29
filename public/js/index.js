@@ -329,31 +329,7 @@ $(document).ready(function () {
 		delete_media(id, $row)
 	})
 
-	// $('#logo').on('click', function() {
-    //     $.ajax({
-    //         url: 'media/list',
-    //         method: 'GET',
-    //         success: function(data) {
-    //             // Display the pop-up with media files
-    //             $('body').append('<div id="media-popup">' + data + '</div>');
-    //             $('#media-popup').show();
-    //         }
-    //     });
-    // });
-
-    // $(document).on('click', '.media-file', function() {
-    //     var mediaPath = $(this).data('path');
-    //     $('#logo').val(mediaPath);
-    //     $('#media-popup').remove();
-    //     $('#navbar-logo').attr('src', mediaPath);
-    // });
-
-    // $(document).on('click', function(event) {
-    //     if (!$(event.target).closest('#media-popup, #logo').length) {
-    //         $('#media-popup').remove();
-    //     }
-    // });
-
+	//to display file option when logo field of setting is clicked
     $('.navbar-logo').on('click', function() {
         $.ajax({
             url: 'media/list',
