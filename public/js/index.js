@@ -137,265 +137,171 @@ $(document).ready(function () {
 		$modal.modal('show')
 	})
 
-	function delete_user(id, $element) {
-		if (confirm('Are you sure you want to delete this user?')) {
-			$http.post(
-			{
-				url: 'user/delete',
-				data: {
-					id: id,
-				},
-				success: function (response) {
-					var res = JSON.parse(response)
+	function delete_item(id, $element, url, confirmMessage) {
+		if (confirm(confirmMessage)) {
+			$.post(
+				url,
+				{ id: id },
+				function(response) {
+					var res = JSON.parse(response);
 					if (res.success) {
-						$element.fadeOut(500, function () {
-							$(this).remove()
-						})
+						$element.fadeOut(500, function() {
+							$(this).remove();
+						});
 					} else {
-						alert('Error: ' + res.message)
+						alert('Error: ' + res.message);
 					}
-				},
-				error: function (xhr, status, error) {
-					console.error('Error:', xhr.responseText)
-					alert('An error occurred while deleting the user.')
-				},
-			},
-			$element
-			)
-		}
-	}
-
-	$('.delete-user').click(function () {
-		var id = $(this).data('id')
-		var $row = $(this).closest('tr')
-		delete_user(id, $row)
-	})
-
-
-	function delete_department(id, $element) {
-		if (confirm('Are you sure you want to delete this department?')) {
-			$http.post(
-			{
-				url: 'department/delete',
-				data: {
-					id: id,
-				},
-				success: function (response) {
-					var res = JSON.parse(response)
-					if (res.success) {
-						$element.fadeOut(500, function () {
-							$(this).remove()
-						})
-					} else {
-						alert('Error: ' + res.message)
-					}
-				},
-				error: function (xhr, status, error) {
-					console.error('Error:', xhr.responseText)
-					alert('An error occurred while deleting the department.')
-				},
-			},
-			$element
-			)
-		}
-	}
-
-
-	$('.delete-department').click(function () {
-		var id = $(this).data('id')
-		var $row = $(this).closest('tr')
-		delete_department(id, $row)
-	})
-
-
-
-	$('.change-leave-status').click(function (e) {
-		e.preventDefault()
-
-		var id = $(this).data('id'),
-		status = $(this).data('status'),
-		$status = $(this).closest('tr').find('.status')
-
-		$http.post(
-		{
-			url: 'leave/update_status',
-			data: {
-				id: id,
-				status: status,
-			},
-			success: function () {
-					// Update the status cell in the table
-				$status.html(
-					'<span class="badge text-bg-' +
-					(status === 'approved' ? 'success' : 'danger') +
-					'">' +
-					status +
-					'</span>'
-					);
-				location.reload();
-			},
-			error: function (xhr) {
-					// Handle error response
-				console.error(xhr.responseText)
-				alert('An error occurred while updating the leave status.')
-			},
-		},
-		$(this)
-		)
-	})
-
-	function delete_holiday(id, $element) {
-		if (confirm('Are you sure you want to delete this holiday?')) {
-			$http.post(
-			{
-				url: 'holiday/delete',
-				data: {
-					id: id,
-				},
-				success: function (response) {
-					var res = JSON.parse(response)
-					if (res.success) {
-						$element.fadeOut(500, function () {
-							$(this).remove()
-						})
-					} else {
-						alert('Error: ' + res.message)
-					}
-				},
-				error: function (xhr, status, error) {
-					console.error('Error:', xhr.responseText)
-					alert('An error occurred while deleting the user.')
-				},
-			},
-			$element
-			)
-		}
-	}
-
-	$('.delete-holiday').click(function () {
-		var id = $(this).data('id')
-		var $row = $(this).closest('tr')
-		delete_holiday(id, $row)
-	})
-
-	function delete_type(id, $element) {
-		if (confirm('Are you sure you want to delete this leave type?')) {
-			$http.post(
-			{
-				url: 'type/delete',
-				data: {
-					id: id,
-				},
-				success: function (response) {
-					var res = JSON.parse(response)
-					if (res.success) {
-						$element.fadeOut(500, function () {
-							$(this).remove()
-						})
-					} else {
-						alert('Error: ' + res.message)
-					}
-				},
-				error: function (xhr, status, error) {
-					console.error('Error:', xhr.responseText)
-					alert('An error occurred while deleting the leave type.')
-				},
-			},
-			$element
-			)
-		}
-	}
-
-
-	$('.delete-type').click(function () {
-		var id = $(this).data('id')
-		var $row = $(this).closest('tr')
-		delete_type(id, $row)
-	})
-
-	$('#file_to_upload').on('change', function () {
-		var formData = new FormData($('#media-form')[0]);
-		$http.post(
-		{
-			url: 'media/save',
-			data: formData,
-			processData: false,
-			contentType: false,
-			success: function (response) {
-				location.reload();
-			},
-			error: function (xhr, status, error) {
-				console.error('Error:', xhr.responseText);
-				alert('An error occurred while uploading the file.');
+				}
+				).fail(function(xhr, status, error) {
+					console.error('Error:', xhr.responseText);
+					alert('An error occurred while deleting the item.');
+				});
 			}
-		},
-		$(this)
-		);
-	});
+		}
 
-	function delete_media(id, $element) {
-		if (confirm('Are you sure you want to delete this media file?')) {
+		$('.delete-user').click(function () {
+			var id = $(this).data('id')
+			var $row = $(this).closest('tr')
+			delete_item(id, $row, 'user/delete', 'Are you sure you want to delete this user?')
+		})
+
+		$('.delete-department').click(function () {
+			var id = $(this).data('id')
+			var $row = $(this).closest('tr')
+			delete_item(id, $row, 'department/delete', 'Are you sure you want to delete this department?')
+		})
+
+		$('.delete-holiday').click(function () {
+			var id = $(this).data('id')
+			var $row = $(this).closest('tr')
+			delete_item(id, $row, 'holiday/delete','Are you sure you want to delete this holiday?')
+		})
+
+		$('.delete-type').click(function () {
+			var id = $(this).data('id')
+			var $row = $(this).closest('tr')
+			delete_item(id, $row, 'type/delete', 'Are you sure you want to delete this leave type?')
+		})
+
+		$('.change-leave-status').click(function (e) {
+			e.preventDefault()
+
+			var id = $(this).data('id'),
+			status = $(this).data('status'),
+			$status = $(this).closest('tr').find('.status')
+
 			$http.post(
 			{
-				url: 'media/delete',
+				url: 'leave/update_status',
 				data: {
 					id: id,
+					status: status,
 				},
+				success: function () {
+					// Update the status cell in the table
+					$status.html(
+						'<span class="badge text-bg-' +
+						(status === 'approved' ? 'success' : 'danger') +
+						'">' +
+						status +
+						'</span>'
+						);
+					location.reload();
+				},
+				error: function (xhr) {
+					// Handle error response
+					console.error(xhr.responseText)
+					alert('An error occurred while updating the leave status.')
+				},
+			},
+			$(this)
+			)
+		})
+
+
+		$('#file_to_upload').on('change', function () {
+			var formData = new FormData($('#media-form')[0]);
+			$http.post(
+			{
+				url: 'media/save',
+				data: formData,
+				processData: false,
+				contentType: false,
 				success: function (response) {
-					var res = JSON.parse(response)
-					if (res.success) {
-						$element.fadeOut(500, function () {
-							$(this).remove()
-						})
-					} else {
-						alert('Error: ' + res.message)
-					}
 					location.reload();
 				},
 				error: function (xhr, status, error) {
-					console.error('Error:', xhr.responseText)
-					alert('An error occurred while deleting the media file.')
-				},
+					console.error('Error:', xhr.responseText);
+					alert('An error occurred while uploading the file.');
+				}
 			},
-			$element
-			)
+			$(this)
+			);
+		});
+
+		function delete_media(id, $element) {
+			if (confirm('Are you sure you want to delete this media file?')) {
+				$http.post(
+				{
+					url: 'media/delete',
+					data: {
+						id: id,
+					},
+					success: function (response) {
+						var res = JSON.parse(response)
+						if (res.success) {
+							$element.fadeOut(500, function () {
+								$(this).remove()
+							})
+						} else {
+							alert('Error: ' + res.message)
+						}
+						location.reload();
+					},
+					error: function (xhr, status, error) {
+						console.error('Error:', xhr.responseText)
+						alert('An error occurred while deleting the media file.')
+					},
+				},
+				$element
+				)
+			}
 		}
-	}
-	$('.delete-media').click(function () {
-		var id = $(this).data('id')
-		var $row = $(this).closest('tr')
-		delete_media(id, $row)
-	})
+		$('.delete-media').click(function () {
+			var id = $(this).data('id')
+			var $row = $(this).closest('tr')
+			delete_media(id, $row)
+		})
 
 	//to display file option when logo field of setting is clicked
-    $('.navbar-logo').on('click', function() {
-        $.ajax({
-            url: 'media/list',
-            method: 'GET',
-            success: function(data) {
+		$('.navbar-logo').on('click', function() {
+			$.ajax({
+				url: 'media/list',
+				method: 'GET',
+				success: function(data) {
                 // Display the pop-up with media files
-                $('body').append('<div id="media-popup">' + data + '</div>');
-                $('#media-popup').show();
-            }
-        });
-    });
+					$('body').append('<div id="media-popup">' + data + '</div>');
+					$('#media-popup').show();
+				}
+			});
+		});
 
     // Functionality for selecting a media file from the pop-up
-    $(document).on('click', '.media-file', function() {
-        var mediaPath = $(this).data('path');
-        $('.navbar-logo').attr('src', mediaPath);
+		$(document).on('click', '.media-file', function() {
+			var mediaPath = $(this).data('path');
+			$('.navbar-logo').attr('src', mediaPath);
         $('#logo').val(mediaPath); // Assuming you need to set the value of an input field
         $('#media-popup').remove();
     });
 
     // Close the pop-up if clicked outside
-    $(document).on('click', function(event) {
-        if (!$(event.target).closest('#media-popup, .navbar-logo').length) {
-            $('#media-popup').remove();
-        }
-    });
+		$(document).on('click', function(event) {
+			if (!$(event.target).closest('#media-popup, .navbar-logo').length) {
+				$('#media-popup').remove();
+			}
+		});
 
-})
+	})
 
 function toggleContent(id) {
 	var element = document.getElementById(id);

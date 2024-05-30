@@ -684,21 +684,15 @@ p{
 	text-align: center;
 }
 
-/*.custom-file-upload {
-	padding: 10px 15px;
-	background-color: #198754;
-	color: #fff;
-	border-radius: 5px;
-	text-align: center;
-	border: none;
-	cursor: pointer;
-	border-radius: 5px;
-}*/
-
 /* Hide the original file input */
 #file_to_upload {
 	display: none;
 }
 
 
-
+@media only screen and (max-width: 620px) {
+  /* For mobile phones: */
+  .navbar, .col-10, .col-2, .table {
+    width: 100%;
+  }
+}
