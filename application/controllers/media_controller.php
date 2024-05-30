@@ -1,17 +1,19 @@
 <?php
 class Media_Controller extends Base_Controller {
-    protected $post_methods = [ 'save', 'save_file_info', 'update_file_info' ];
+    protected $post_methods = [ 'save', 'delete' ];
     
     public function __construct() {
         parent::__construct();
     }
 
     public function index() {
-        $files = $this->model->get( [], false );
+        $files = $this->model->get();
+        $total = $this->model->get_count();
 
         $this->load_view( [  
             'page_title' => 'Media',
             'files'      => $files,
+            'total'      => $total,
         ], 'media' );
     }
 

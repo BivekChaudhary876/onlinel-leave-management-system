@@ -8,7 +8,6 @@ body {
 	margin: 0;
 }
 
-
 main {
 	flex: 1;
 }
@@ -480,8 +479,8 @@ transition: all 0.3s ease;
 }
 
 .setting-logo {
-    margin: 10px 0px;
-    transition: transform 0.2s ease-in-out;
+	margin: 10px 0px;
+	transition: transform 0.2s ease-in-out;
 }
 
 .setting-logo:hover {
@@ -536,7 +535,7 @@ p{
 
 .pagination-container {
 	text-align: center;
-	margin-top: 16px;
+	margin-top: 20px;
 }
 
 .pagination-list {
@@ -624,6 +623,7 @@ p{
 .file-list ul {
 	list-style: none;
 	display: flex;
+	justify-content: center;
 	gap: 18px;
 }
 .file-list li {
@@ -669,6 +669,9 @@ p{
 	margin-top: -31px;
 	margin-bottom: -20px;
 }
+.media-file{
+	margin-bottom: 16px;
+}
 
 .poster img {
 	width: 400px;
@@ -691,8 +694,8 @@ p{
 
 
 @media only screen and (max-width: 620px) {
-  /* For mobile phones: */
-  .navbar, .col-10, .col-2, .table {
-    width: 100%;
-  }
+	/* For mobile phones: */
+	.navbar, .col-10, .col-2, .table {
+		width: 100%;
+	}
 }
