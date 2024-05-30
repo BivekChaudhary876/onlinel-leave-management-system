@@ -28,26 +28,26 @@ class Type_Controller extends Base_Controller{
     }
 
     public function details( $id ){
-     if ( !$id ) {
-        redirect('type');
+        if ( !$id ) {
+            redirect('type');
+        }
+
+        $details = $this->model->get(
+            [ 'id' => $id ], 
+            true
+        );
+
+        if (!$details) {
+            redirect('type');
+        }
+
+        $this->load_view([
+            'page_title'    => 'Leave Type Details',
+            'details' => $details,
+        ], 'type_details');  
     }
 
-    $details = $this->model->get(
-        [ 'id' => $id ], 
-        true
-    );
-
-    if (!$details) {
-        redirect('type');
-    }
-
-    $this->load_view([
-        'page_title'    => 'Leave Type Details',
-        'details' => $details,
-    ], 'type_details');  
-}
-
-public function save(){
+    public function save(){
         // $data = [
         //     'name' => $_POST[ 'name' ]
         // ];
@@ -57,38 +57,38 @@ public function save(){
         // $this->model->save( $data );
         // redirect( 'type' );
 
-    $valid_data = [ 'id', 'name' ];
-    $data = [];
-    foreach( $valid_data as $d ){
-        if( isset( $_POST[ $d ] ) ){
-            $data[ $d ] = $_POST[ $d ];
+        $valid_data = [ 'id', 'name' ];
+        $data = [];
+        foreach( $valid_data as $d ){
+            if( isset( $_POST[ $d ] ) ){
+                $data[ $d ] = $_POST[ $d ];
+            }
         }
-    }
-    
+        
         // Check if 'id' is set and greater than 0, indicating an update
-    if ( isset( $_POST[ 'id' ] ) && $_POST[ 'id' ] > 0 ) {
+        if ( isset( $_POST[ 'id' ] ) && $_POST[ 'id' ] > 0 ) {
         // Update the existing leave record
-        $data[ 'id' ] = $_POST[ 'id' ];
-        $this->model->save( $data );
-    } else {
-        // Remove 'id' from data if it's set to ensure a new record is created
-        unset($data['id']);
-        // Add a new leave record
-        $this->model->save($data);
-    }
-    redirect('type');
-}
-public function delete() {
-    try {
-        $id = $_POST[ 'id' ];
-        $deleted = $this->model->delete( $id );
-        if ( $deleted ) {
-            echo json_encode( [ 'success' => true ] );
+            $data[ 'id' ] = $_POST[ 'id' ];
+            $this->model->save( $data );
         } else {
-            echo json_encode( [ 'success' => false, 'message' => 'Failed to delete type' ] );
+        // Remove 'id' from data if it's set to ensure a new record is created
+            unset($data['id']);
+        // Add a new leave record
+            $this->model->save($data);
         }
-    } catch (Exception $e) {
-        echo json_encode( [ 'success' => false, 'message' => 'Error: ' . $e->getMessage() ] );
+        redirect('type');
     }
-}
+    public function delete() {
+        try {
+            $id = $_POST[ 'id' ];
+            $deleted = $this->model->delete( $id );
+            if ( $deleted ) {
+                echo json_encode( [ 'success' => true ] );
+            } else {
+                echo json_encode( [ 'success' => false, 'message' => 'Failed to delete type' ] );
+            }
+        } catch (Exception $e) {
+            echo json_encode( [ 'success' => false, 'message' => 'Error: ' . $e->getMessage() ] );
+        }
+    }
 }

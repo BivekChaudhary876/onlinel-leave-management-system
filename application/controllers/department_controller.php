@@ -27,6 +27,26 @@ class Department_Controller extends Base_Controller{
 		], 'department' );
 	}
 
+	public function details( $id ){
+		if ( !$id ) {
+			redirect('department');
+		}
+
+		$details = $this->model->get(
+			[ 'id' => $id ], 
+			true
+		);
+
+		if (!$details) {
+			redirect('department');
+		}
+
+		$this->load_view([
+			'page_title'    => 'Department Details',
+			'details' => $details,
+		], 'department_details');  
+	}
+
 	public function save(){
 		$valid_data = [ 'id', 'name'];
 		$data = [];

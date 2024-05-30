@@ -171,6 +171,44 @@ $(document).ready(function () {
 		delete_user(id, $row)
 	})
 
+
+	function delete_department(id, $element) {
+		if (confirm('Are you sure you want to delete this department?')) {
+			$http.post(
+			{
+				url: 'department/delete',
+				data: {
+					id: id,
+				},
+				success: function (response) {
+					var res = JSON.parse(response)
+					if (res.success) {
+						$element.fadeOut(500, function () {
+							$(this).remove()
+						})
+					} else {
+						alert('Error: ' + res.message)
+					}
+				},
+				error: function (xhr, status, error) {
+					console.error('Error:', xhr.responseText)
+					alert('An error occurred while deleting the department.')
+				},
+			},
+			$element
+			)
+		}
+	}
+
+
+	$('.delete-department').click(function () {
+		var id = $(this).data('id')
+		var $row = $(this).closest('tr')
+		delete_department(id, $row)
+	})
+
+
+
 	$('.change-leave-status').click(function (e) {
 		e.preventDefault()
 

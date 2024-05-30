@@ -2,12 +2,13 @@
 class Leave_Model extends Base_Model{
     
     protected $table = 'leave_requests';
-    protected $columns = [ 'lr.*', 'u.username', 'u.email', 'u.department', 'lr.type_id', 't.name as leave_type' ];
+    protected $columns = [ 'lr.*', 'u.username', 'u.email', 'u.department_id', 'd.name as department', 'lr.type_id', 't.name as leave_type' ];
 
     public function get( $conditions=[], $pagination=true, $args = [] ){
 
         $this->db->select( $this->columns, $this->table . " lr");
         $this->db->join( "users u", "u.id = lr.user_id" );
+        $this->db->join( "departments d", "d.id = u.department_id" );
         $this->db->join( "types t", "t.id = lr.type_id" );
         $this->db->where( $conditions );
         $this->db->order_by( 'lr.created_date' );

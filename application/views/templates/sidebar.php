@@ -20,7 +20,7 @@ $current_controller = get_current_controller();
             if ( $controller === 'error' ) {
                 continue;
             }
-            $is_admin = in_array( $controller, ['type', 'user'] );
+            $is_admin = in_array( $controller, ['type', 'user','department'] );
 
             if( $is_admin && !is_admin() ){
                 continue;

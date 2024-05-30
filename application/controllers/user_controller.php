@@ -56,8 +56,8 @@ class User_Controller extends Base_Controller{
 
         $view = 'user';
         if( $id ){
-            # show only on user
-            $where[ 'id' ] = $id;
+            // Specify the users table for the 'id' condition
+        $where['user.id'] = $id;
             $view = 'user_details';
         }else{
             # list all the users
@@ -79,7 +79,7 @@ class User_Controller extends Base_Controller{
             'email'      => $_POST[ 'email' ], 
             'gender'     => $_POST[ 'gender' ], 
             'birth_date' => $_POST[ 'birth_date' ], 
-            'department_id' => $department_id,
+            'department_id' => $_POST[ 'department'],
             'address'    => $_POST[ 'address' ],
             'phone'      => $_POST[ 'phone' ],
             'password'   => $_POST[ 'password' ]

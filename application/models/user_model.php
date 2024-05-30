@@ -3,22 +3,23 @@ class User_Model extends Base_Model{
 
     protected $table = 'users';
 
-    protected $columns = [ 'u.*', 'd.name as department' ];
+    protected $columns = [ 'user.*', 'd.name as department' ];
 
-    public function get( $conditions=[], $pagination=true, $args = [] ){
-
-        $this->db->select( $this->columns, $this->table . " u");
-        $this->db->join( "departments d", "d.id = u.department_id" );
+    public function get( $conditions = [], $pagination = true, $args = [] )
+    {
+        $this->db->select( $this->columns, $this->table . " user" );
+        $this->db->join( "departments d", "d.id = user.department_id" );
         $this->db->where( $conditions );
-        $this->db->order_by( 'u.created_date' );
+        $this->db->order_by( 'user.created_date' );
 
-        if( $pagination ){
+        if ( $pagination ) {
             $this->db->paginate();
         }
 
         $result = $this->db->exec();
         return $this->db->fetch( $result );
     }
+
 
     public function get_by_upcoming_birthdays(){
         $users = $this->get( [], true, [ 

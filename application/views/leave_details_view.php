@@ -3,7 +3,7 @@
     <?php foreach ( $details as $key => $detail  ) : ?>
         <h6 class="info">Name:  <p> <?php echo esc_attr( $detail[ 'username' ] ); ?></p> </h6>
         <h6 class="info">Email: <p><?php echo esc_attr( $detail[ 'email' ] ); ?></p></h6>
-        <h6 class="info">Department: <p><?php echo esc_attr( $detail[ 'department' ] ); ?></p></h6>
+        <h6 class="info">Department: <p><?php echo isset($detail['department']) ? esc_attr($detail['department']) : 'N/A'; ?></p></h6>
         <h6 class="info">Leave Type: <p><?php echo esc_attr( $detail[ 'leave_type' ] ); ?></p></h6>
         <h6 class="info">Descriptions: <p><?php echo esc_attr( $detail[ 'description' ] ); ?></p></h6>
         <h6 class="info">Status: <p><?php echo esc_attr( $detail[ 'status' ] ); ?></p></h6>
