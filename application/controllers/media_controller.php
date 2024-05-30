@@ -116,17 +116,28 @@ class Media_Controller extends Base_Controller {
     }
 
 
-    public function delete(  ) {
-        try {
-            $id = $_POST[ 'id' ];
-            $deleted = $this->model->delete( $id );
-            if ( $deleted ) {
-                echo json_encode( [ 'success' => true ] );
-            } else {
-                echo json_encode( [ 'success' => false, 'message' => 'Failed to delete file' ] );
+    public function delete() {
+    try {
+        $ids = $_POST['ids'];
+        $deleted = false;
+
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                $deleted = $this->model->delete($id);
             }
-        } catch ( Exception $e ) {
-            echo json_encode( [ 'success' => false, 'message' => 'Error: ' . $e->getMessage() ] );
+        } else {
+            $id = $_POST['id'];
+            $deleted = $this->model->delete($id);
         }
+
+        if ($deleted) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to delete file(s)']);
+        }
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
+}
+
 }

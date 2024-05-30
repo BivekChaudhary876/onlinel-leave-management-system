@@ -619,8 +619,11 @@ p{
 .file-list{
 	margin-left: -32px;
 	margin-bottom: -14px;
+	position: relative; 
+	gap:16px;
 }
 .file-list ul {
+	position: relative;
 	list-style: none;
 	display: flex;
 	justify-content: center;
@@ -671,6 +674,7 @@ p{
 }
 .media-file{
 	margin-bottom: 16px;
+	position: relative;
 }
 
 .poster img {
@@ -685,6 +689,18 @@ p{
 .trigger-file{
 	margin-bottom: 10px;
 	text-align: center;
+}
+.delete-checkbox{
+	position: absolute; 
+	top: 5px; 
+	right: 5px;
+} 
+
+#delete-selected{
+	position: absolute; 
+	bottom: 0; 
+	right: 0;
+	padding: 4px 12px;
 }
 
 /* Hide the original file input */

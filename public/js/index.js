@@ -239,39 +239,44 @@ $(document).ready(function () {
 			);
 		});
 
-		function delete_media(id, $element) {
-			if (confirm('Are you sure you want to delete this media file?')) {
-				$http.post(
-				{
-					url: 'media/delete',
-					data: {
-						id: id,
-					},
-					success: function (response) {
-						var res = JSON.parse(response)
-						if (res.success) {
-							$element.fadeOut(500, function () {
-								$(this).remove()
-							})
-						} else {
-							alert('Error: ' + res.message)
-						}
-						location.reload();
-					},
-					error: function (xhr, status, error) {
-						console.error('Error:', xhr.responseText)
-						alert('An error occurred while deleting the media file.')
-					},
-				},
-				$element
-				)
-			}
-		}
-		$('.delete-media').click(function () {
-			var id = $(this).data('id')
-			var $row = $(this).closest('tr')
-			delete_media(id, $row)
-		})
+		function delete_media(ids) {
+        if (confirm('Are you sure you want to delete the selected media file(s)?')) {
+            $.post(
+                'media/delete',
+                { ids: ids },
+                function(response) {
+                    var res = JSON.parse(response);
+                    if (res.success) {
+                        ids.forEach(function(id) {
+                            $('.delete-checkbox[data-id="' + id + '"]').closest('li').fadeOut(500, function() {
+                                $(this).remove();
+                            });
+                        });
+                    } else {
+                        alert('Error: ' + res.message);
+                    }
+                }
+            ).fail(function(xhr, status, error) {
+                console.error('Error:', xhr.responseText);
+                alert('An error occurred while deleting the media file(s).');
+            });
+        }
+    }
+
+    // Delete selected media files
+    $('#delete-selected').click(function () {
+        var ids = [];
+        $('.delete-checkbox:checked').each(function () {
+            ids.push($(this).data('id'));
+        });
+
+        if (ids.length === 0) {
+            alert('Please select at least one file to delete.');
+            return;
+        }
+
+        delete_media(ids);
+    });
 
 	//to display file option when logo field of setting is clicked
 		$('.navbar-logo').on('click', function() {
