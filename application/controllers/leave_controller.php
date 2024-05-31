@@ -96,15 +96,15 @@ class Leave_Controller extends Base_Controller
     $leave_types = $type_m->get( [], false );
 
     $this->load_view( [ 
-        'users' => $users,
-        'page_title' => 'Leave List',
-        'leave_types' => $leave_types,
-        'leaves' => $leaves,
+        'users'        => $users,
+        'page_title'   => 'Leave List',
+        'leave_types'  => $leave_types,
+        'leaves'       => $leaves,
         'leave_status' => $leave_status,
-        'total' => $total,
-        'modal' => [ 
-            "title" => "Add / Update Leave",
-            "view" => "leave"
+        'total'        => $total,
+        'modal'        => [ 
+            "title"    => "Add / Update Leave",
+            "view"     => "leave"
         ]
     ], 'leave' );
 }
@@ -123,7 +123,7 @@ public function details( $id )
 
     $this->load_view( [ 
         'page_title' => 'Leave Details',
-        'details' => $details,
+        'details'    => $details,
     ], 'leave_details' );
 }
 
@@ -131,10 +131,10 @@ public function save()
 {
     $user_id = isset( $_POST[ 'user_id' ] ) && $_POST[ 'user_id' ] !== '' ? $_POST[ 'user_id' ] : get_current_user_id(  );
     $data = [ 
-        'user_id' => $user_id,
-        'type_id' => $_POST[ 'type_id' ],
-        'from_date' => $_POST[ 'from_date' ],
-        'to_date' => $_POST[ 'to_date' ],
+        'user_id'     => $user_id,
+        'type_id'     => $_POST[ 'type_id' ],
+        'from_date'   => $_POST[ 'from_date' ],
+        'to_date'     => $_POST[ 'to_date' ],
         'description' => $_POST[ 'description' ],
     ];
 

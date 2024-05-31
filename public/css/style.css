@@ -496,9 +496,11 @@ transition: all 0.3s ease;
 }
 .filter{
 	display: flex;
-	gap: 12px;
 }
 
+.export{
+	margin-left: 12px;
+}
 .export-btn {
 	border: 1px solid blue;
 	color: blue;
@@ -642,7 +644,7 @@ p{
 	list-style: none;
 	display: flex;
 /*	justify-content: center;*/
-	gap: 18px;
+gap: 18px;
 }
 .file-list li {
 	border-radius: 5px;
@@ -725,16 +727,16 @@ p{
 
 /* Media File Selection */
 .switch-toggle {
-    text-align: right;
+	text-align: right;
 }
 
 .media-file img.selectable {
-  cursor: pointer;
-  border: 2px solid transparent;
+	cursor: pointer;
+	border: 2px solid transparent;
 }
 
 .media-file.selected img {
-  border: 2px solid red;
+	border: 2px solid red;
 }
 
 

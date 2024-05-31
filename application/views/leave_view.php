@@ -39,7 +39,9 @@
 				<input type="hidden" name="from_date" value="<?php echo isset( $_GET[ 'from_date' ] ) ? $_GET[ 'from_date' ] : ''; ?>" />
 				<input type="hidden" name="to_date" value="<?php echo isset( $_GET[ 'to_date' ] ) ? $_GET[ 'to_date' ] : ''; ?>" />
 				<input type="hidden" name="export" value="1" />
-				<input type="submit" value="Export" class="export-btn">
+				<?php if( is_admin() ):?>
+					<input type="submit" value="Export Report" class="export-btn">
+				<?php endif;?>
 			</form>
 		</div>
 	</div>
