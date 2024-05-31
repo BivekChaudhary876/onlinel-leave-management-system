@@ -156,6 +156,7 @@ $(document).ready(function () {
 					console.error('Error:', xhr.responseText);
 					alert('An error occurred while deleting the item.');
 				});
+				location.reload();
 			}
 		}
 
@@ -239,46 +240,62 @@ $(document).ready(function () {
 			);
 		});
 
-		function delete_media(ids) {
-        if (confirm('Are you sure you want to delete the selected media file(s)?')) {
-            $.post(
-                'media/delete',
-                { ids: ids },
-                function(response) {
-                    var res = JSON.parse(response);
-                    if (res.success) {
-                        ids.forEach(function(id) {
-                            $('.delete-checkbox[data-id="' + id + '"]').closest('li').fadeOut(500, function() {
-                                $(this).remove();
-                            });
-                        });
-                    } else {
-                        alert('Error: ' + res.message);
-                    }
-                }
-            ).fail(function(xhr, status, error) {
-                console.error('Error:', xhr.responseText);
-                alert('An error occurred while deleting the media file(s).');
-            });
-        }
-    }
+		// Toggle bulk mode
+		$('#bulk-toggle').change(function () {
+			var bulkMode = $(this).is(':checked');
+			$('#bulk-mode').val(bulkMode);
+			$('#delete-selected').toggle(bulkMode);
+			$('.media-file img').toggleClass('selectable', bulkMode);
+			$('#bulk-mode-label').text(bulkMode ? 'Bulk Mode Enabled' : 'Bulk Mode Disabled');
+		});
 
-    // Delete selected media files
-    $('#delete-selected').click(function () {
-        var ids = [];
-        $('.delete-checkbox:checked').each(function () {
-            ids.push($(this).data('id'));
-        });
+    	// Handle media file click
+		$(document).on('click', '.media-file', function (event) {
+			var bulkMode = $('#bulk-mode').val() === 'true';
+			if (bulkMode) {
+				event.preventDefault();
+				$(this).toggleClass('selected');
+			} else {
+				var mediaId = $(this).data('id');
+				window.location.href = 'media/details/' + mediaId;
+			}
+		});
 
-        if (ids.length === 0) {
-            alert('Please select at least one file to delete.');
-            return;
-        }
+    	// Delete selected media files
+		$('#delete-selected').click(function () {
+			var ids = [];
+			$('.media-file.selected').each(function () {
+				ids.push($(this).data('id'));
+			});
 
-        delete_media(ids);
-    });
+			if (ids.length === 0) {
+				alert('Please select at least one file to delete.');
+				return;
+			}
 
-	//to display file option when logo field of setting is clicked
+			if (confirm('Are you sure you want to delete the selected media file(s)?')) {
+				$.post(
+					'media/delete',
+					{ ids: ids },
+					function (response) {
+						var res = JSON.parse(response);
+						if (res.success) {
+							$('.media-file.selected').fadeOut(500, function () {
+								$(this).remove();
+							});
+						} else {
+							alert('Error: ' + res.message);
+						}
+					}
+					).fail(function (xhr, status, error) {
+						console.error('Error:', xhr.responseText);
+						alert('An error occurred while deleting the media file(s).');
+					});
+					location.reload();
+				}
+			});
+
+		//to display file option when logo field of setting is clicked
 		$('.navbar-logo').on('click', function() {
 			$.ajax({
 				url: 'media/list',

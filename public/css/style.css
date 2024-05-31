@@ -307,14 +307,16 @@ footer {
 	border: none;
 }
 
-.button {
+.button,
+.export-btn {
 	margin-bottom: 16px;
 	padding: 4px 12px !important;
 }
 
 .button,
 .approved-btn,
-.rejected-btn {
+.rejected-btn,
+.export-btn {
 	border-radius: 5px;
 	background-color: transparent;
 	transition: background-color 0.3s ease-in-out;
@@ -330,6 +332,7 @@ footer {
 	border: 1px solid #dc3545;
 	color: #dc3545;
 }
+
 
 .button:hover {
 	background-color: #198754;
@@ -491,7 +494,19 @@ transition: all 0.3s ease;
 	display: flex;
 	justify-content: space-between;
 }
+.filter{
+	display: flex;
+	gap: 12px;
+}
 
+.export-btn {
+	border: 1px solid blue;
+	color: blue;
+}
+.export-btn:hover{
+	background-color: blue;
+	color: #fff;
+}
 
 .input{
 	display: block;
@@ -626,7 +641,7 @@ p{
 	position: relative;
 	list-style: none;
 	display: flex;
-	justify-content: center;
+/*	justify-content: center;*/
 	gap: 18px;
 }
 .file-list li {
@@ -708,6 +723,20 @@ p{
 	display: none;
 }
 
+/* Media File Selection */
+.switch-toggle {
+    text-align: right;
+}
+
+.media-file img.selectable {
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.media-file.selected img {
+  border: 2px solid red;
+}
+
 
 @media only screen and (max-width: 620px) {
 	/* For mobile phones: */
@@ -715,3 +744,7 @@ p{
 		width: 100%;
 	}
 }
+
+
+
+

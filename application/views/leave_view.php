@@ -32,6 +32,16 @@
 			<input type="date" name="to_date" placeholder="To" class="select" value="<?php echo isset( $_GET[ 'to_date' ] ) ? $_GET[ 'to_date' ] : '' ?>" />
 			<input type="submit" value="Filter" class="button">
 		</form>
+		<div class="export">
+			<form method="GET" action="">
+				<input type="hidden" name="selected_status" value="<?php echo isset( $_GET[ 'selected_status' ] ) ? $_GET[ 'selected_status' ] : ''; ?>" />
+				<input type="hidden" name="selected_user" value="<?php echo isset( $_GET[ 'selected_user' ] ) ? $_GET[ 'selected_user' ] : ''; ?>" />
+				<input type="hidden" name="from_date" value="<?php echo isset( $_GET[ 'from_date' ] ) ? $_GET[ 'from_date' ] : ''; ?>" />
+				<input type="hidden" name="to_date" value="<?php echo isset( $_GET[ 'to_date' ] ) ? $_GET[ 'to_date' ] : ''; ?>" />
+				<input type="hidden" name="export" value="1" />
+				<input type="submit" value="Export" class="export-btn">
+			</form>
+		</div>
 	</div>
 </div>
 <table class="table table-light table-content">
@@ -72,6 +82,7 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
+
 
 
 <!-- pagination -->
