@@ -57,7 +57,7 @@ class User_Controller extends Base_Controller{
         $view = 'user';
         if( $id ){
             // Specify the users table for the 'id' condition
-        $where['user.id'] = $id;
+        $where['id'] = $id;
             $view = 'user_details';
         }else{
             # list all the users

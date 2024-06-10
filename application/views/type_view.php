@@ -1,4 +1,5 @@
  <button class="open-app-modal button">Add new leave type</button>
+ <div class="table-responsive">
  <table class="table table-light">
     <thead>
         <tr class="table-secondary">
@@ -21,6 +22,7 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+</div>
 <?php
 pagination([
   'total' => $total,

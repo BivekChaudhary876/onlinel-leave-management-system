@@ -27,7 +27,7 @@ class Upcoming_Birthday_Widget extends Base_Widget{
                         <tr>
                             <td><?php echo indexing() + $key + 1; ?></td>
                             <td>
-                                <a href="user/details/<?php echo $user[ 'id' ]; ?>">
+                                <a href="user/list/<?php echo $user[ 'id' ]; ?>">
                                     <?php echo ucfirst( $user[ 'username' ] ); ?> 
                                 </a>
                             </td>

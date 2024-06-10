@@ -354,6 +354,32 @@ function toggleContent(id) {
 	})
 })()
 
+function toggleContent(id) {
+    var content = document.getElementById(id);
+    var toggleIcon = content.previousElementSibling.querySelector('.toggle-icon');
+
+    if (content.style.display === 'block') {
+        content.style.display = 'none';
+        toggleIcon.innerHTML = '<i class="fa fa-chevron-right"></i>'; // right chevron
+    } else {
+        content.style.display = 'block';
+        toggleIcon.innerHTML = '<i class="fa fa-chevron-down"></i>'; // down chevron
+    }
+}
+
+
+function toggleSidebar() {
+    var sidebar = document.querySelector('.sidebar');
+    var hamburger = document.querySelector('.hamburger');
+
+    if (sidebar.style.display === 'block') {
+        sidebar.style.display = 'none';
+        hamburger.innerHTML = "&#9776;";
+    } else {
+        sidebar.style.display = 'block';
+        hamburger.innerHTML = "&Cross;";
+    }
+}
 
 
 

@@ -739,12 +739,130 @@ gap: 18px;
 	border: 2px solid red;
 }
 
+.draggable-widget {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+
+.widget-title {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 5px 10px;
+    background-color: #e9ecef;
+    border-bottom: 1px solid #ddd;
+}
+
+.toggle-icon {
+    font-size: 14px;
+}
+
+.widget-content {
+    display: none;
+    padding: 10px;
+}
+
 
 @media only screen and (max-width: 620px) {
-	/* For mobile phones: */
-	.navbar, .col-10, .col-2, .table {
+.col-10, .col-2,.col-4, .table {
 		width: 100%;
 	}
+	.col-2{
+		right: 0;
+		top:95px;
+		padding-left: 0;
+		margin-left: 0;
+	}
+	.col-2,.col-10{
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+}
+
+.hamburger {
+    display: none;
+    font-size: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+}
+
+@media only screen and (max-width: 620px) {
+    /* Display the hamburger menu on small screens */
+    .hamburger {
+        display: block;
+    }
+    
+    /* Sidebar container and positioning */
+    .sidebar-container {
+        position: relative;
+    }
+
+    .sidebar {
+        display: none;
+        width: 50%;
+        text-align: left;
+        background-color: #f8f9fa;
+        position: absolute;
+        top: 40px;
+        left: 0;
+        z-index: 1;
+        
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+    .table tr {
+        margin-bottom: 15px;
+    }
+
+    .table td {
+        text-align: left;
+        position: relative;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 15px;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    /* Ensure buttons in actions column stack vertically */
+    .table td[data-label="Actions"] {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .table td[data-label="Actions"] button {
+        margin-bottom: 5px;
+    }
+
+    /* Hide the "Add new leave type" button on mobile to save space */
+    .open-app-modal.button {
+        display: block;
+    }
 }
 
 

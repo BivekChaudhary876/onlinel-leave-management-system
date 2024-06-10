@@ -11,11 +11,11 @@ $header_bg = get_option( 'header_bg' );
           <a href="index.php"><img class="navbar-logo" src="<?php echo $logo; ?>" alt="logo" height="50" style="margin-left: 10px;display: flex;"></a>
         </div>
         <div class="col-9">
-          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          <div class="d-flex flex-wrap justify-content-end">
             <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
             </a>
 
-            <ul class="nav justify-content-center">
+            <ul class="nav">
              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <p class="my-4 text-white fw-bold">Welcome, <?php echo $_SESSION['current_user']['username']; ?></p>
               <img src="public/img/user.png" alt="Profile" width="32" height="32" class="rounded-circle ms-2">
@@ -37,4 +37,5 @@ $header_bg = get_option( 'header_bg' );
   </div>
 </div>
 </header>
+
 
