@@ -19,13 +19,6 @@ footer {
 	width: 100%;
 }
 
-.navbar{
-	margin-top: 16px ;
-	margin-bottom: 16px;
-	padding: 8px;
-	display: flex;
-	justify-content: space-between;
-}
 
 /*Sidebar Design*/
 .sidebar {
@@ -740,38 +733,49 @@ gap: 18px;
 }
 
 .draggable-widget {
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #f5f5f5;
+	margin-bottom: 15px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 10px;
+	background-color: #f5f5f5;
 }
 
 .widget-title {
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0;
-    padding: 5px 10px;
-    background-color: #e9ecef;
-    border-bottom: 1px solid #ddd;
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0;
+	padding: 5px 10px;
+	background-color: #e9ecef;
+	border-bottom: 1px solid #ddd;
 }
 
 .toggle-icon {
-    font-size: 14px;
+	font-size: 14px;
 }
 
 .widget-content {
-    display: none;
-    padding: 10px;
+	display: block;
+	padding: 10px;
 }
 
+tbody, td, tfoot, th, thead, tr {
+	border-color: inherit;
+	border-style: solid;
+	border-width: 0;
+	padding: 5px;
+	border-bottom: 1px dashed #d2d2d2;
+}
+.hamburger{
+	display: none;
+}
 
-@media only screen and (max-width: 620px) {
-.col-10, .col-2,.col-4, .table {
+@media only screen and (max-width: 768px) {
+	.col-10, .col-2,.col-4{
 		width: 100%;
 	}
+
 	.col-2{
 		right: 0;
 		top:95px;
@@ -782,89 +786,45 @@ gap: 18px;
 		margin-top: 0;
 		margin-bottom: 0;
 	}
+
+	.hamburger {
+		display: block;
+		font-size: 20px;
+		background: none;
+		color: #fff;
+		border: none;
+		cursor: pointer;
+	}
+	.
+
+	.sidebar-container {
+		position: relative;
+	}
+
+	.sidebar {
+		display: none;
+		width: 50%;
+		text-align: left;
+		background-color: #f8f9fa;
+		position: absolute;
+		top: 82px;
+		right: 12px;
+		z-index: 1;
+
+	}
+	.table-container,.media-container {
+		overflow-x: auto;
+		width: 100%;
+	}
+
+	.table td[data-label="Actions"] {
+		display: flex;
+		flex-direction: row;
+
+	}
+
+	.open-app-modal.button {
+		display: block;
+	}
 }
-
-.hamburger {
-    display: none;
-    font-size: 30px;
-    background: none;
-    border: none;
-    cursor: pointer;
-
-}
-
-@media only screen and (max-width: 620px) {
-    /* Display the hamburger menu on small screens */
-    .hamburger {
-        display: block;
-    }
-    
-    /* Sidebar container and positioning */
-    .sidebar-container {
-        position: relative;
-    }
-
-    .sidebar {
-        display: none;
-        width: 50%;
-        text-align: left;
-        background-color: #f8f9fa;
-        position: absolute;
-        top: 40px;
-        left: 0;
-        z-index: 1;
-        
-    }
-
-    .table-responsive {
-        overflow-x: auto;
-    }
-
-    .table thead {
-        display: none;
-    }
-
-    .table, .table tbody, .table tr, .table td {
-        display: block;
-        width: 100%;
-    }
-
-    .table tr {
-        margin-bottom: 15px;
-    }
-
-    .table td {
-        text-align: left;
-        position: relative;
-    }
-
-    .table td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 0;
-        width: 50%;
-        padding-left: 15px;
-        font-weight: bold;
-        text-align: left;
-    }
-
-    /* Ensure buttons in actions column stack vertically */
-    .table td[data-label="Actions"] {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-    }
-
-    .table td[data-label="Actions"] button {
-        margin-bottom: 5px;
-    }
-
-    /* Hide the "Add new leave type" button on mobile to save space */
-    .open-app-modal.button {
-        display: block;
-    }
-}
-
-
-
 

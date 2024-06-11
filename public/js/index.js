@@ -325,14 +325,14 @@ $(document).ready(function () {
 
 	})
 
-function toggleContent(id) {
-	var element = document.getElementById(id);
-	if (element.style.display === "none") {
-		element.style.display = "block";
-	} else {
-		element.style.display = "none";
-	}
-}
+// function toggleContent(id) {
+// 	var element = document.getElementById(id);
+// 	if (element.style.display === "none") {
+// 		element.style.display = "block";
+// 	} else {
+// 		element.style.display = "none";
+// 	}
+// }
 
 ;(function () {
 	function validateDaysInput() {
@@ -358,12 +358,12 @@ function toggleContent(id) {
     var content = document.getElementById(id);
     var toggleIcon = content.previousElementSibling.querySelector('.toggle-icon');
 
-    if (content.style.display === 'block') {
-        content.style.display = 'none';
-        toggleIcon.innerHTML = '<i class="fa fa-chevron-right"></i>'; // right chevron
-    } else {
+    if (content.style.display === 'none') {
         content.style.display = 'block';
-        toggleIcon.innerHTML = '<i class="fa fa-chevron-down"></i>'; // down chevron
+        toggleIcon.innerHTML = '<i class="fa fa-chevron-down"></i>';
+    } else {
+        content.style.display = 'none';
+        toggleIcon.innerHTML = '<i class="fa fa-chevron-right"></i>';
     }
 }
 

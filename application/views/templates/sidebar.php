@@ -15,7 +15,6 @@ $current_controller = get_current_controller();
 ?>
 
 <div class="sidebar-container">
-    <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
     <div class="sidebar">
         <ul class="nav nav-pills flex-column">
             <?php

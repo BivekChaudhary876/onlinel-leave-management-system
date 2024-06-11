@@ -8,27 +8,29 @@
 
 <div class="file-list">
     <div class="switch-toggle">   
-    <label class="switch">
-        <input type="checkbox" id="bulk-toggle">
-        <span class="slider round"></span>
-    </label>
-    <span id="bulk-mode-label">Bulk Mode Disabled</span>
-    <input type="hidden" id="bulk-mode" value="false">
+        <label class="switch">
+            <input type="checkbox" id="bulk-toggle">
+            <span class="slider round"></span>
+        </label>
+        <span id="bulk-mode-label">Bulk Mode Disabled</span>
+        <input type="hidden" id="bulk-mode" value="false">
     </div>
-    <ul>
-        <?php foreach( $files as $index => $file ): ?>
-            <?php if( $index % 8 === 0 && $index !== 0 ): ?>
-            </ul>
-            <ul>
-            <?php endif; ?>
-            <li class="media-file" data-id="<?php echo $file[ 'id' ]; ?>">
-                <a href="media/details/<?php echo $file[ 'id' ]; ?>">
-                    <img src="public/uploads/<?php echo htmlspecialchars( $file[ 'file_to_upload' ] ); ?>" alt="<?php echo $file[ 'title' ]; ?>" width="100">
-                </a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-    <button id="delete-selected" class="rejected-btn" style="display: none;">Delete</button>
+    <div class="media-container">
+        <ul>
+            <?php foreach( $files as $index => $file ): ?>
+                <?php if( $index % 8 === 0 && $index !== 0 ): ?>
+                </ul>
+                <ul>
+                <?php endif; ?>
+                <li class="media-file" data-id="<?php echo $file[ 'id' ]; ?>">
+                    <a href="media/details/<?php echo $file[ 'id' ]; ?>">
+                        <img src="public/uploads/<?php echo htmlspecialchars( $file[ 'file_to_upload' ] ); ?>" alt="<?php echo $file[ 'title' ]; ?>" width="100">
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <button id="delete-selected" class="rejected-btn" style="display: none;">Delete</button>
+    </div>
 </div>
 
 <?php

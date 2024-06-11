@@ -28,7 +28,7 @@ abstract class Base_Widget {
             <h5 class="widget-title" onclick="toggleContent('<?php echo $this->id; ?>')">
                 <?php echo icon($this->icon); ?>
                 <?php echo $this->title; ?>
-                <span class="toggle-icon"><?php echo icon('collapsible'); ?></span>
+                <span class="toggle-icon"><?php echo icon('uncollapse'); ?></span>
             </h5>
             <div id="<?php echo $this->id; ?>" class="widget-content">
                 <?php echo $this->widget(); ?>
