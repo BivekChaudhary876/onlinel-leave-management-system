@@ -40,11 +40,11 @@ abstract class Base_Controller{
         require_once PATH . '/application/views/templates/head.php';
         if($view !== 'media_list'){
             echo '<div class="">';
-            echo '<div class="row">';
+            // echo '<div class="row">';
             if( !( 'user' == $this->c && 'index' == $this->m ) ){
                 require_once PATH . '/application/views/templates/navbar.php';
                 echo '</div>';
-                echo '</div>';
+                // echo '</div>';
                 echo '<div class="mx-4">';
                 echo '<div class="row">';
                 echo '<div class="col-2">';

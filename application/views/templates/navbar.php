@@ -3,7 +3,6 @@
 $logo = get_option( 'logo' );
 $header_bg = get_option( 'header_bg' );
 ?>
-<div class="navbar-responsive">
 <header style="max-width: 100%;">
   <div class="" style="background:<?php  echo $header_bg; ?>">
     <div class="container-fluid">
@@ -39,6 +38,5 @@ $header_bg = get_option( 'header_bg' );
   </div>
 </div>
 </header>
-</div>
 
 
