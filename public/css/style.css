@@ -403,16 +403,11 @@ input:checked + .slider:before {
 	border-radius: 5px;
 }
 
-.nav-pills .nav-link:not(.active):hover {
-	background-color: #fff;
-}
-
 .nav-list{
-/*	padding: 6px;*/
 transition: all 0.3s ease;
 
 }
-.nav-list:hover{
+.nav-list:hover:not(.active){
 	padding: 6px;
 	border-radius: 5px;
 	background-color: white;
@@ -751,7 +746,7 @@ gap: 18px;
 
 .toggle-icon {
 	font-size: 14px;
-	margin-left: 5px;
+	margin-left: 10px;
 }
 
 .widget-content {
