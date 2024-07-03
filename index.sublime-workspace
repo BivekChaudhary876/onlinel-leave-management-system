@@ -1,0 +1,442 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"table",
+				"table-container"
+			],
+			[
+				"container",
+				"table-container"
+			],
+			[
+				"b",
+				"background-color"
+			],
+			[
+				"widg",
+				"widget-area"
+			],
+			[
+				"mysql",
+				"mysql_query()"
+			],
+			[
+				"depar",
+				"department_m"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"over",
+				"overflow-x"
+			],
+			[
+				"update",
+				"update_file_info"
+			],
+			[
+				"flex",
+				"flex"
+			],
+			[
+				"light",
+				"lightgreen"
+			],
+			[
+				"total",
+				"total_leave_requests"
+			],
+			[
+				"user",
+				"user_m"
+			],
+			[
+				"current",
+				"current_date"
+			],
+			[
+				"fle",
+				"flex-wrap"
+			],
+			[
+				"btn",
+				"btn-delete"
+			],
+			[
+				"json",
+				"json_encode()"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"theme",
+				"UI: Customize Theme"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 226.0,
+		"history":
+		[
+			"exit",
+			"clear",
+			"cls"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/xampp/htdocs/leave-management-system/public/css/style.css",
+		"/C/xampp/htdocs/leave-management-system/application/views/widget_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/leave_details_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/controllers/user_controller.php",
+		"/C/xampp/htdocs/leave-management-system/application/models/leave_model.php",
+		"/C/xampp/htdocs/leave-management-system/system/base_model.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/templates/sidebar.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/templates/navbar.php",
+		"/C/xampp/htdocs/leave-management-system/public/js/index.js",
+		"/C/xampp/htdocs/leave-management-system/system/base_controller.php",
+		"/C/xampp/htdocs/leave-management-system/application/widgets/leave_counter_widget.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/media_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/user_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/department_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/holiday_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/leave_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/type_view.php",
+		"/C/xampp/htdocs/leave-management-system/system/base_widget.php",
+		"/C/xampp/htdocs/leave-management-system/public/bootstrap/css/bootstrap.css",
+		"/C/xampp/htdocs/leave-management-system/application/models/user_model.php",
+		"/C/xampp/htdocs/leave-management-system/application/widgets/upcoming_birthday_widget.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/user_details_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/controllers/leave_controller.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/leave_report_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/controllers/media_controller.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/media_details_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/controllers/type_controller.php",
+		"/C/xampp/htdocs/leave-management-system/application/models/media_model.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/modals/user_modal.php",
+		"/C/xampp/htdocs/leave-management-system/system/functions.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/department_details_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/controllers/department_controller.php",
+		"/C/xampp/htdocs/leave-management-system/application/models/department_model.php",
+		"/C/xampp/htdocs/leave-management-system/system/conn.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/modals/department_category_modal.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/media_list_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/setting_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/widgets/leave_list_widget.php",
+		"/C/xampp/htdocs/leave-management-system/application/widgets/upcoming_holidays_widget.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/templates/footer.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/modals/media_modal.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/modals/media_list_modal.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/modals/media_file_modal.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/media_list_partial_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/templates/medial_list_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/controllers/setting_controller.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/type_details_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/login_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/holiday_details_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/dashboard_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/media_details.php",
+		"/C/xampp/htdocs/leave-management-system/application/controllers/error_controller.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/405_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/404_view.php",
+		"/C/xampp/htdocs/leave-management-system/index.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/modals/setting_modal.php",
+		"/C/xampp/htdocs/leave-management-system/application/controllers/holiday_controller.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/forget_password_view.php",
+		"/C/xampp/htdocs/leave-management-system/application/widgets/recent_holidays_widget.php",
+		"/C/xampp/htdocs/leave-management-system/public/bootstrap/css/bootstrap-grid.css",
+		"/C/xampp/htdocs/leave-management-system/public/img/footer-bg.jpg",
+		"/C/xampp/htdocs/leave-management-system/application/views/modals/leave_modal.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/modals/leave_type_modal.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/modals/holiday_modal.php",
+		"/C/xampp/htdocs/leave-management-system/application/controllers/widget_controller.php",
+		"/C/xampp/htdocs/leave-management-system/application/models/holiday_model.php",
+		"/C/xampp/htdocs/leave-management-system/application/views/templates/head.php",
+		"/D/Chrome Files/OIC/v915/footer-bg.jpg",
+		"/C/xampp/htdocs/leave-management-system/application/views/user_lists_view.php"
+	],
+	"find":
+	{
+		"height": 23.3333333333
+	},
+	"find_in_files":
+	{
+		"height": 98.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"sidebar",
+			".nav-list:hover",
+			".table",
+			"widget-title",
+			"button",
+			"file-list",
+			"trigger-file",
+			"table-responsive",
+			"\"col",
+			"col",
+			"scope",
+			".navbar",
+			"}\n",
+			"filter",
+			"}\n",
+			"lightblue",
+			"export-btn",
+			"export",
+			"btn",
+			"filter",
+			"']",
+			")",
+			"'])",
+			"(",
+			"]",
+			"[",
+			"(",
+			")",
+			">\n",
+			"filter",
+			"leave_report_view",
+			"button",
+			"trigger-file",
+			".media-file",
+			"media-file",
+			"pagination",
+			".table",
+			"pagination-container",
+			"delete_",
+			" ",
+			", ",
+			"                        '",
+			"'u",
+			"'",
+			"type",
+			"u.user_id",
+			"user_id",
+			"lr",
+			"type",
+			"Type",
+			"types",
+			"type",
+			"$[",
+			"type",
+			"department_model",
+			".input",
+			"input",
+			"navbar-logo",
+			"down",
+			"button",
+			"color-input",
+			"container-fluid",
+			"footer-content",
+			"col-10",
+			"footer",
+			"login",
+			"=>",
+			"address",
+			"col-10",
+			"draggable-widget ",
+			"col-12",
+			"col-10",
+			"open-app-modal",
+			"media_file_modal",
+			"media-popup-content",
+			"media-file",
+			"update_file_info",
+			"block",
+			"-35px",
+			"file-lis",
+			"file",
+			"col-10",
+			")",
+			"(",
+			"]",
+			"[",
+			"input-field",
+			"login-input",
+			"card",
+			"-details",
+			"file",
+			"media_controller",
+			"sidebar",
+			"widget",
+			"chevron-right",
+			"=>",
+			"          =>",
+			"=> ",
+			") ?>",
+			"] ?>",
+			"?=",
+			")",
+			"($",
+			"['",
+			"']",
+			"  )",
+			")",
+			"e]",
+			"e)",
+			"E(",
+			"['",
+			"']",
+			"')",
+			"('",
+			"($",
+			"(i",
+			"form",
+			"status",
+			"actions",
+			"primary_bg",
+			"])",
+			"widget-area-first",
+			"bg",
+			"\",];",
+			"widget-title",
+			"widgets",
+			"footer-container",
+			"badge"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.3333333333
+	},
+	"input":
+	{
+		"height": 39.3333333333
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "index.sublime-project",
+	"replace":
+	{
+		"height": 42.6666666667
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 254.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 592.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 282.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

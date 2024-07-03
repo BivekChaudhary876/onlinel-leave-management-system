@@ -5,7 +5,7 @@ class Dashboard_Controller extends Base_Controller {
 
     public function index() {
         $this->load_view([
-            'page_title' => 'Leave List'
+            'page_title' => 'Dashboard'
         ], 'dashboard');
     }
     
